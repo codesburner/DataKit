@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define kDKErrorDomain @"DKErrorDomain"
+
 enum {
   DKCachePolicyIgnoreCache = 0,
   DKCachePolicyCacheOnly,
@@ -17,3 +19,13 @@ enum {
   DKCachePolicyCacheThenNetwork
 };
 typedef NSInteger DKCachePolicy;
+
+enum {
+  DKErrorNone = 0,
+  DKErrorInvalidEntity = 100,
+  DKErrorInvalidJSON,
+  DKErrorConnectionFailed = 200,
+  DKErrorOperationFailed = 300,
+  DKErrorOperationReturnedUnknownStatus
+};
+typedef NSInteger DKError;

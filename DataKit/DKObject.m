@@ -8,23 +8,34 @@
 
 #import "DKObject.h"
 
+#import "DKRequest.h"
+#import "DKConstants.h"
+#import "NSError+DataKit.h"
+
 @interface DKObject ()
-@property (nonatomic, copy, readwrite) NSString *objectId;
 @property (nonatomic, copy, readwrite) NSString *entityName;
-@property (nonatomic, copy, readwrite) NSDate *updatedAt;
-@property (nonatomic, copy, readwrite) NSDate *createdAt;
-@property (nonatomic, assign, readwrite) BOOL isNew;
+@property (nonatomic, strong) NSMutableDictionary *map;
+@property (nonatomic, strong) NSDictionary *referenceMap;
+@end
+
+@interface DKObject (Private)
+
+- (BOOL)commitObjectResultMap:(NSDictionary *)resultMap error:(NSError **)error;
+
 @end
 
 @implementation DKObject
-DKSynthesize(objectId)
 DKSynthesize(entityName)
-DKSynthesize(updatedAt)
-DKSynthesize(createdAt)
-DKSynthesize(isNew)
+DKSynthesize(map)
+DKSynthesize(referenceMap)
+
+// Database keys
+#define kDKObjectIDField @"_id"
+#define kDKObjectCreatedAtField @"_createdAt"
+#define kDKObjectUpdatedAtField @"_updatedAt"
 
 + (DKObject *)objectWithEntityName:(NSString *)entityName {
-  return [[self alloc] initWithEntityName:entityName];
+return [[self alloc] initWithEntityName:entityName];
 }
 
 + (BOOL)saveAll:(NSArray *)objects {
@@ -47,16 +58,74 @@ DKSynthesize(isNew)
   self = [super init];
   if (self) {
     self.entityName = entityName;
+    self.map = [NSMutableDictionary new];
   }
   return self;
 }
 
+- (NSString *)objectId {
+  NSString *oid = [self.referenceMap objectForKey:kDKObjectIDField];
+  if ([oid isKindOfClass:[NSString class]]) {
+    return oid;
+  }
+  return nil;
+}
+
+- (NSDate *)updatedAt {
+  NSNumber *updatedAt = [self.referenceMap objectForKey:kDKObjectUpdatedAtField];
+  if ([updatedAt isKindOfClass:[NSNumber class]]) {
+    return [NSDate dateWithTimeIntervalSince1970:[updatedAt doubleValue]];
+  }
+  return nil;
+}
+
+- (NSDate *)createdAt {
+  NSNumber *createdAt = [self.referenceMap objectForKey:kDKObjectCreatedAtField];
+  if ([createdAt isKindOfClass:[NSNumber class]]) {
+    return [NSDate dateWithTimeIntervalSince1970:[createdAt doubleValue]];
+  }
+  return nil;
+}
+
+- (BOOL)isNew {
+  return (self.objectId.length == 0);
+}
+
 - (BOOL)save {
-  return NO;
+  return [self save:NULL];
 }
 
 - (BOOL)save:(NSError **)error {
-  return NO;
+  // Check if data has been written
+  if (self.map.count == 0) {
+    [NSError writeToError:error
+                     code:DKErrorInvalidEntity
+              description:NSLocalizedString(@"Entity data invalid (no objects)", nil)
+                 original:nil];
+    return NO;
+  }
+  
+  // TODO: Prevent use of '$' and '.' in objects/keys
+  
+  // Create request dict
+  NSDictionary *requestDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                               self.entityName, @"entity",
+                               self.map, @"obj", nil];
+  
+  // Send request synchronously
+  DKRequest *request = [DKRequest request];
+  request.cachePolicy = DKCachePolicyIgnoreCache;
+  
+  NSError *requestError = nil;
+  id resultMap = [request sendRequestWithObject:requestDict method:@"save" error:&requestError];
+  if (requestError != nil) {
+    if (error != nil) {
+      *error = requestError;
+    }
+    return NO;
+  }
+  
+  return [self commitObjectResultMap:resultMap error:error];
 }
 
 - (void)saveInBackground {
@@ -92,7 +161,7 @@ DKSynthesize(isNew)
 }
 
 - (id)objectForKey:(NSString *)key {
-  return nil;
+  return [self.map objectForKey:key];
 }
 
 - (void)objectForKey:(NSString *)key inBackgroundWithBlock:(DKObjectResultBlock)block {
@@ -104,11 +173,11 @@ DKSynthesize(isNew)
 }
 
 - (void)setObject:(id)object forKey:(NSString *)key {
-  
+  [self.map setObject:object forKey:key];
 }
 
 - (void)removeObjectForKey:(NSString *)key {
-
+  [self.map removeObjectForKey:key];
 }
 
 - (void)incrementKey:(NSString *)key {
@@ -116,7 +185,26 @@ DKSynthesize(isNew)
 }
 
 - (void)incrementKey:(NSString *)key byAmount:(NSNumber *)amount {
+  
+}
 
+@end
+
+@implementation DKObject (Private)
+
+- (BOOL)commitObjectResultMap:(NSDictionary *)resultMap error:(NSError **)error {
+  if (![resultMap isKindOfClass:[NSDictionary class]]) {
+    [NSError writeToError:error
+                     code:DKErrorInvalidJSON
+              description:NSLocalizedString(@"Cannot commit action because result JSON is malformed (not an object)", nil)
+                 original:nil];
+    NSLog(@"result => %@: %@", NSStringFromClass([resultMap class]), resultMap);
+    return NO;
+  }
+  self.referenceMap = resultMap;
+  self.map = [NSMutableDictionary new];
+  
+  return YES;
 }
 
 @end

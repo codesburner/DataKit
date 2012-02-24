@@ -9,6 +9,7 @@
 #import "DKRequest.h"
 
 #import "DKManager.h"
+#import "NSError+DataKit.h"
 
 @interface DKRequest ()
 @property (nonatomic, copy, readwrite) NSString *endpoint;
@@ -17,8 +18,6 @@
 @implementation DKRequest
 DKSynthesize(endpoint)
 DKSynthesize(cachePolicy)
-
-#define kDKErrorDomain @"DKErrorDomain"
 
 + (DKRequest *)request {
   return [[self alloc] init];
@@ -36,23 +35,26 @@ DKSynthesize(cachePolicy)
   self = [super init];
   if (self) {
     self.endpoint = absoluteString;
+    self.cachePolicy = DKCachePolicyIgnoreCache;
   }
   return self;
 }
 
-- (id)sendRequestWithObject:(id)JSONObject error:(NSError **)error {
-  NSURL *URL = [NSURL URLWithString:self.endpoint];
+- (id)sendRequestWithObject:(id)JSONObject method:(NSString *)apiMethod error:(NSError **)error {
+  NSURL *URL = [NSURL URLWithString:[self.endpoint stringByAppendingPathComponent:apiMethod]];
   NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:URL];
   req.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+  
+  // TODO: set cache policy correctly
   
   // Encode JSON
   NSError *JSONError = nil;
   NSData *JSONData = [NSJSONSerialization dataWithJSONObject:JSONObject options:0 error:&JSONError];
   if (JSONError != nil) {
-    NSLog(@"error: could not encode JSON request (%@)", JSONError.localizedDescription);
-    if (error != nil) {
-      *error = JSONError;
-    }
+    [NSError writeToError:error
+                     code:DKErrorInvalidJSON
+              description:NSLocalizedString(@"Could not JSON encode request object", nil)
+                 original:JSONError];
     return nil;
   }
   
@@ -67,18 +69,22 @@ DKSynthesize(cachePolicy)
   NSHTTPURLResponse *response = nil;
   NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&requestError];
   
+//  NSLog(@"response: status => %i", response.statusCode);
+//  NSLog(@"response: body => %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+  
   if (requestError != nil) {
-    if (error != nil) {
-      *error = requestError;
-    }
+    [NSError writeToError:error
+                     code:DKErrorConnectionFailed
+              description:NSLocalizedString(@"Connection failed", nil)
+                 original:requestError];
   }
   else if (response.statusCode == DKResponseStatusSuccess) {
     id resultObj = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&JSONError];
     if (JSONError != nil) {
-      NSLog(@"error: could not deserialize JSON response (%@)", JSONError.localizedDescription);
-      if (error != nil) {
-        *error = JSONError;
-      }
+      [NSError writeToError:error
+                       code:DKErrorInvalidJSON
+                description:NSLocalizedString(@"Could not deserialize JSON response", nil)
+                   original:JSONError];
     }
     else {
       return resultObj;
@@ -87,18 +93,25 @@ DKSynthesize(cachePolicy)
   else if (response.statusCode == DKResponseStatusError) {
     id resultObj = [NSJSONSerialization JSONObjectWithData:data options:0 error:&JSONError];
     if (JSONError != nil) {
-      NSLog(@"error: could not deserialize JSON error response (%@)", JSONError.localizedDescription);
-      if (error != nil) {
-        *error = JSONError;
-      }
+      [NSError writeToError:error
+                       code:DKErrorInvalidJSON
+                description:NSLocalizedString(@"Could not deserialize JSON error response", nil)
+                   original:JSONError];
     }
     else if (error != nil && [resultObj isKindOfClass:[NSDictionary class]]) {
       NSNumber *status = [resultObj objectForKey:@"status"];
       NSString *message = [resultObj objectForKey:@"message"];
-      *error = [NSError errorWithDomain:kDKErrorDomain
-                                   code:[status integerValue]
-                               userInfo:[NSDictionary dictionaryWithObject:message forKey:NSLocalizedDescriptionKey]];
+      [NSError writeToError:error
+                       code:DKErrorOperationFailed
+                description:[NSString stringWithFormat:NSLocalizedString(@"Could not perform operation (%@: %@)", nil), status, message]
+                   original:nil];
     }
+  }
+  else {
+    [NSError writeToError:error
+                     code:DKErrorOperationReturnedUnknownStatus
+              description:[NSString stringWithFormat:NSLocalizedString(@"Could not perform operation (%i)", nil), response.statusCode]
+                 original:nil];
   }
   return nil;
 }
