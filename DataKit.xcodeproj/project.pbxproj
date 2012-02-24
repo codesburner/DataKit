@@ -22,6 +22,8 @@
 		DC03849214F69C72000DADD6 /* DKQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = DC03849014F69C72000DADD6 /* DKQuery.m */; };
 		DC5B610214F76BD800CC5B42 /* DKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DC5B610014F76BD800CC5B42 /* DKManager.h */; };
 		DC5B610314F76BD800CC5B42 /* DKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC5B610114F76BD800CC5B42 /* DKManager.m */; };
+		DC5B610C14F7B1FE00CC5B42 /* DKRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = DC5B610A14F7B1FE00CC5B42 /* DKRequest.h */; };
+		DC5B610D14F7B1FE00CC5B42 /* DKRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DC5B610B14F7B1FE00CC5B42 /* DKRequest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +56,9 @@
 		DC03849014F69C72000DADD6 /* DKQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKQuery.m; sourceTree = "<group>"; };
 		DC5B610014F76BD800CC5B42 /* DKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKManager.h; sourceTree = "<group>"; };
 		DC5B610114F76BD800CC5B42 /* DKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKManager.m; sourceTree = "<group>"; };
+		DC5B610A14F7B1FE00CC5B42 /* DKRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKRequest.h; sourceTree = "<group>"; };
+		DC5B610B14F7B1FE00CC5B42 /* DKRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKRequest.m; sourceTree = "<group>"; };
+		DC5B610E14F7B21E00CC5B42 /* DKConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				DC03846214F68EA1000DADD6 /* DataKit */,
+				DC5B610814F7B1EF00CC5B42 /* DataKit-Private */,
 				DC03847614F68EA1000DADD6 /* DataKitTests */,
 				DC03845F14F68EA1000DADD6 /* Frameworks */,
 				DC03845E14F68EA1000DADD6 /* Products */,
@@ -113,6 +119,7 @@
 			children = (
 				DC03846514F68EA1000DADD6 /* DataKit.h */,
 				DC03846414F68EA1000DADD6 /* DataKit-Prefix.pch */,
+				DC5B610E14F7B21E00CC5B42 /* DKConstants.h */,
 				DC5B610014F76BD800CC5B42 /* DKManager.h */,
 				DC5B610114F76BD800CC5B42 /* DKManager.m */,
 				DC03848714F691BA000DADD6 /* DKObject.h */,
@@ -144,6 +151,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		DC5B610814F7B1EF00CC5B42 /* DataKit-Private */ = {
+			isa = PBXGroup;
+			children = (
+				DC5B610A14F7B1FE00CC5B42 /* DKRequest.h */,
+				DC5B610B14F7B1FE00CC5B42 /* DKRequest.m */,
+			);
+			name = "DataKit-Private";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -155,6 +171,7 @@
 				DC03848D14F6955A000DADD6 /* DKPointer.h in Headers */,
 				DC03849114F69C72000DADD6 /* DKQuery.h in Headers */,
 				DC5B610214F76BD800CC5B42 /* DKManager.h in Headers */,
+				DC5B610C14F7B1FE00CC5B42 /* DKRequest.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +277,7 @@
 				DC03848E14F6955A000DADD6 /* DKPointer.m in Sources */,
 				DC03849214F69C72000DADD6 /* DKQuery.m in Sources */,
 				DC5B610314F76BD800CC5B42 /* DKManager.m in Sources */,
+				DC5B610D14F7B1FE00CC5B42 /* DKRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

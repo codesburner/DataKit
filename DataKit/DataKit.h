@@ -10,3 +10,4 @@
 #import "DKObject.h"
 #import "DKPointer.h"
 #import "DKQuery.h"
+#import "DKConstants.h"

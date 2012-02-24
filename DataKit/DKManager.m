@@ -17,6 +17,7 @@ static NSString *kDKManagerAPIEndpoint;
 }
 
 + (NSString *)APIEndpoint {
+  assert(kDKManagerAPIEndpoint != nil && "[DKManager APIEndpoint] called, but no endpoint set");
   return kDKManagerAPIEndpoint;
 }
 

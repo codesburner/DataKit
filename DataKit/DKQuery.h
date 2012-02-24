@@ -6,19 +6,10 @@
 //  Copyright (c) 2012 chocomoko.com. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "DKConstants.h"
+
 
 @class DKObject;
-
-enum {
-  DKCachePolicyIgnoreCache = 0,
-  DKCachePolicyCacheOnly,
-  DKCachePolicyNetworkOnly,
-  DKCachePolicyCacheElseNetwork,
-  DKCachePolicyNetworkElseCache,
-  DKCachePolicyCacheThenNetwork
-};
-typedef NSInteger DKCachePolicy;
 
 typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
 
