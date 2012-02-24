@@ -6,8 +6,7 @@
 //  Copyright (c) 2012 chocomoko.com. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
-@interface DataKit : NSObject
-
-@end
+#import "DKManager.h"
+#import "DKObject.h"
+#import "DKPointer.h"
+#import "DKQuery.h"

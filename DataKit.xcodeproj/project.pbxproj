@@ -8,13 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		DC03846114F68EA1000DADD6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC03846014F68EA1000DADD6 /* Foundation.framework */; };
-		DC03846714F68EA1000DADD6 /* DataKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DC03846614F68EA1000DADD6 /* DataKit.m */; };
 		DC03846F14F68EA1000DADD6 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC03846E14F68EA1000DADD6 /* SenTestingKit.framework */; };
 		DC03847114F68EA1000DADD6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC03847014F68EA1000DADD6 /* UIKit.framework */; };
 		DC03847214F68EA1000DADD6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC03846014F68EA1000DADD6 /* Foundation.framework */; };
 		DC03847514F68EA1000DADD6 /* libDataKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC03845D14F68EA1000DADD6 /* libDataKit.a */; };
 		DC03847B14F68EA1000DADD6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC03847914F68EA1000DADD6 /* InfoPlist.strings */; };
 		DC03847E14F68EA1000DADD6 /* DataKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DC03847D14F68EA1000DADD6 /* DataKitTests.m */; };
+		DC03848914F691BA000DADD6 /* DKObject.h in Headers */ = {isa = PBXBuildFile; fileRef = DC03848714F691BA000DADD6 /* DKObject.h */; };
+		DC03848A14F691BA000DADD6 /* DKObject.m in Sources */ = {isa = PBXBuildFile; fileRef = DC03848814F691BA000DADD6 /* DKObject.m */; };
+		DC03848D14F6955A000DADD6 /* DKPointer.h in Headers */ = {isa = PBXBuildFile; fileRef = DC03848B14F6955A000DADD6 /* DKPointer.h */; };
+		DC03848E14F6955A000DADD6 /* DKPointer.m in Sources */ = {isa = PBXBuildFile; fileRef = DC03848C14F6955A000DADD6 /* DKPointer.m */; };
+		DC03849114F69C72000DADD6 /* DKQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = DC03848F14F69C72000DADD6 /* DKQuery.h */; };
+		DC03849214F69C72000DADD6 /* DKQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = DC03849014F69C72000DADD6 /* DKQuery.m */; };
+		DC5B610214F76BD800CC5B42 /* DKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DC5B610014F76BD800CC5B42 /* DKManager.h */; };
+		DC5B610314F76BD800CC5B42 /* DKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC5B610114F76BD800CC5B42 /* DKManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,16 +37,23 @@
 /* Begin PBXFileReference section */
 		DC03845D14F68EA1000DADD6 /* libDataKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libDataKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC03846014F68EA1000DADD6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		DC03846414F68EA1000DADD6 /* DataKit-Prefix.pch */ = {isa = PBXFileReference; path = "DataKit-Prefix.pch"; sourceTree = "<group>"; };
-		DC03846514F68EA1000DADD6 /* DataKit.h */ = {isa = PBXFileReference; path = DataKit.h; sourceTree = "<group>"; };
-		DC03846614F68EA1000DADD6 /* DataKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataKit.m; sourceTree = "<group>"; };
+		DC03846414F68EA1000DADD6 /* DataKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DataKit-Prefix.pch"; sourceTree = "<group>"; };
+		DC03846514F68EA1000DADD6 /* DataKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataKit.h; sourceTree = "<group>"; };
 		DC03846D14F68EA1000DADD6 /* DataKitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataKitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC03846E14F68EA1000DADD6 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		DC03847014F68EA1000DADD6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		DC03847814F68EA1000DADD6 /* DataKitTests-Info.plist */ = {isa = PBXFileReference; path = "DataKitTests-Info.plist"; sourceTree = "<group>"; };
+		DC03847814F68EA1000DADD6 /* DataKitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DataKitTests-Info.plist"; sourceTree = "<group>"; };
 		DC03847A14F68EA1000DADD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		DC03847C14F68EA1000DADD6 /* DataKitTests.h */ = {isa = PBXFileReference; path = DataKitTests.h; sourceTree = "<group>"; };
+		DC03847C14F68EA1000DADD6 /* DataKitTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataKitTests.h; sourceTree = "<group>"; };
 		DC03847D14F68EA1000DADD6 /* DataKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataKitTests.m; sourceTree = "<group>"; };
+		DC03848714F691BA000DADD6 /* DKObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKObject.h; sourceTree = "<group>"; };
+		DC03848814F691BA000DADD6 /* DKObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKObject.m; sourceTree = "<group>"; };
+		DC03848B14F6955A000DADD6 /* DKPointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKPointer.h; sourceTree = "<group>"; };
+		DC03848C14F6955A000DADD6 /* DKPointer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKPointer.m; sourceTree = "<group>"; };
+		DC03848F14F69C72000DADD6 /* DKQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKQuery.h; sourceTree = "<group>"; };
+		DC03849014F69C72000DADD6 /* DKQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKQuery.m; sourceTree = "<group>"; };
+		DC5B610014F76BD800CC5B42 /* DKManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKManager.h; sourceTree = "<group>"; };
+		DC5B610114F76BD800CC5B42 /* DKManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,18 +112,17 @@
 			isa = PBXGroup;
 			children = (
 				DC03846514F68EA1000DADD6 /* DataKit.h */,
-				DC03846614F68EA1000DADD6 /* DataKit.m */,
-				DC03846314F68EA1000DADD6 /* Supporting Files */,
+				DC03846414F68EA1000DADD6 /* DataKit-Prefix.pch */,
+				DC5B610014F76BD800CC5B42 /* DKManager.h */,
+				DC5B610114F76BD800CC5B42 /* DKManager.m */,
+				DC03848714F691BA000DADD6 /* DKObject.h */,
+				DC03848814F691BA000DADD6 /* DKObject.m */,
+				DC03848B14F6955A000DADD6 /* DKPointer.h */,
+				DC03848C14F6955A000DADD6 /* DKPointer.m */,
+				DC03848F14F69C72000DADD6 /* DKQuery.h */,
+				DC03849014F69C72000DADD6 /* DKQuery.m */,
 			);
 			path = DataKit;
-			sourceTree = "<group>";
-		};
-		DC03846314F68EA1000DADD6 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				DC03846414F68EA1000DADD6 /* DataKit-Prefix.pch */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		DC03847614F68EA1000DADD6 /* DataKitTests */ = {
@@ -138,6 +151,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC03848914F691BA000DADD6 /* DKObject.h in Headers */,
+				DC03848D14F6955A000DADD6 /* DKPointer.h in Headers */,
+				DC03849114F69C72000DADD6 /* DKQuery.h in Headers */,
+				DC5B610214F76BD800CC5B42 /* DKManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,7 +256,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC03846714F68EA1000DADD6 /* DataKit.m in Sources */,
+				DC03848A14F691BA000DADD6 /* DKObject.m in Sources */,
+				DC03848E14F6955A000DADD6 /* DKPointer.m in Sources */,
+				DC03849214F69C72000DADD6 /* DKQuery.m in Sources */,
+				DC5B610314F76BD800CC5B42 /* DKManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,6 +408,7 @@
 				DC03848314F68EA1000DADD6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DC03848414F68EA1000DADD6 /* Build configuration list for PBXNativeTarget "DataKitTests" */ = {
 			isa = XCConfigurationList;
@@ -396,6 +417,7 @@
 				DC03848614F68EA1000DADD6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
