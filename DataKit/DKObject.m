@@ -14,8 +14,8 @@
 
 @interface DKObject ()
 @property (nonatomic, copy, readwrite) NSString *entityName;
-@property (nonatomic, strong) NSMutableDictionary *map;
-@property (nonatomic, strong) NSDictionary *referenceMap;
+@property (nonatomic, strong) NSMutableDictionary *requestMap;
+@property (nonatomic, strong) NSDictionary *resultMap;
 @end
 
 @interface DKObject (Private)
@@ -26,8 +26,8 @@
 
 @implementation DKObject
 DKSynthesize(entityName)
-DKSynthesize(map)
-DKSynthesize(referenceMap)
+DKSynthesize(requestMap)
+DKSynthesize(resultMap)
 
 // Database keys
 #define kDKObjectIDField @"_id"
@@ -58,13 +58,13 @@ return [[self alloc] initWithEntityName:entityName];
   self = [super init];
   if (self) {
     self.entityName = entityName;
-    self.map = [NSMutableDictionary new];
+    self.requestMap = [NSMutableDictionary new];
   }
   return self;
 }
 
 - (NSString *)objectId {
-  NSString *oid = [self.referenceMap objectForKey:kDKObjectIDField];
+  NSString *oid = [self.resultMap objectForKey:kDKObjectIDField];
   if ([oid isKindOfClass:[NSString class]]) {
     return oid;
   }
@@ -72,7 +72,7 @@ return [[self alloc] initWithEntityName:entityName];
 }
 
 - (NSDate *)updatedAt {
-  NSNumber *updatedAt = [self.referenceMap objectForKey:kDKObjectUpdatedAtField];
+  NSNumber *updatedAt = [self.resultMap objectForKey:kDKObjectUpdatedAtField];
   if ([updatedAt isKindOfClass:[NSNumber class]]) {
     return [NSDate dateWithTimeIntervalSince1970:[updatedAt doubleValue]];
   }
@@ -80,7 +80,7 @@ return [[self alloc] initWithEntityName:entityName];
 }
 
 - (NSDate *)createdAt {
-  NSNumber *createdAt = [self.referenceMap objectForKey:kDKObjectCreatedAtField];
+  NSNumber *createdAt = [self.resultMap objectForKey:kDKObjectCreatedAtField];
   if ([createdAt isKindOfClass:[NSNumber class]]) {
     return [NSDate dateWithTimeIntervalSince1970:[createdAt doubleValue]];
   }
@@ -97,7 +97,7 @@ return [[self alloc] initWithEntityName:entityName];
 
 - (BOOL)save:(NSError **)error {
   // Check if data has been written
-  if (self.map.count == 0) {
+  if (self.requestMap.count == 0) {
     [NSError writeToError:error
                      code:DKErrorInvalidEntity
               description:NSLocalizedString(@"Entity data invalid (no objects)", nil)
@@ -107,10 +107,16 @@ return [[self alloc] initWithEntityName:entityName];
   
   // TODO: Prevent use of '$' and '.' in objects/keys
   
+  // Copy object id to request map if necessary
+  NSString *oid = [self objectForKey:kDKObjectIDField];
+  if (oid != nil) {
+    [self.requestMap setObject:oid forKey:kDKObjectIDField];
+  }
+  
   // Create request dict
   NSDictionary *requestDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                self.entityName, @"entity",
-                               self.map, @"obj", nil];
+                               self.requestMap, @"obj", nil];
   
   // Send request synchronously
   DKRequest *request = [DKRequest request];
@@ -161,7 +167,11 @@ return [[self alloc] initWithEntityName:entityName];
 }
 
 - (id)objectForKey:(NSString *)key {
-  return [self.map objectForKey:key];
+  id obj = [self.requestMap objectForKey:key];
+  if (obj == nil) {
+    obj = [self.resultMap objectForKey:key];
+  }
+  return obj;
 }
 
 - (void)objectForKey:(NSString *)key inBackgroundWithBlock:(DKObjectResultBlock)block {
@@ -173,11 +183,11 @@ return [[self alloc] initWithEntityName:entityName];
 }
 
 - (void)setObject:(id)object forKey:(NSString *)key {
-  [self.map setObject:object forKey:key];
+  [self.requestMap setObject:object forKey:key];
 }
 
 - (void)removeObjectForKey:(NSString *)key {
-  [self.map removeObjectForKey:key];
+  [self.requestMap removeObjectForKey:key];
 }
 
 - (void)incrementKey:(NSString *)key {
@@ -201,8 +211,8 @@ return [[self alloc] initWithEntityName:entityName];
     NSLog(@"result => %@: %@", NSStringFromClass([resultMap class]), resultMap);
     return NO;
   }
-  self.referenceMap = resultMap;
-  self.map = [NSMutableDictionary new];
+  self.resultMap = resultMap;
+  self.requestMap = [NSMutableDictionary new];
   
   return YES;
 }
