@@ -9,6 +9,7 @@
 #import "DKObjectSaveTests.h"
 
 #import "DataKit.h"
+#import "DKObject-Private.h"
 
 @implementation DKObjectSaveTests
 
@@ -27,35 +28,42 @@
   if (!success) {
     NSLog(@"error: %@", error);
   }
-  STAssertNil(error, @"error should be nil");
-  STAssertTrue(success, @"save should succeed");
+  STAssertNil(error, @"first insert should not return error, did return %@", error);
+  STAssertTrue(success, @"update should have been successful (return YES)");
+  
+  NSUInteger mapCount = object.resultMap.count;
+  STAssertEquals(mapCount, (NSUInteger)3, @"result map should have 3 elements, has %i", mapCount);
   
   NSString *oid = [object objectForKey:@"_id"];
   NSString *name = [object objectForKey:@"name"];
   NSString *surname = [object objectForKey:@"surname"];
   
-  STAssertTrue(oid.length > 0, nil);
-  STAssertEqualObjects(name, @"Erik", nil);
-  STAssertEqualObjects(surname, @"Aigner", nil);
+  STAssertTrue(oid.length > 0, @"result map should have field '_id'");
+  STAssertEqualObjects(name, @"Erik", @"result map should have name field set to 'Erik', is '%@'", name);
+  STAssertEqualObjects(surname, @"Aigner", @"result map should have surname field set to 'Aigner', is '%@'", surname);
   
   // Test update
   [object setObject:@"Stefan" forKey:@"name"];
-
+  [object setObject:@"More" forKey:@"more"];
+  
   error = nil;
   success = [object save:&error];
-  if (!success) {
-    NSLog(@"error: %@", error);
-  }
-  STAssertNil(error, nil);
-  STAssertTrue(success, nil);
+  STAssertNil(error, @"update should not return error, did return %@", error);
+  STAssertTrue(success, @"update should have been successful (return YES)");
   
-  oid = [object objectForKey:@"_id"];
+  mapCount = object.resultMap.count;
+  STAssertEquals(mapCount, (NSUInteger)4, @"result map should have 4 elements, has %i", mapCount);
+  
+  NSString *oid2 = [object objectForKey:@"_id"];
   name = [object objectForKey:@"name"];
   surname = [object objectForKey:@"surname"];
+  NSString *more = [object objectForKey:@"more"];
   
-  STAssertTrue(oid.length > 0, nil);
-  STAssertEqualObjects(name, @"Stefan", nil);
-  STAssertEqualObjects(surname, @"Aigner", nil);
+  STAssertTrue(oid2.length > 0, @"result map should have field '_id'");
+  STAssertEqualObjects(oid2, oid, @"object id 1 and 2 should be equal");
+  STAssertEqualObjects(name, @"Stefan", @"result map should have name field set to 'Stefan', is '%@'", name);
+  STAssertEqualObjects(surname, @"Aigner", @"result map should have surname field set to 'Aigner', is '%@'", surname);
+  STAssertEqualObjects(more, @"More", @"result map should have more field set to 'More', is '%@'", surname);
 }
 
 @end

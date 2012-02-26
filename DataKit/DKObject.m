@@ -7,22 +7,11 @@
 //
 
 #import "DKObject.h"
+#import "DKObject-Private.h"
 
 #import "DKRequest.h"
 #import "DKConstants.h"
 #import "NSError+DataKit.h"
-
-@interface DKObject ()
-@property (nonatomic, copy, readwrite) NSString *entityName;
-@property (nonatomic, strong) NSMutableDictionary *requestMap;
-@property (nonatomic, strong) NSDictionary *resultMap;
-@end
-
-@interface DKObject (Private)
-
-- (BOOL)commitObjectResultMap:(NSDictionary *)resultMap error:(NSError **)error;
-
-@end
 
 @implementation DKObject
 DKSynthesize(entityName)
