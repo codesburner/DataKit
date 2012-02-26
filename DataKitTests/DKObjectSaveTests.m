@@ -17,8 +17,8 @@
   [DKManager setAPIEndpoint:@"http://localhost:3000"];
 }
 
-- (void)testObjectSave {
-  // Test insert
+- (void)testObjectSaveUpdateDelete {
+  // Insert
   DKObject *object = [DKObject objectWithEntityName:@"User"];
   [object setObject:@"Erik" forKey:@"name"];
   [object setObject:@"Aigner" forKey:@"surname"];
@@ -42,7 +42,7 @@
   STAssertEqualObjects(name, @"Erik", @"result map should have name field set to 'Erik', is '%@'", name);
   STAssertEqualObjects(surname, @"Aigner", @"result map should have surname field set to 'Aigner', is '%@'", surname);
   
-  // Test update
+  // Update
   [object setObject:@"Stefan" forKey:@"name"];
   [object setObject:@"More" forKey:@"more"];
   
@@ -64,6 +64,12 @@
   STAssertEqualObjects(name, @"Stefan", @"result map should have name field set to 'Stefan', is '%@'", name);
   STAssertEqualObjects(surname, @"Aigner", @"result map should have surname field set to 'Aigner', is '%@'", surname);
   STAssertEqualObjects(more, @"More", @"result map should have more field set to 'More', is '%@'", surname);
+  
+  // Delete
+  error = nil;
+  success = [object delete:&error];
+  STAssertNil(error, @"delete should not return error, did return %@", error);
+  STAssertTrue(success, @"delete should have been successful (return YES)");
 }
 
 @end

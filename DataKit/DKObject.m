@@ -144,11 +144,42 @@ return [[self alloc] initWithEntityName:entityName];
 }
 
 - (BOOL)delete {
-  return NO;
+  return [self delete:NULL];
 }
 
 - (BOOL)delete:(NSError **)error {
-  return NO;
+  // Check if the object has an ID
+  if (self.objectId.length == 0) {
+    [NSError writeToError:error
+                     code:DKErrorInvalidObjectID
+              description:NSLocalizedString(@"Object ID invalid", nil)
+                 original:nil];
+    return NO;
+  }
+
+  // Create request dict
+  NSDictionary *requestDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                               self.entityName, @"entity",
+                               self.objectId, @"oid", nil];
+  
+  // Send request synchronously
+  DKRequest *request = [DKRequest request];
+  request.cachePolicy = DKCachePolicyIgnoreCache;
+  
+  NSError *requestError = nil;
+  [request sendRequestWithObject:requestDict method:@"delete" error:&requestError];
+  if (requestError != nil) {
+    if (error != nil) {
+      *error = requestError;
+    }
+    return NO;
+  }
+  
+  // Remove maps
+  self.resultMap = [NSDictionary new];
+  self.requestMap = [NSMutableDictionary new];
+  
+  return YES;
 }
 
 - (BOOL)deleteInBackgroundWithBlock:(DKObjectResultBlock)block {

@@ -79,7 +79,14 @@ DKSynthesize(cachePolicy)
                  original:requestError];
   }
   else if (response.statusCode == DKResponseStatusSuccess) {
-    id resultObj = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&JSONError];
+    id resultObj = nil;
+    
+    // A successful operation must not always return a JSON body
+    if (data.length > 0) {
+      NSLog(@"data => %@", [[NSString alloc] initWithData:data
+                                                 encoding:NSUTF8StringEncoding]);
+      resultObj = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&JSONError];
+    }
     if (JSONError != nil) {
       [NSError writeToError:error
                        code:DKErrorInvalidJSON
