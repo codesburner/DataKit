@@ -162,9 +162,9 @@
 		DC5B610814F7B1EF00CC5B42 /* DataKit-Private */ = {
 			isa = PBXGroup;
 			children = (
+				DC52508514FA4F2C00646185 /* DKObject-Private.h */,
 				DC5B610A14F7B1FE00CC5B42 /* DKRequest.h */,
 				DC5B610B14F7B1FE00CC5B42 /* DKRequest.m */,
-				DC52508514FA4F2C00646185 /* DKObject-Private.h */,
 				DC5B611314F7E6CD00CC5B42 /* NSError+DataKit.h */,
 				DC5B611414F7E6CD00CC5B42 /* NSError+DataKit.m */,
 			);

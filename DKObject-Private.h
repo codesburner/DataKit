@@ -10,7 +10,8 @@
 
 @interface DKObject () // CLS_EXT
 @property (nonatomic, copy, readwrite) NSString *entityName;
-@property (nonatomic, strong) NSMutableDictionary *requestMap;
+@property (nonatomic, strong) NSMutableDictionary *setMap;
+@property (nonatomic, strong) NSMutableDictionary *unsetMap;
 @property (nonatomic, strong) NSDictionary *resultMap;
 @end
 

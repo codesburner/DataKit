@@ -15,7 +15,8 @@
 
 @implementation DKObject
 DKSynthesize(entityName)
-DKSynthesize(requestMap)
+DKSynthesize(setMap)
+DKSynthesize(unsetMap)
 DKSynthesize(resultMap)
 
 // Database keys
@@ -53,7 +54,8 @@ return [[self alloc] initWithEntityName:entityName];
   self = [super init];
   if (self) {
     self.entityName = entityName;
-    self.requestMap = [NSMutableDictionary new];
+    self.setMap = [NSMutableDictionary new];
+    self.unsetMap = [NSMutableDictionary new];
   }
   return self;
 }
@@ -92,26 +94,23 @@ return [[self alloc] initWithEntityName:entityName];
 
 - (BOOL)save:(NSError **)error {
   // Check if data has been written
-  if (self.requestMap.count == 0) {
-    [NSError writeToError:error
-                     code:DKErrorInvalidEntity
-              description:NSLocalizedString(@"Entity data invalid (no objects)", nil)
-                 original:nil];
-    return NO;
+  NSUInteger numItemsMod = self.setMap.count + self.unsetMap.count;
+  if (numItemsMod == 0) {
+    return YES;
   }
   
   // TODO: Prevent use of '$' and '.' in objects/keys
   
-  // Copy object id to request map if necessary
-  NSString *oid = [self objectForKey:kDKObjectIDField];
-  if (oid != nil) {
-    [self.requestMap setObject:oid forKey:kDKObjectIDField];
-  }
-  
   // Create request dict
-  NSDictionary *requestDict = [NSDictionary dictionaryWithObjectsAndKeys:
+  NSMutableDictionary *requestDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                self.entityName, @"entity",
-                               self.requestMap, @"obj", nil];
+                               self.setMap, @"set",
+                               self.unsetMap, @"unset", nil];
+  
+  NSString *oid = self.objectId;
+  if (oid.length > 0) {
+    [requestDict setObject:oid forKey:@"oid"];
+  }
   
   // Send request synchronously
   DKRequest *request = [DKRequest request];
@@ -232,7 +231,8 @@ return [[self alloc] initWithEntityName:entityName];
   
   // Remove maps
   self.resultMap = [NSDictionary new];
-  self.requestMap = [NSMutableDictionary new];
+  [self.setMap removeAllObjects];
+  [self.unsetMap removeAllObjects];
   
   return YES;
 }
@@ -255,7 +255,7 @@ return [[self alloc] initWithEntityName:entityName];
 }
 
 - (id)objectForKey:(NSString *)key {
-  id obj = [self.requestMap objectForKey:key];
+  id obj = [self.setMap objectForKey:key];
   if (obj == nil) {
     obj = [self.resultMap objectForKey:key];
   }
@@ -271,11 +271,11 @@ return [[self alloc] initWithEntityName:entityName];
 }
 
 - (void)setObject:(id)object forKey:(NSString *)key {
-  [self.requestMap setObject:object forKey:key];
+  [self.setMap setObject:object forKey:key];
 }
 
 - (void)removeObjectForKey:(NSString *)key {
-  [self.requestMap removeObjectForKey:key];
+  [self.unsetMap setObject:[NSNumber numberWithInteger:1] forKey:key];
 }
 
 - (void)incrementKey:(NSString *)key {
@@ -300,7 +300,8 @@ return [[self alloc] initWithEntityName:entityName];
     return NO;
   }
   self.resultMap = resultMap;
-  self.requestMap = [NSMutableDictionary new];
+  [self.setMap removeAllObjects];
+  [self.unsetMap removeAllObjects];
   
   return YES;
 }

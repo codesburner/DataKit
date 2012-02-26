@@ -65,6 +65,20 @@
   STAssertEqualObjects(surname, @"Aigner", @"result map should have surname field set to 'Aigner', is '%@'", surname);
   STAssertEqualObjects(more, @"More", @"result map should have more field set to 'More', is '%@'", surname);
   
+  // Unset
+  [object removeObjectForKey:@"more"];
+  
+  error = nil;
+  success = [object save:&error];
+  STAssertNil(error, @"update (unset) should not return error, did return %@", error);
+  STAssertTrue(success, @"update (unset) should have been successful (return YES)");
+  
+  mapCount = object.resultMap.count;
+  STAssertEquals(mapCount, (NSUInteger)3, @"result map should have 3 elements, has %i", mapCount);
+  
+  more = [object objectForKey:@"more"];
+  STAssertNil(more, @"more field should have been deleted");
+  
   // Refresh
   [object setObject:@"RefreshMeAway" forKey:@"refresh"];
   
@@ -77,7 +91,7 @@
   STAssertTrue(success, @"refresh should have been successful (return YES)");
   
   mapCount = object.resultMap.count;
-  STAssertEquals(mapCount, (NSUInteger)4, @"result map should have 4 elements, has %i", mapCount);
+  STAssertEquals(mapCount, (NSUInteger)3, @"result map should have 3 elements, has %i", mapCount);
   
   refreshField = [object objectForKey:@"refresh"];
   STAssertNil(refreshField, @"refresh field should have been cleared");
