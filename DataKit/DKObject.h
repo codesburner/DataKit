@@ -32,8 +32,8 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
 
 - (BOOL)save;
 - (BOOL)save:(NSError **)error;
-- (void)saveInBackground UNIMPLEMENTED;
-- (void)saveInBackgroundWithBlock:(DKObjectResultBlock)block UNIMPLEMENTED;
+- (void)saveInBackground;
+- (void)saveInBackgroundWithBlock:(DKObjectResultBlock)block;
 - (BOOL)refresh UNIMPLEMENTED;
 - (BOOL)refresh:(NSError **)error UNIMPLEMENTED;
 - (BOOL)refreshInBackgroundWithBlock:(DKObjectResultBlock)block UNIMPLEMENTED;

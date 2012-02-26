@@ -23,6 +23,12 @@ DKSynthesize(resultMap)
 #define kDKObjectCreatedAtField @"_createdAt"
 #define kDKObjectUpdatedAtField @"_updatedAt"
 
+static dispatch_queue_t kDKObjectQueue_;
+
++ (void)initialize {
+  kDKObjectQueue_ = dispatch_queue_create("dkobject queue", DISPATCH_QUEUE_SERIAL);
+}
+
 + (DKObject *)objectWithEntityName:(NSString *)entityName {
 return [[self alloc] initWithEntityName:entityName];
 }
@@ -124,11 +130,20 @@ return [[self alloc] initWithEntityName:entityName];
 }
 
 - (void)saveInBackground {
-  
+  [self saveInBackgroundWithBlock:NULL];
 }
 
 - (void)saveInBackgroundWithBlock:(DKObjectResultBlock)block {
-  
+  dispatch_queue_t q = dispatch_get_current_queue();
+  dispatch_async(kDKObjectQueue_, ^{
+    NSError *error = nil;
+    [self save:&error];
+    if (block != NULL) {
+      dispatch_async(q, ^{
+        block(self, error); 
+      });
+    }
+  });
 }
 
 - (BOOL)refresh {
