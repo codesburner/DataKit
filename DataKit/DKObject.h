@@ -16,6 +16,7 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
 @interface DKObject : NSObject
 @property (nonatomic, copy, readonly) NSString *entityName;
 @property (nonatomic, readonly) NSString *objectId;
+@property (nonatomic, readonly) NSString *publicId;
 @property (nonatomic, readonly) NSDate *updatedAt;
 @property (nonatomic, readonly) NSDate *createdAt;
 @property (nonatomic, readonly) BOOL isNew;

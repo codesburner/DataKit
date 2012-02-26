@@ -12,6 +12,8 @@
 #import "DKRequest.h"
 #import "DKConstants.h"
 #import "NSError+DataKit.h"
+#import "NSData+Base64.h"
+#import "NSData+Hex.h"
 
 @implementation DKObject
 DKSynthesize(entityName)
@@ -64,6 +66,14 @@ return [[self alloc] initWithEntityName:entityName];
   NSString *oid = [self.resultMap objectForKey:kDKObjectIDField];
   if ([oid isKindOfClass:[NSString class]]) {
     return oid;
+  }
+  return nil;
+}
+
+- (NSString *)publicId {
+  NSString *oid = self.objectId;
+  if (oid.length > 0) {
+    return [[NSData dataWithHexString:oid] base64EncodedString];
   }
   return nil;
 }

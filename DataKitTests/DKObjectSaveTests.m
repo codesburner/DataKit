@@ -10,11 +10,28 @@
 
 #import "DataKit.h"
 #import "DKObject-Private.h"
+#import "NSData+Hex.h"
+#import "NSData+Base64.h"
 
 @implementation DKObjectSaveTests
 
 - (void)setUp {
   [DKManager setAPIEndpoint:@"http://localhost:3000"];
+}
+
+- (void)testPublicIDGeneration {
+  NSString *oid = @"4F4AA5A86886D57C1A000001";
+  DKObject *obj = [DKObject objectWithEntityName:@"Test"];
+  obj.resultMap = [NSDictionary dictionaryWithObject:oid forKey:@"_id"];
+  
+  NSString *pid = [obj publicId];
+  
+  STAssertTrue(pid.length > 0, @"public ID must not be empty (%@)", pid);
+  
+  NSData *data = [NSData dataFromBase64String:pid];
+  NSString *oid2 = [data hexString];
+  
+  STAssertEqualObjects(oid, oid2, @"decoded oid must match original oid");
 }
 
 - (void)testObjectSaveUpdateRefreshDelete {
