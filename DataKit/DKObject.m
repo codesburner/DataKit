@@ -197,8 +197,21 @@ return [[self alloc] initWithEntityName:entityName];
   return YES;
 }
 
-- (BOOL)deleteInBackgroundWithBlock:(DKObjectResultBlock)block {
-  return NO;
+- (void)deleteInBackground {
+  [self deleteInBackgroundWithBlock:NULL];
+}
+
+- (void)deleteInBackgroundWithBlock:(DKObjectResultBlock)block {
+  dispatch_queue_t q = dispatch_get_current_queue();
+  dispatch_async(kDKObjectQueue_, ^{
+    NSError *error = nil;
+    [self delete:&error];
+    if (block != NULL) {
+      dispatch_async(q, ^{
+        block(self, error); 
+      });
+    }
+  });
 }
 
 - (id)objectForKey:(NSString *)key {
