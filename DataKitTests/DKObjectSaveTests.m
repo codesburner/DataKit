@@ -17,7 +17,7 @@
   [DKManager setAPIEndpoint:@"http://localhost:3000"];
 }
 
-- (void)testObjectSaveUpdateDelete {
+- (void)testObjectSaveUpdateRefreshDelete {
   // Insert
   DKObject *object = [DKObject objectWithEntityName:@"User"];
   [object setObject:@"Erik" forKey:@"name"];
@@ -64,6 +64,23 @@
   STAssertEqualObjects(name, @"Stefan", @"result map should have name field set to 'Stefan', is '%@'", name);
   STAssertEqualObjects(surname, @"Aigner", @"result map should have surname field set to 'Aigner', is '%@'", surname);
   STAssertEqualObjects(more, @"More", @"result map should have more field set to 'More', is '%@'", surname);
+  
+  // Refresh
+  [object setObject:@"RefreshMeAway" forKey:@"refresh"];
+  
+  NSString *refreshField = [object objectForKey:@"refresh"];
+  STAssertNotNil(refreshField, @"refresh field should not be nil");
+  
+  error = nil;
+  success = [object refresh:&error];
+  STAssertNil(error, @"refresh should not return error, did return %@", error);
+  STAssertTrue(success, @"refresh should have been successful (return YES)");
+  
+  mapCount = object.resultMap.count;
+  STAssertEquals(mapCount, (NSUInteger)4, @"result map should have 4 elements, has %i", mapCount);
+  
+  refreshField = [object objectForKey:@"refresh"];
+  STAssertNil(refreshField, @"refresh field should have been cleared");
   
   // Delete
   error = nil;

@@ -147,15 +147,55 @@ return [[self alloc] initWithEntityName:entityName];
 }
 
 - (BOOL)refresh {
-  return NO;
+  return [self refresh];
 }
 
 - (BOOL)refresh:(NSError **)error {
-  return NO;
+  // Check if the object has an ID
+  if (self.objectId.length == 0) {
+    [NSError writeToError:error
+                     code:DKErrorInvalidObjectID
+              description:NSLocalizedString(@"Object ID invalid", nil)
+                 original:nil];
+    return NO;
+  }
+  
+  // Create request dict
+  NSDictionary *requestDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                               self.entityName, @"entity",
+                               self.objectId, @"oid", nil];
+  
+  // Send request synchronously
+  DKRequest *request = [DKRequest request];
+  request.cachePolicy = DKCachePolicyIgnoreCache;
+  
+  NSError *requestError = nil;
+  id resultMap = [request sendRequestWithObject:requestDict method:@"refresh" error:&requestError];
+  if (requestError != nil) {
+    if (error != nil) {
+      *error = requestError;
+    }
+    return NO;
+  }
+  
+  return [self commitObjectResultMap:resultMap error:error];
 }
 
-- (BOOL)refreshInBackgroundWithBlock:(DKObjectResultBlock)block {
-  return NO;
+- (void)refreshInBackground {
+  [self refreshInBackgroundWithBlock:NULL];
+}
+
+- (void)refreshInBackgroundWithBlock:(DKObjectResultBlock)block {
+  dispatch_queue_t q = dispatch_get_current_queue();
+  dispatch_async(kDKObjectQueue_, ^{
+    NSError *error = nil;
+    [self refresh:&error];
+    if (block != NULL) {
+      dispatch_async(q, ^{
+        block(self, error); 
+      });
+    }
+  });
 }
 
 - (BOOL)delete {
