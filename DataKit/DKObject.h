@@ -45,6 +45,12 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
 - (id)initWithEntityName:(NSString *)entityName;
 
 /*!
+ @method reset
+ @abstract Resets the object to it's last saved state.
+ */
+- (void)reset;
+
+/*!
  @method save
  @return YES on success, NO if an error occurred.
  @abstract Saves changes made to object.

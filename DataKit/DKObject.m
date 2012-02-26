@@ -88,6 +88,11 @@ return [[self alloc] initWithEntityName:entityName];
   return (self.objectId.length == 0);
 }
 
+- (void)reset {
+  [self.setMap removeAllObjects];
+  [self.unsetMap removeAllObjects];
+}
+
 - (BOOL)save {
   return [self save:NULL];
 }
