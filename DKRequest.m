@@ -15,6 +15,14 @@
 @property (nonatomic, copy, readwrite) NSString *endpoint;
 @end
 
+// DEVNOTE: Allow untrusted certs in debug version.
+// This has to be excluded in production versions - private API!
+#ifdef CONFIGURATION_Debug
+@interface NSURLRequest (DataKit)
++ (BOOL)setAllowsAnyHTTPSCertificate:(BOOL)flag forHost:(NSString *)host;
+@end
+#endif
+
 @implementation DKRequest
 DKSynthesize(endpoint)
 DKSynthesize(cachePolicy)
@@ -64,9 +72,17 @@ DKSynthesize(cachePolicy)
   req.HTTPMethod = @"POST";
   req.HTTPBody = JSONData;
   [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+  [req setValue:[DKManager APISecret] forHTTPHeaderField:@"x-datakit-secret"];
   
   NSError *requestError = nil;
   NSHTTPURLResponse *response = nil;
+  
+  // DEVNOTE: Allow untrusted certs in debug version.
+  // This has to be excluded in production versions - private API!
+#ifdef CONFIGURATION_Debug
+  [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:URL.host];
+#endif
+  
   NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&requestError];
   
 //  NSLog(@"response: status => %i", response.statusCode);

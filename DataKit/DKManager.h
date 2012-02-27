@@ -11,6 +11,9 @@
 @interface DKManager : NSObject
 
 + (void)setAPIEndpoint:(NSString *)absoluteString;
++ (void)setAPISecret:(NSString *)secret;
+
 + (NSString *)APIEndpoint;
++ (NSString *)APISecret;
 
 @end
