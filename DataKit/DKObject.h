@@ -16,7 +16,6 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
 @interface DKObject : NSObject
 @property (nonatomic, copy, readonly) NSString *entityName;
 @property (nonatomic, readonly) NSString *objectId;
-@property (nonatomic, readonly) NSString *publicId;
 @property (nonatomic, readonly) NSDate *updatedAt;
 @property (nonatomic, readonly) NSDate *createdAt;
 @property (nonatomic, readonly) BOOL isNew;
@@ -163,5 +162,15 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
 
 - (void)incrementKey:(NSString *)key UNIMPLEMENTED;
 - (void)incrementKey:(NSString *)key byAmount:(NSNumber *)amount UNIMPLEMENTED;
+
+/*!
+ @method generatePublicURLForFields:error:
+ @param fieldKeys An array with fields of the object to show. If set to nil returns all fields.
+ @param error The error object.
+ @return The public URL for the object/field combination.
+ @abstract Generates a public URL on the server (latency) to access the stored objects data.
+ @discussion If the fiels array contains one element a request to this ID will return the fields raw data, if the array is nil (select all fields) or it's count is greater than one the request will return a JSON representation of the object.
+ */
+- (NSURL *)generatePublicURLForFields:(NSArray *)fieldKeys error:(NSError **)error;
 
 @end

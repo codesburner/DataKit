@@ -3,7 +3,12 @@
 //
 
 #ifdef __OBJC__
-  #import <Foundation/Foundation.h>
+#import <Foundation/Foundation.h>
+
+// Categories
+#import "NSError+DataKit.h"
+#import "NSData+DataKit.h"
+#import "NSString+DataKit.h"
 
 // Macros
 #define DKSynthesize(x) @synthesize x = x##_;

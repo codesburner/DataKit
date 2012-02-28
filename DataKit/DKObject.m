@@ -11,9 +11,7 @@
 
 #import "DKRequest.h"
 #import "DKConstants.h"
-#import "NSError+DataKit.h"
-#import "NSData+Base64.h"
-#import "NSData+Hex.h"
+#import "DKManager.h"
 
 @implementation DKObject
 DKSynthesize(entityName)
@@ -66,14 +64,6 @@ return [[self alloc] initWithEntityName:entityName];
   NSString *oid = [self.resultMap objectForKey:kDKObjectIDField];
   if ([oid isKindOfClass:[NSString class]]) {
     return oid;
-  }
-  return nil;
-}
-
-- (NSString *)publicId {
-  NSString *oid = self.objectId;
-  if (oid.length > 0) {
-    return [[NSData dataWithHexString:oid] base64EncodedString];
   }
   return nil;
 }
@@ -301,9 +291,63 @@ return [[self alloc] initWithEntityName:entityName];
   
 }
 
+- (NSURL *)generatePublicURLForFields:(NSArray *)fieldKeys error:(NSError **)error {
+  if (!([self hasObjectId:error] && [self hasEntityName:error])) {
+    return nil;
+  }
+  
+  // Create request dict
+  NSMutableDictionary *requestDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                      self.entityName, @"entity",
+                                      self.objectId, @"oid", nil];
+  if (fieldKeys != nil) {
+    [requestDict setObject:fieldKeys forKey:@"fields"];
+  }
+  
+  // Send request synchronously
+  DKRequest *request = [DKRequest request];
+  request.cachePolicy = DKCachePolicyIgnoreCache;
+  
+  NSError *requestError = nil;
+  NSString *result = [request sendRequestWithObject:requestDict method:@"publish" error:&requestError];
+  if (requestError != nil || ![result isKindOfClass:[NSString class]]) {
+    if (error != NULL) {
+      *error = requestError;
+    }
+    return nil;
+  }
+  
+  NSString *path = [@"public" stringByAppendingPathComponent:result];
+  NSString *ep = [[DKManager APIEndpoint] stringByAppendingPathComponent:path];
+  
+  return [NSURL URLWithString:ep]; 
+}
+
 @end
 
 @implementation DKObject (Private)
+
+- (BOOL)hasObjectId:(NSError **)error {
+  if (self.objectId.length == 0) {
+    [NSError writeToError:error
+                     code:DKErrorInvalidObjectID
+              description:NSLocalizedString(@"Object ID invalid", nil)
+                 original:nil];
+    return NO;
+  }
+  return YES;
+}
+
+- (BOOL)hasEntityName:(NSError **)error {
+  if (self.entityName.length == 0) {
+    [NSError writeToError:error
+                     code:DKErrorInvalidEntityName
+              description:NSLocalizedString(@"Entity name invalid", nil)
+                 original:nil];
+    return NO;
+  }
+  return YES;
+}
 
 - (BOOL)commitObjectResultMap:(NSDictionary *)resultMap error:(NSError **)error {
   if (![resultMap isKindOfClass:[NSDictionary class]]) {

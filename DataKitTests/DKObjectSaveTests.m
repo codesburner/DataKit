@@ -10,8 +10,7 @@
 
 #import "DataKit.h"
 #import "DKObject-Private.h"
-#import "NSData+Hex.h"
-#import "NSData+Base64.h"
+#import "NSData+DataKit.h"
 
 @implementation DKObjectSaveTests
 
@@ -20,22 +19,7 @@
   [DKManager setAPISecret:@"c821a09ebf01e090a46b6bbe8b21bcb36eb5b432265a51a76739c20472908989"];
 }
 
-- (void)testPublicIDGeneration {
-  NSString *oid = @"4F4AA5A86886D57C1A000001";
-  DKObject *obj = [DKObject objectWithEntityName:@"Test"];
-  obj.resultMap = [NSDictionary dictionaryWithObject:oid forKey:@"_id"];
-  
-  NSString *pid = [obj publicId];
-  
-  STAssertTrue(pid.length > 0, @"public ID must not be empty (%@)", pid);
-  
-  NSData *data = [NSData dataFromBase64String:pid];
-  NSString *oid2 = [data hexString];
-  
-  STAssertEqualObjects(oid, oid2, @"decoded oid must match original oid");
-}
-
-- (void)testObjectSaveUpdateRefreshDelete {
+- (void)testObject {
   // Insert
   DKObject *object = [DKObject objectWithEntityName:@"User"];
   [object setObject:@"Erik" forKey:@"name"];
@@ -83,7 +67,7 @@
   STAssertEqualObjects(surname, @"Aigner", @"result map should have surname field set to 'Aigner', is '%@'", surname);
   STAssertEqualObjects(more, @"More", @"result map should have more field set to 'More', is '%@'", surname);
   
-  // Unset
+  // Remove
   [object removeObjectForKey:@"more"];
   
   error = nil;
@@ -113,6 +97,19 @@
   
   refreshField = [object objectForKey:@"refresh"];
   STAssertNil(refreshField, @"refresh field should have been cleared");
+  
+  // Public ID
+  error = nil;
+  NSURL *publicURL = [object generatePublicURLForFields:[NSArray arrayWithObject:@"name"]
+                                                  error:&error];
+  STAssertNil(error, @"public id generation returned error %@", error);
+  STAssertNotNil(publicURL, @"generated URL invalid '%@'", publicURL);
+  
+  NSURLRequest *req = [NSURLRequest requestWithURL:publicURL];
+  NSData *pubData = [NSURLConnection sendSynchronousRequest:req returningResponse:NULL error:NULL];
+  NSString *pubName = [[NSString alloc] initWithData:pubData encoding:NSUTF8StringEncoding];
+  
+  STAssertEqualObjects(pubName, @"Stefan", @"public URL should return 'Stefan', did return '%@'", pubName);
   
   // Delete
   error = nil;

@@ -17,6 +17,8 @@
 
 @interface DKObject (Private)
 
+- (BOOL)hasObjectId:(NSError **)error;
+- (BOOL)hasEntityName:(NSError **)error;
 - (BOOL)commitObjectResultMap:(NSDictionary *)resultMap error:(NSError **)error;
 
 @end
