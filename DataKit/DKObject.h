@@ -172,8 +172,24 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
  */
 - (void)pushAllObjects:(NSArray *)objects forKey:(NSString *)key;
 
-- (void)addObjectToSet:(id)object forKey:(NSString *)key UNIMPLEMENTED;
-- (void)addAllObjectsToSet:(NSArray *)objects forKey:(NSString *)key UNIMPLEMENTED;
+/*!
+ @method addObjectToSet:forKey:
+ @param object The object to add.
+ @param key The key for the object
+ @abstract Adds the object to the array only if the object is not already present and if field |key| is an existing array, otherwise sets field |key| to a single object array containing |object| if field not present.
+ @discussion Add-to-set has only an effect if the object already exists in the database (not new, has an object ID). If field is present but not an array, object save will fail.
+ */
+- (void)addObjectToSet:(id)object forKey:(NSString *)key;
+
+/*!
+ @method addAllObjectsToSet:forKey:
+ @param objects The objects to add.
+ @param key The key for the objects
+ @abstract Adds the objects to the array only if the objects are not already present and if field |key| is an existing array, otherwise sets field |key| to the object array containing |objects| if field not present.
+ @discussion Add-to-set has only an effect if the object already exists in the database (not new, has an object ID). If field is present but not an array, object save will fail.
+ */
+- (void)addAllObjectsToSet:(NSArray *)objects forKey:(NSString *)key;
+
 - (void)popLastObjectForKey:(NSString *)key UNIMPLEMENTED;
 - (void)popFirstObjectForKey:(NSString *)key UNIMPLEMENTED;
 - (void)pullObject:(id)object forKey:(NSString *)key UNIMPLEMENTED;

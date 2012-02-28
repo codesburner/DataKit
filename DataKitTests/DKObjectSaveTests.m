@@ -176,4 +176,33 @@
   [object delete];
 }
 
+- (void)testObjectAddToSet {
+  DKObject *object = [DKObject objectWithEntityName:@"AddToSetValues"];
+  [object setObject:[NSArray arrayWithObject:@"stefan"] forKey:@"names"];
+  
+  NSError *error = nil;
+  BOOL success = [object save:&error];
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.description);
+  
+  [object addObjectToSet:@"erik" forKey:@"names"];
+  [object addAllObjectsToSet:[NSArray arrayWithObjects:@"anna", @"stefan", @"jakob", nil] forKey:@"names"];
+  [object addObjectToSet:@"mark" forKey:@"otherNames"];
+  
+  error = nil;
+  success = [object save:&error];
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.description);
+  
+  NSArray *list = [object objectForKey:@"names"];
+  NSArray *comp = [NSArray arrayWithObjects:@"stefan", @"erik", @"anna", @"jakob", nil];
+  STAssertEqualObjects(list, comp, nil);
+  
+  list = [object objectForKey:@"otherNames"];
+  comp = [NSArray arrayWithObjects:@"mark", nil];
+  STAssertEqualObjects(list, comp, nil);
+  
+  [object delete];
+}
+
 @end

@@ -20,6 +20,7 @@ DKSynthesize(unsetMap)
 DKSynthesize(incMap)
 DKSynthesize(pushMap)
 DKSynthesize(pushAllMap)
+DKSynthesize(addToSetMap)
 DKSynthesize(resultMap)
 
 // Database keys
@@ -62,6 +63,7 @@ static dispatch_queue_t kDKObjectQueue_;
     self.incMap = [NSMutableDictionary new];
     self.pushMap = [NSMutableDictionary new];
     self.pushAllMap = [NSMutableDictionary new];
+    self.addToSetMap = [NSMutableDictionary new];
   }
   return self;
 }
@@ -99,7 +101,8 @@ static dispatch_queue_t kDKObjectQueue_;
           self.unsetMap.count +
           self.incMap.count +
           self.pushMap.count +
-          self.pushAllMap.count) > 0;
+          self.pushAllMap.count +
+          self.addToSetMap.count) > 0;
 }
 
 - (void)reset {
@@ -108,6 +111,7 @@ static dispatch_queue_t kDKObjectQueue_;
   [self.incMap removeAllObjects];
   [self.pushMap removeAllObjects];
   [self.pushAllMap removeAllObjects];
+  [self.addToSetMap removeAllObjects];
 }
 
 - (BOOL)save {
@@ -124,12 +128,25 @@ static dispatch_queue_t kDKObjectQueue_;
   
   // Create request dict
   NSMutableDictionary *requestDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                      self.entityName, @"entity",
-                                      self.setMap, @"set",
-                                      self.unsetMap, @"unset",
-                                      self.incMap, @"inc",
-                                      self.pushMap, @"push",
-                                      self.pushAllMap, @"pushAll", nil];
+                                      self.entityName, @"entity", nil];
+  if (self.setMap.count > 0) {
+    [requestDict setObject:self.setMap forKey:@"set"];
+  }
+  if (self.unsetMap.count > 0) {
+    [requestDict setObject:self.unsetMap forKey:@"unset"];
+  }
+  if (self.incMap.count > 0) {
+    [requestDict setObject:self.incMap forKey:@"inc"];
+  }
+  if (self.pushMap.count > 0) {
+    [requestDict setObject:self.pushMap forKey:@"push"];
+  }
+  if (self.pushAllMap.count > 0) {
+    [requestDict setObject:self.pushAllMap forKey:@"pushAll"];
+  }
+  if (self.addToSetMap.count > 0) {
+    [requestDict setObject:self.addToSetMap forKey:@"addToSet"];
+  }
   
   NSString *oid = self.objectId;
   if (oid.length > 0) {
@@ -307,11 +324,20 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (void)addObjectToSet:(id)object forKey:(NSString *)key {
-
+  [self addAllObjectsToSet:[NSArray arrayWithObject:object] forKey:key];
 }
 
 - (void)addAllObjectsToSet:(NSArray *)objects forKey:(NSString *)key {
-
+  NSMutableArray *list = [self.addToSetMap objectForKey:key];
+  if (list == nil) {
+    list = [NSMutableArray new];
+    [self.addToSetMap setObject:list forKey:key];
+  }
+  for (id obj in objects) {
+    if (![list containsObject:objects]) {
+      [list addObject:obj];
+    }
+  }
 }
 
 - (void)popLastObjectForKey:(NSString *)key {
