@@ -9,6 +9,7 @@
 #import "DKObject.h"
 #import "DKObject-Private.h"
 
+#import "DKPointer.h"
 #import "DKRequest.h"
 #import "DKConstants.h"
 #import "DKManager.h"
@@ -76,6 +77,15 @@ static dispatch_queue_t kDKObjectQueue_;
   NSString *oid = [self.resultMap objectForKey:kDKObjectIDField];
   if ([oid isKindOfClass:[NSString class]]) {
     return oid;
+  }
+  return nil;
+}
+
+- (DKPointer *)objectPointer {
+  if (self.objectId.length > 0 &&
+      self.entityName.length > 0) {
+    return [DKPointer pointerWithEntityName:self.entityName
+                                   objectId:self.objectId];
   }
   return nil;
 }
