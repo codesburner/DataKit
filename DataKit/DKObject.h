@@ -169,7 +169,7 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
  @param error The error object.
  @return The public URL for the object/field combination.
  @abstract Generates a public URL on the server (latency) to access the stored objects data.
- @discussion If the fiels array contains one element a request to this ID will return the fields raw data, if the array is nil (select all fields) or it's count is greater than one the request will return a JSON representation of the object.
+ @discussion If the fields array contains one element a request to this URL will return the fields raw data, if the array is nil (select all fields) or it's count is greater than one the request will return a JSON representation of the object.
  */
 - (NSURL *)generatePublicURLForFields:(NSArray *)fieldKeys error:(NSError **)error;
 
