@@ -19,7 +19,7 @@
   [DKManager setAPISecret:@"c821a09ebf01e090a46b6bbe8b21bcb36eb5b432265a51a76739c20472908989"];
 }
 
-- (void)testObject {
+- (void)testObjectInSerial {
   // Insert
   DKObject *object = [DKObject objectWithEntityName:@"User"];
   [object setObject:@"Erik" forKey:@"name"];
@@ -116,6 +116,31 @@
   success = [object delete:&error];
   STAssertNil(error, @"delete should not return error, did return %@", error);
   STAssertTrue(success, @"delete should have been successful (return YES)");
+}
+
+- (void)testObjectKeyIncrement {
+  // Insert
+  DKObject *object = [DKObject objectWithEntityName:@"Value"];
+  [object setObject:@"TestValue" forKey:@"key"];
+  [object setObject:[NSNumber numberWithInteger:3] forKey:@"amount"];
+  
+  NSError *error = nil;
+  BOOL success = [object save:&error];
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.description);
+  STAssertTrue(success, nil);
+  STAssertEquals([[object objectForKey:@"amount"] integerValue], (NSInteger)3, nil);
+  
+  [object incrementKey:@"amount" byAmount:[NSNumber numberWithInteger:2]];
+  
+  error = nil;
+  success = [object save:&error];
+  
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.description);
+  STAssertEquals([[object objectForKey:@"amount"] integerValue], (NSInteger)5, nil);
+  
+  [object delete];
 }
 
 @end

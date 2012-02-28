@@ -19,6 +19,7 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
 @property (nonatomic, readonly) NSDate *updatedAt;
 @property (nonatomic, readonly) NSDate *createdAt;
 @property (nonatomic, readonly) BOOL isNew;
+@property (nonatomic, readonly) BOOL isDirty;
 
 /*!
  @method objectWithEntityName:
@@ -160,8 +161,20 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
  */
 - (void)removeObjectForKey:(NSString *)key;
 
-- (void)incrementKey:(NSString *)key UNIMPLEMENTED;
-- (void)incrementKey:(NSString *)key byAmount:(NSNumber *)amount UNIMPLEMENTED;
+/*!
+ @method incrementKey:
+ @param key The key to increment
+ @abstract Increments the key by 1.
+ */
+- (void)incrementKey:(NSString *)key;
+
+/*!
+ @method incrementKey:
+ @param key The key to increment
+ @param amount The increment amount
+ @abstract Increments the key by amount. Amount can also be a negative value.
+ */
+- (void)incrementKey:(NSString *)key byAmount:(NSNumber *)amount;
 
 /*!
  @method generatePublicURLForFields:error:

@@ -17,6 +17,7 @@
 DKSynthesize(entityName)
 DKSynthesize(setMap)
 DKSynthesize(unsetMap)
+DKSynthesize(incMap)
 DKSynthesize(resultMap)
 
 // Database keys
@@ -31,7 +32,7 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 + (DKObject *)objectWithEntityName:(NSString *)entityName {
-return [[self alloc] initWithEntityName:entityName];
+  return [[self alloc] initWithEntityName:entityName];
 }
 
 + (BOOL)saveAll:(NSArray *)objects {
@@ -56,6 +57,7 @@ return [[self alloc] initWithEntityName:entityName];
     self.entityName = entityName;
     self.setMap = [NSMutableDictionary new];
     self.unsetMap = [NSMutableDictionary new];
+    self.incMap = [NSMutableDictionary new];
   }
   return self;
 }
@@ -88,9 +90,14 @@ return [[self alloc] initWithEntityName:entityName];
   return (self.objectId.length == 0);
 }
 
+- (BOOL)isDirty {
+  return (self.setMap.count + self.unsetMap.count + self.incMap.count) > 0;
+}
+
 - (void)reset {
   [self.setMap removeAllObjects];
   [self.unsetMap removeAllObjects];
+  [self.incMap removeAllObjects];
 }
 
 - (BOOL)save {
@@ -99,8 +106,7 @@ return [[self alloc] initWithEntityName:entityName];
 
 - (BOOL)save:(NSError **)error {
   // Check if data has been written
-  NSUInteger numItemsMod = self.setMap.count + self.unsetMap.count;
-  if (numItemsMod == 0) {
+  if (!self.isDirty) {
     return YES;
   }
   
@@ -108,9 +114,10 @@ return [[self alloc] initWithEntityName:entityName];
   
   // Create request dict
   NSMutableDictionary *requestDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                               self.entityName, @"entity",
-                               self.setMap, @"set",
-                               self.unsetMap, @"unset", nil];
+                                      self.entityName, @"entity",
+                                      self.setMap, @"set",
+                                      self.unsetMap, @"unset",
+                                      self.incMap, @"inc", nil];
   
   NSString *oid = self.objectId;
   if (oid.length > 0) {
@@ -215,7 +222,7 @@ return [[self alloc] initWithEntityName:entityName];
                  original:nil];
     return NO;
   }
-
+  
   // Create request dict
   NSDictionary *requestDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                self.entityName, @"entity",
@@ -236,8 +243,8 @@ return [[self alloc] initWithEntityName:entityName];
   
   // Remove maps
   self.resultMap = [NSDictionary new];
-  [self.setMap removeAllObjects];
-  [self.unsetMap removeAllObjects];
+
+  [self reset];
   
   return YES;
 }
@@ -284,11 +291,11 @@ return [[self alloc] initWithEntityName:entityName];
 }
 
 - (void)incrementKey:(NSString *)key {
-  
+  [self incrementKey:key byAmount:[NSNumber numberWithInteger:1]];
 }
 
 - (void)incrementKey:(NSString *)key byAmount:(NSNumber *)amount {
-  
+  [self.incMap setObject:amount forKey:key];
 }
 
 - (NSURL *)generatePublicURLForFields:(NSArray *)fieldKeys error:(NSError **)error {
@@ -355,12 +362,14 @@ return [[self alloc] initWithEntityName:entityName];
                      code:DKErrorInvalidJSON
               description:NSLocalizedString(@"Cannot commit action because result JSON is malformed (not an object)", nil)
                  original:nil];
+#ifdef CONFIGURATION_Debug
     NSLog(@"result => %@: %@", NSStringFromClass([resultMap class]), resultMap);
+#endif
     return NO;
   }
   self.resultMap = resultMap;
-  [self.setMap removeAllObjects];
-  [self.unsetMap removeAllObjects];
+  
+  [self reset];
   
   return YES;
 }

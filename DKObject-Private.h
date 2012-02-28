@@ -12,6 +12,7 @@
 @property (nonatomic, copy, readwrite) NSString *entityName;
 @property (nonatomic, strong) NSMutableDictionary *setMap;
 @property (nonatomic, strong) NSMutableDictionary *unsetMap;
+@property (nonatomic, strong) NSMutableDictionary *incMap;
 @property (nonatomic, strong) NSDictionary *resultMap;
 @end
 
