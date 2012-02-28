@@ -154,8 +154,24 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
  */
 - (void)setObject:(id)object forKey:(NSString *)key;
 
-- (void)pushObject:(id)object forKey:(NSString *)key UNIMPLEMENTED;
-- (void)pushObjects:(NSArray *)objects forKey:(NSString *)key UNIMPLEMENTED;
+/*!
+ @method pushObject:forKey:
+ @param object The object to push
+ @param key The key for the object.
+ @abstract Appends the object to the field with |key| if it is an existing array, otherwise sets field to a single element array containing the object if field is not present.
+ @discussion Push has only an effect if the object already exists in the database (not new, has an object ID). If field is present but not an array, object save will fail.
+ */
+- (void)pushObject:(id)object forKey:(NSString *)key;
+
+/*!
+ @method pushAllObjects:forKey:
+ @param objects The object array to push
+ @param key The key for the objects.
+ @abstract Appends each object to the field with |key| if it is an existing array, otherwise sets field to a new array containing the objects if field is not present.
+ @discussion Push-all has only an effect if the object already exists in the database (not new, has an object ID). If field is present but not an array, object save will fail.
+ */
+- (void)pushAllObjects:(NSArray *)objects forKey:(NSString *)key;
+
 - (void)addObjectToSet:(id)object forKey:(NSString *)key UNIMPLEMENTED;
 - (void)addAllObjectsToSet:(NSArray *)objects forKey:(NSString *)key UNIMPLEMENTED;
 - (void)popLastObjectForKey:(NSString *)key UNIMPLEMENTED;
@@ -166,6 +182,7 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
  @method removeObjectForKey:
  @param key The key to remove
  @abstract Removes the object stored under key.
+ @discussion Increment has only an effect if the object already exists in the database (not new, has an object ID).
  */
 - (void)removeObjectForKey:(NSString *)key;
 
@@ -173,6 +190,7 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
  @method incrementKey:
  @param key The key to increment
  @abstract Increments the key by 1.
+ @discussion Increment has only an effect if the object already exists in the database (not new, has an object ID).
  */
 - (void)incrementKey:(NSString *)key;
 
@@ -181,6 +199,7 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
  @param key The key to increment
  @param amount The increment amount
  @abstract Increments the key by amount. Amount can also be a negative value.
+ @discussion Increment has only an effect if the object already exists in the database (not new, has an object ID).
  */
 - (void)incrementKey:(NSString *)key byAmount:(NSNumber *)amount;
 

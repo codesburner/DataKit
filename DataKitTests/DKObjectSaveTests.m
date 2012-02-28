@@ -128,7 +128,6 @@
   BOOL success = [object save:&error];
   STAssertTrue(success, nil);
   STAssertNil(error, error.description);
-  STAssertTrue(success, nil);
   STAssertEquals([[object objectForKey:@"amount"] integerValue], (NSInteger)3, nil);
   
   [object incrementKey:@"amount" byAmount:[NSNumber numberWithInteger:2]];
@@ -139,6 +138,40 @@
   STAssertTrue(success, nil);
   STAssertNil(error, error.description);
   STAssertEquals([[object objectForKey:@"amount"] integerValue], (NSInteger)5, nil);
+  
+  [object delete];
+}
+
+- (void)testObjectPush {
+  DKObject *object = [DKObject objectWithEntityName:@"PushValue"];
+  [object setObject:[NSArray arrayWithObject:@"stefan"] forKey:@"nameList"];
+  
+  NSError *error = nil;
+  BOOL success = [object save:&error];
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.description);
+  
+  [object pushObject:@"erik" forKey:@"nameList"];
+  
+  error = nil;
+  success = [object save:&error];
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.description);
+  
+  NSArray *list = [object objectForKey:@"nameList"];
+  NSArray *comp = [NSArray arrayWithObjects:@"stefan", @"erik", nil];
+  STAssertEqualObjects(list, comp, nil);
+  
+  [object pushAllObjects:[NSArray arrayWithObjects:@"anna", @"john", nil] forKey:@"nameList"];
+  
+  error = nil;
+  success = [object save:&error];
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.description);
+  
+  list = [object objectForKey:@"nameList"];
+  comp = [NSArray arrayWithObjects:@"stefan", @"erik", @"anna", @"john", nil];
+  STAssertEqualObjects(list, comp, nil);
   
   [object delete];
 }

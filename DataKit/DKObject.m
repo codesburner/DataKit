@@ -18,6 +18,8 @@ DKSynthesize(entityName)
 DKSynthesize(setMap)
 DKSynthesize(unsetMap)
 DKSynthesize(incMap)
+DKSynthesize(pushMap)
+DKSynthesize(pushAllMap)
 DKSynthesize(resultMap)
 
 // Database keys
@@ -58,6 +60,8 @@ static dispatch_queue_t kDKObjectQueue_;
     self.setMap = [NSMutableDictionary new];
     self.unsetMap = [NSMutableDictionary new];
     self.incMap = [NSMutableDictionary new];
+    self.pushMap = [NSMutableDictionary new];
+    self.pushAllMap = [NSMutableDictionary new];
   }
   return self;
 }
@@ -91,13 +95,19 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (BOOL)isDirty {
-  return (self.setMap.count + self.unsetMap.count + self.incMap.count) > 0;
+  return (self.setMap.count +
+          self.unsetMap.count +
+          self.incMap.count +
+          self.pushMap.count +
+          self.pushAllMap.count) > 0;
 }
 
 - (void)reset {
   [self.setMap removeAllObjects];
   [self.unsetMap removeAllObjects];
   [self.incMap removeAllObjects];
+  [self.pushMap removeAllObjects];
+  [self.pushAllMap removeAllObjects];
 }
 
 - (BOOL)save {
@@ -117,7 +127,9 @@ static dispatch_queue_t kDKObjectQueue_;
                                       self.entityName, @"entity",
                                       self.setMap, @"set",
                                       self.unsetMap, @"unset",
-                                      self.incMap, @"inc", nil];
+                                      self.incMap, @"inc",
+                                      self.pushMap, @"push",
+                                      self.pushAllMap, @"pushAll", nil];
   
   NSString *oid = self.objectId;
   if (oid.length > 0) {
@@ -287,11 +299,11 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (void)pushObject:(id)object forKey:(NSString *)key {
-  
+  [self.pushMap setObject:object forKey:key];
 }
 
-- (void)pushObjects:(NSArray *)objects forKey:(NSString *)key {
-
+- (void)pushAllObjects:(NSArray *)objects forKey:(NSString *)key {
+  [self.pushAllMap setObject:objects forKey:key];
 }
 
 - (void)addObjectToSet:(id)object forKey:(NSString *)key {
