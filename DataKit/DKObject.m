@@ -286,6 +286,35 @@ static dispatch_queue_t kDKObjectQueue_;
   [self.setMap setObject:object forKey:key];
 }
 
+- (void)pushObject:(id)object forKey:(NSString *)key {
+  
+}
+
+- (void)pushObjects:(NSArray *)objects forKey:(NSString *)key {
+
+}
+
+- (void)addObjectToSet:(id)object forKey:(NSString *)key {
+
+}
+
+- (void)addAllObjectsToSet:(NSArray *)objects forKey:(NSString *)key {
+
+}
+
+- (void)popLastObjectForKey:(NSString *)key {
+
+}
+
+- (void)popFirstObjectForKey:(NSString *)key {
+
+}
+
+- (void)pullObject:(id)object forKey:(NSString *)key {
+
+}
+
+
 - (void)removeObjectForKey:(NSString *)key {
   [self.unsetMap setObject:[NSNumber numberWithInteger:1] forKey:key];
 }

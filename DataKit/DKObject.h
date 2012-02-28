@@ -16,8 +16,8 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
 @interface DKObject : NSObject
 @property (nonatomic, copy, readonly) NSString *entityName;
 @property (nonatomic, readonly) NSString *objectId;
-@property (nonatomic, readonly) NSDate *updatedAt;
-@property (nonatomic, readonly) NSDate *createdAt;
+@property (nonatomic, readonly) NSDate *updatedAt UNIMPLEMENTED;
+@property (nonatomic, readonly) NSDate *createdAt UNIMPLEMENTED;
 @property (nonatomic, readonly) BOOL isNew;
 @property (nonatomic, readonly) BOOL isDirty;
 
@@ -153,6 +153,14 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
  @abstract Sets the object for the given key.
  */
 - (void)setObject:(id)object forKey:(NSString *)key;
+
+- (void)pushObject:(id)object forKey:(NSString *)key UNIMPLEMENTED;
+- (void)pushObjects:(NSArray *)objects forKey:(NSString *)key UNIMPLEMENTED;
+- (void)addObjectToSet:(id)object forKey:(NSString *)key UNIMPLEMENTED;
+- (void)addAllObjectsToSet:(NSArray *)objects forKey:(NSString *)key UNIMPLEMENTED;
+- (void)popLastObjectForKey:(NSString *)key UNIMPLEMENTED;
+- (void)popFirstObjectForKey:(NSString *)key UNIMPLEMENTED;
+- (void)pullObject:(id)object forKey:(NSString *)key UNIMPLEMENTED;
 
 /*!
  @method removeObjectForKey:
