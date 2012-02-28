@@ -205,4 +205,41 @@
   [object delete];
 }
 
+- (void)testObjectPop {
+  NSMutableArray *names = [NSMutableArray arrayWithObjects:@"stefan", @"erik", @"markus", nil];
+  DKObject *object = [DKObject objectWithEntityName:@"PopValues"];
+  [object setObject:names forKey:@"names"];
+  
+  NSError *error = nil;
+  BOOL success = [object save:&error];
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.description);
+  
+  [object popFirstObjectForKey:@"names"];
+  
+  error = nil;
+  success = [object save:&error];
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.description);
+  
+  [names removeObjectAtIndex:0];
+  
+  NSArray *list = [object objectForKey:@"names"];
+  STAssertEqualObjects(list, names, nil);
+  
+  [object popLastObjectForKey:@"names"];
+  
+  error = nil;
+  success = [object save:&error];
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.description);
+  
+  [names removeLastObject];
+  
+  list = [object objectForKey:@"names"];
+  STAssertEqualObjects(list, names, nil);
+  
+  [object delete];
+}
+
 @end

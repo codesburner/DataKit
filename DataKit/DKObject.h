@@ -190,8 +190,22 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
  */
 - (void)addAllObjectsToSet:(NSArray *)objects forKey:(NSString *)key;
 
-- (void)popLastObjectForKey:(NSString *)key UNIMPLEMENTED;
-- (void)popFirstObjectForKey:(NSString *)key UNIMPLEMENTED;
+/*!
+ @method popLastObjectForKey:
+ @param key The object key
+ @abstract Removes the last object from the array at |key|.
+ @discussion Pop has only an effect if the object already exists in the database (not new, has an object ID).
+ */
+- (void)popLastObjectForKey:(NSString *)key;
+
+/*!
+ @method popFirstObjectForKey:
+ @param key The object key
+ @abstract Removes the first object from the array at |key|.
+ @discussion Pop has only an effect if the object already exists in the database (not new, has an object ID).
+ */
+- (void)popFirstObjectForKey:(NSString *)key;
+
 - (void)pullObject:(id)object forKey:(NSString *)key UNIMPLEMENTED;
 
 /*!

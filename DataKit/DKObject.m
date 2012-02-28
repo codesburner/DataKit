@@ -21,6 +21,7 @@ DKSynthesize(incMap)
 DKSynthesize(pushMap)
 DKSynthesize(pushAllMap)
 DKSynthesize(addToSetMap)
+DKSynthesize(popMap)
 DKSynthesize(resultMap)
 
 // Database keys
@@ -64,6 +65,7 @@ static dispatch_queue_t kDKObjectQueue_;
     self.pushMap = [NSMutableDictionary new];
     self.pushAllMap = [NSMutableDictionary new];
     self.addToSetMap = [NSMutableDictionary new];
+    self.popMap = [NSMutableDictionary new];
   }
   return self;
 }
@@ -102,7 +104,8 @@ static dispatch_queue_t kDKObjectQueue_;
           self.incMap.count +
           self.pushMap.count +
           self.pushAllMap.count +
-          self.addToSetMap.count) > 0;
+          self.addToSetMap.count +
+          self.popMap.count) > 0;
 }
 
 - (void)reset {
@@ -112,6 +115,7 @@ static dispatch_queue_t kDKObjectQueue_;
   [self.pushMap removeAllObjects];
   [self.pushAllMap removeAllObjects];
   [self.addToSetMap removeAllObjects];
+  [self.popMap removeAllObjects];
 }
 
 - (BOOL)save {
@@ -146,6 +150,9 @@ static dispatch_queue_t kDKObjectQueue_;
   }
   if (self.addToSetMap.count > 0) {
     [requestDict setObject:self.addToSetMap forKey:@"addToSet"];
+  }
+  if (self.popMap.count > 0) {
+    [requestDict setObject:self.popMap forKey:@"pop"];
   }
   
   NSString *oid = self.objectId;
@@ -340,12 +347,16 @@ static dispatch_queue_t kDKObjectQueue_;
   }
 }
 
-- (void)popLastObjectForKey:(NSString *)key {
+- (void)popObjectEnd:(NSNumber *)end forKey:(NSString *)key {
+  [self.popMap setObject:end forKey:key];
+}
 
+- (void)popLastObjectForKey:(NSString *)key {
+  [self popObjectEnd:[NSNumber numberWithInteger:1] forKey:key];
 }
 
 - (void)popFirstObjectForKey:(NSString *)key {
-
+  [self popObjectEnd:[NSNumber numberWithInteger:-1] forKey:key];
 }
 
 - (void)pullObject:(id)object forKey:(NSString *)key {
