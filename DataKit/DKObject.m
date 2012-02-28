@@ -33,7 +33,7 @@ DKSynthesize(resultMap)
 static dispatch_queue_t kDKObjectQueue_;
 
 + (void)initialize {
-  kDKObjectQueue_ = dispatch_queue_create("dkobject queue", DISPATCH_QUEUE_SERIAL);
+  kDKObjectQueue_ = dispatch_queue_create("datakit-object-queue", DISPATCH_QUEUE_SERIAL);
 }
 
 + (DKObject *)objectWithEntityName:(NSString *)entityName {
