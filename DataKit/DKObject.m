@@ -205,12 +205,9 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (BOOL)refresh:(NSError **)error {
-  // Check if the object has an ID
-  if (self.objectId.length == 0) {
-    [NSError writeToError:error
-                     code:DKErrorInvalidObjectID
-              description:NSLocalizedString(@"Object ID invalid", nil)
-                 original:nil];
+  // Check for valid object ID and entity name
+  if (!([self hasObjectId:error] &&
+        [self hasEntityName:error])) {
     return NO;
   }
   
@@ -257,12 +254,9 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (BOOL)delete:(NSError **)error {
-  // Check if the object has an ID
-  if (self.objectId.length == 0) {
-    [NSError writeToError:error
-                     code:DKErrorInvalidObjectID
-              description:NSLocalizedString(@"Object ID invalid", nil)
-                 original:nil];
+  // Check for valid object ID and entity name
+  if (!([self hasObjectId:error] &&
+        [self hasEntityName:error])) {
     return NO;
   }
   
@@ -387,7 +381,9 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (NSURL *)generatePublicURLForFields:(NSArray *)fieldKeys error:(NSError **)error {
-  if (!([self hasObjectId:error] && [self hasEntityName:error])) {
+  // Check for valid object ID and entity name
+  if (!([self hasObjectId:error] &&
+        [self hasEntityName:error])) {
     return nil;
   }
   
