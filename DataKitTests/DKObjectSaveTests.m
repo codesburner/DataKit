@@ -242,4 +242,52 @@
   [object delete];
 }
 
+- (void)testObjectPull {
+  NSMutableArray *values = [NSMutableArray arrayWithObjects:@"a", @"b", @"b", @"c", @"d", @"d", nil];
+  DKObject *object = [DKObject objectWithEntityName:@"PullValues"];
+  [object setObject:values forKey:@"values"];
+  
+  NSError *error = nil;
+  BOOL success = [object save:&error];
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.description);
+  
+  [object pullObject:@"x" forKey:@"values"];
+  
+  error = nil;
+  success = [object save:&error];
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.description);
+  
+  NSArray *list = [object objectForKey:@"values"];
+  STAssertEqualObjects(values, list, nil);
+  
+  [object pullObject:@"b" forKey:@"values"];
+  
+  error = nil;
+  success = [object save:&error];
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.description);
+  
+  [values removeObject:@"b"];
+  
+  list = [object objectForKey:@"values"];
+  STAssertEqualObjects(values, list, nil);
+  
+  [object pullAllObjects:[NSArray arrayWithObjects:@"c", @"d", nil] forKey:@"values"];
+  
+  error = nil;
+  success = [object save:&error];
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.description);
+  
+  [values removeObject:@"c"];
+  [values removeObject:@"d"];
+  
+  list = [object objectForKey:@"values"];
+  STAssertEqualObjects(values, list, nil);
+  
+  [object delete];
+}
+
 @end

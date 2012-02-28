@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSMutableDictionary *pushAllMap;
 @property (nonatomic, strong) NSMutableDictionary *addToSetMap;
 @property (nonatomic, strong) NSMutableDictionary *popMap;
+@property (nonatomic, strong) NSMutableDictionary *pullAllMap;
 @property (nonatomic, strong) NSDictionary *resultMap;
 @end
 

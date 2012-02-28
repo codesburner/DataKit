@@ -206,7 +206,23 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
  */
 - (void)popFirstObjectForKey:(NSString *)key;
 
-- (void)pullObject:(id)object forKey:(NSString *)key UNIMPLEMENTED;
+/*!
+ @method pullObject:forKey:
+ @param object The object to pull
+ @param key The object key
+ @abstract Removes all occurrences of object from field |key|, if field is an array.
+ @discussion Pull has only an effect if the object already exists in the database (not new, has an object ID). If field is present, but not an array save will fail.
+ */
+- (void)pullObject:(id)object forKey:(NSString *)key;
+
+/*!
+ @method pullAllObjects:forKey:
+ @param objects The objects to pull
+ @param key The object key
+ @abstract Removes all occurrences of |objects| from field |key|, if field is an array.
+ @discussion Pull has only an effect if the object already exists in the database (not new, has an object ID). If field is present, but not an array save will fail.
+ */
+- (void)pullAllObjects:(NSArray *)objects forKey:(NSString *)key;
 
 /*!
  @method removeObjectForKey:
