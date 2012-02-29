@@ -15,22 +15,48 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
 
 @interface DKQuery : NSObject
 @property (nonatomic, copy, readonly) NSString *entityName;
-@property (nonatomic, assign) NSUInteger limit;
-@property (nonatomic, assign) NSUInteger skip;
+@property (nonatomic, assign) NSUInteger limit UNIMPLEMENTED;
+@property (nonatomic, assign) NSUInteger skip UNIMPLEMENTED;
 @property (nonatomic, assign) DKCachePolicy cachePolicy;
 
+/*!
+ @method queryWithEntityName:
+ @param entityName The name of the entity to fetch.
+ @abstract Initializes a new query for the given entity name.
+ */
 + (DKQuery *)queryWithEntityName:(NSString *)entityName;
+
 + (DKEntity *)getEntity:(NSString *)entityName withId:(NSString *)entityId UNIMPLEMENTED;
 + (DKEntity *)getEntity:(NSString *)entityName withId:(NSString *)entityId error:(NSError **)error UNIMPLEMENTED;
 + (void)clearAllCachedResults UNIMPLEMENTED;
 + (id)new UNAVAILABLE_ATTRIBUTE;
 
 - (id)init UNAVAILABLE_ATTRIBUTE;
+
+/*!
+ @method initWithEntityName:
+ @param entityName The name of the entity to fetch.
+ @abstract Initializes a new query for the given entity name.
+ */
 - (id)initWithEntityName:(NSString *)entityName;
+
+/*!
+ @method reset
+ @abstract Resets all query conditions
+ */
+- (void)reset;
 
 - (void)orderAscendingByKey:(NSString *)key UNIMPLEMENTED;
 - (void)orderDescendingByKey:(NSString *)key UNIMPLEMENTED;
-- (void)whereKey:(NSString *)key equalTo:(id)object UNIMPLEMENTED;
+
+/*!
+ @method whereKey:equalTo:
+ @param key The entity key
+ @param object The object to check for equality.
+ @abstract Adds an equal condition to the query.
+ */
+- (void)whereKey:(NSString *)key equalTo:(id)object;
+
 - (void)whereKey:(NSString *)key lessThan:(id)object UNIMPLEMENTED;
 - (void)whereKey:(NSString *)key lessThanOrEqualTo:(id)object UNIMPLEMENTED;
 - (void)whereKey:(NSString *)key greaterThan:(id)object UNIMPLEMENTED;
@@ -45,8 +71,22 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
 - (void)whereKeyExists:(NSString *)key UNIMPLEMENTED;
 - (void)whereKeyDoesNotExist:(NSString *)key UNIMPLEMENTED;
 - (void)includeKey:(NSString *)key UNIMPLEMENTED;
-- (NSArray *)findObjects UNIMPLEMENTED;
-- (NSArray *)findObjects:(NSError **)error UNIMPLEMENTED;
+
+/*!
+ @method findAll
+ @return The matching entities
+ @abstract Finds all matching entities.
+ */
+- (NSArray *)findAll;
+
+/*!
+ @method findAll:
+ @param error Error object if error occurred
+ @return The matching entities
+ @abstract Finds all matching entities.
+ */
+- (NSArray *)findAll:(NSError **)error;
+
 - (void)findObjectsInBackgroundWithBlock:(DKQueryResultBlock)block UNIMPLEMENTED;
 - (id)getFirstObject UNIMPLEMENTED;
 - (id)getFirstObject:(NSError **)error UNIMPLEMENTED;
