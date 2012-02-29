@@ -9,7 +9,7 @@
 #import "DKObjectSaveTests.h"
 
 #import "DataKit.h"
-#import "DKObject-Private.h"
+#import "DKEntity-Private.h"
 #import "NSData+DataKit.h"
 
 @implementation DKObjectSaveTests
@@ -21,7 +21,7 @@
 
 - (void)testObjectInSerial {
   // Insert
-  DKObject *object = [DKObject objectWithEntityName:@"User"];
+  DKEntity *object = [DKEntity entityWithName:@"User"];
   [object setObject:@"Erik" forKey:@"name"];
   [object setObject:@"Aigner" forKey:@"surname"];
   
@@ -120,7 +120,7 @@
 
 - (void)testObjectKeyIncrement {
   // Insert
-  DKObject *object = [DKObject objectWithEntityName:@"Value"];
+  DKEntity *object = [DKEntity entityWithName:@"Value"];
   [object setObject:@"TestValue" forKey:@"key"];
   [object setObject:[NSNumber numberWithInteger:3] forKey:@"amount"];
   
@@ -143,7 +143,7 @@
 }
 
 - (void)testObjectPush {
-  DKObject *object = [DKObject objectWithEntityName:@"PushValue"];
+  DKEntity *object = [DKEntity entityWithName:@"PushValue"];
   [object setObject:[NSArray arrayWithObject:@"stefan"] forKey:@"nameList"];
   
   NSError *error = nil;
@@ -177,7 +177,7 @@
 }
 
 - (void)testObjectAddToSet {
-  DKObject *object = [DKObject objectWithEntityName:@"AddToSetValues"];
+  DKEntity *object = [DKEntity entityWithName:@"AddToSetValues"];
   [object setObject:[NSArray arrayWithObject:@"stefan"] forKey:@"names"];
   
   NSError *error = nil;
@@ -207,7 +207,7 @@
 
 - (void)testObjectPop {
   NSMutableArray *names = [NSMutableArray arrayWithObjects:@"stefan", @"erik", @"markus", nil];
-  DKObject *object = [DKObject objectWithEntityName:@"PopValues"];
+  DKEntity *object = [DKEntity entityWithName:@"PopValues"];
   [object setObject:names forKey:@"names"];
   
   NSError *error = nil;
@@ -244,7 +244,7 @@
 
 - (void)testObjectPull {
   NSMutableArray *values = [NSMutableArray arrayWithObjects:@"a", @"b", @"b", @"c", @"d", @"d", nil];
-  DKObject *object = [DKObject objectWithEntityName:@"PullValues"];
+  DKEntity *object = [DKEntity entityWithName:@"PullValues"];
   [object setObject:values forKey:@"values"];
   
   NSError *error = nil;

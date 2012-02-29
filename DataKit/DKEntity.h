@@ -1,5 +1,5 @@
 //
-//  DKObject.h
+//  DKEntity.h
 //  DataKit
 //
 //  Created by Erik Aigner on 23.02.12.
@@ -8,43 +8,43 @@
 
 #import <Foundation/Foundation.h>
 
-@class DKObject;
+@class DKEntity;
 @class DKPointer;
 
-typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
+typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
 
-@interface DKObject : NSObject
+@interface DKEntity : NSObject
 @property (nonatomic, copy, readonly) NSString *entityName;
-@property (nonatomic, readonly) NSString *objectId;
-@property (nonatomic, readonly) DKPointer *objectPointer;
+@property (nonatomic, readonly) NSString *entityId;
+@property (nonatomic, readonly) DKPointer *entityPointer;
 @property (nonatomic, readonly) NSDate *updatedAt UNIMPLEMENTED;
 @property (nonatomic, readonly) NSDate *createdAt UNIMPLEMENTED;
 @property (nonatomic, readonly) BOOL isNew;
 @property (nonatomic, readonly) BOOL isDirty;
 
 /*!
- @method objectWithEntityName:
+ @method entityWithName:
  @param entityName The name of the entity
  @return Initialized object.
  @abstract Initialized an object with the given entity type.
  */
-+ (DKObject *)objectWithEntityName:(NSString *)entityName;
++ (DKEntity *)entityWithName:(NSString *)entityName;
 
 + (BOOL)saveAll:(NSArray *)objects UNIMPLEMENTED;
 + (BOOL)saveAll:(NSArray *)objects error:(NSError **)error UNIMPLEMENTED;
 + (BOOL)saveAllInBackground:(NSArray *)objects UNIMPLEMENTED;
-+ (BOOL)saveAllInBackground:(NSArray *)objects withBlock:(DKObjectResultBlock)block UNIMPLEMENTED;
++ (BOOL)saveAllInBackground:(NSArray *)objects withBlock:(DKEntityResultBlock)block UNIMPLEMENTED;
 + (id)new UNAVAILABLE_ATTRIBUTE;
 
 - (id)init UNAVAILABLE_ATTRIBUTE;
 
 /*!
- @method initWithEntityName:
+ @method initWithName:
  @param entityName The name of the entity
  @return Initialized object.
  @abstract Initialized an object with the given entity type.
  */
-- (id)initWithEntityName:(NSString *)entityName;
+- (id)initWithName:(NSString *)entityName;
 
 /*!
  @method reset
@@ -78,7 +78,7 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
  @param block The callback block
  @abstract Saves changes made to object in background and invokes callback on completion.
  */
-- (void)saveInBackgroundWithBlock:(DKObjectResultBlock)block;
+- (void)saveInBackgroundWithBlock:(DKEntityResultBlock)block;
 
 /*!
  @method refresh
@@ -106,7 +106,7 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
  @param block The callback block
  @abstract Refreshes object with data stored on the server in background and invokes callback on completion.
  */
-- (void)refreshInBackgroundWithBlock:(DKObjectResultBlock)block;
+- (void)refreshInBackgroundWithBlock:(DKEntityResultBlock)block;
 
 /*!
  @method delete
@@ -134,7 +134,7 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
  @param block The callback block
  @abstract Deletes object in background and invokes callback on completion.
  */
-- (void)deleteInBackgroundWithBlock:(DKObjectResultBlock)block;
+- (void)deleteInBackgroundWithBlock:(DKEntityResultBlock)block;
 
 /*!
  @method objectForKey:
@@ -144,7 +144,7 @@ typedef void (^DKObjectResultBlock)(DKObject *object, NSError *error);
  */
 - (id)objectForKey:(NSString *)key;
 
-- (void)objectForKey:(NSString *)key inBackgroundWithBlock:(DKObjectResultBlock)block UNIMPLEMENTED;
+- (void)objectForKey:(NSString *)key inBackgroundWithBlock:(DKEntityResultBlock)block UNIMPLEMENTED;
 - (DKPointer *)pointerForKey:(NSString *)key UNIMPLEMENTED;
 
 /*!

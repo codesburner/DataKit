@@ -1,20 +1,20 @@
 //
-//  DKObject.m
+//  DKEntity.m
 //  DataKit
 //
 //  Created by Erik Aigner on 23.02.12.
 //  Copyright (c) 2012 chocomoko.com. All rights reserved.
 //
 
-#import "DKObject.h"
-#import "DKObject-Private.h"
+#import "DKEntity.h"
+#import "DKEntity-Private.h"
 
 #import "DKPointer.h"
 #import "DKRequest.h"
 #import "DKConstants.h"
 #import "DKManager.h"
 
-@implementation DKObject
+@implementation DKEntity
 DKSynthesize(entityName)
 DKSynthesize(setMap)
 DKSynthesize(unsetMap)
@@ -27,18 +27,18 @@ DKSynthesize(pullAllMap)
 DKSynthesize(resultMap)
 
 // Database keys
-#define kDKObjectIDField @"_id"
-#define kDKObjectCreatedAtField @"_createdAt"
-#define kDKObjectUpdatedAtField @"_updatedAt"
+#define kDKEntityIDField @"_id"
+#define kDKEntityCreatedAtField @"_createdAt"
+#define kDKEntityUpdatedAtField @"_updatedAt"
 
 static dispatch_queue_t kDKObjectQueue_;
 
 + (void)initialize {
-  kDKObjectQueue_ = dispatch_queue_create("datakit-object-queue", DISPATCH_QUEUE_SERIAL);
+  kDKObjectQueue_ = dispatch_queue_create("datakit-entity-queue", DISPATCH_QUEUE_SERIAL);
 }
 
-+ (DKObject *)objectWithEntityName:(NSString *)entityName {
-  return [[self alloc] initWithEntityName:entityName];
++ (DKEntity *)entityWithName:(NSString *)entityName {
+  return [[self alloc] initWithName:entityName];
 }
 
 + (BOOL)saveAll:(NSArray *)objects {
@@ -53,11 +53,11 @@ static dispatch_queue_t kDKObjectQueue_;
   return NO;
 }
 
-+ (BOOL)saveAllInBackground:(NSArray *)objects withBlock:(DKObjectResultBlock)block {
++ (BOOL)saveAllInBackground:(NSArray *)objects withBlock:(DKEntityResultBlock)block {
   return NO;
 }
 
-- (id)initWithEntityName:(NSString *)entityName {
+- (id)initWithName:(NSString *)entityName {
   self = [super init];
   if (self) {
     self.entityName = entityName;
@@ -73,25 +73,25 @@ static dispatch_queue_t kDKObjectQueue_;
   return self;
 }
 
-- (NSString *)objectId {
-  NSString *oid = [self.resultMap objectForKey:kDKObjectIDField];
-  if ([oid isKindOfClass:[NSString class]]) {
-    return oid;
+- (NSString *)entityId {
+  NSString *eid = [self.resultMap objectForKey:kDKEntityIDField];
+  if ([eid isKindOfClass:[NSString class]]) {
+    return eid;
   }
   return nil;
 }
 
-- (DKPointer *)objectPointer {
-  if (self.objectId.length > 0 &&
+- (DKPointer *)entityPointer {
+  if (self.entityId.length > 0 &&
       self.entityName.length > 0) {
     return [DKPointer pointerWithEntityName:self.entityName
-                                   objectId:self.objectId];
+                                   entityId:self.entityId];
   }
   return nil;
 }
 
 - (NSDate *)updatedAt {
-  NSNumber *updatedAt = [self.resultMap objectForKey:kDKObjectUpdatedAtField];
+  NSNumber *updatedAt = [self.resultMap objectForKey:kDKEntityUpdatedAtField];
   if ([updatedAt isKindOfClass:[NSNumber class]]) {
     return [NSDate dateWithTimeIntervalSince1970:[updatedAt doubleValue]];
   }
@@ -99,7 +99,7 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (NSDate *)createdAt {
-  NSNumber *createdAt = [self.resultMap objectForKey:kDKObjectCreatedAtField];
+  NSNumber *createdAt = [self.resultMap objectForKey:kDKEntityCreatedAtField];
   if ([createdAt isKindOfClass:[NSNumber class]]) {
     return [NSDate dateWithTimeIntervalSince1970:[createdAt doubleValue]];
   }
@@ -107,7 +107,7 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (BOOL)isNew {
-  return (self.objectId.length == 0);
+  return (self.entityId.length == 0);
 }
 
 - (BOOL)isDirty {
@@ -172,7 +172,7 @@ static dispatch_queue_t kDKObjectQueue_;
     [requestDict setObject:self.pullAllMap forKey:@"pullAll"];
   }
   
-  NSString *oid = self.objectId;
+  NSString *oid = self.entityId;
   if (oid.length > 0) {
     [requestDict setObject:oid forKey:@"oid"];
   }
@@ -197,7 +197,7 @@ static dispatch_queue_t kDKObjectQueue_;
   [self saveInBackgroundWithBlock:NULL];
 }
 
-- (void)saveInBackgroundWithBlock:(DKObjectResultBlock)block {
+- (void)saveInBackgroundWithBlock:(DKEntityResultBlock)block {
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async(kDKObjectQueue_, ^{
     NSError *error = nil;
@@ -216,7 +216,7 @@ static dispatch_queue_t kDKObjectQueue_;
 
 - (BOOL)refresh:(NSError **)error {
   // Check for valid object ID and entity name
-  if (!([self hasObjectId:error] &&
+  if (!([self hasEntityId:error] &&
         [self hasEntityName:error])) {
     return NO;
   }
@@ -224,7 +224,7 @@ static dispatch_queue_t kDKObjectQueue_;
   // Create request dict
   NSDictionary *requestDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                self.entityName, @"entity",
-                               self.objectId, @"oid", nil];
+                               self.entityId, @"oid", nil];
   
   // Send request synchronously
   DKRequest *request = [DKRequest request];
@@ -246,7 +246,7 @@ static dispatch_queue_t kDKObjectQueue_;
   [self refreshInBackgroundWithBlock:NULL];
 }
 
-- (void)refreshInBackgroundWithBlock:(DKObjectResultBlock)block {
+- (void)refreshInBackgroundWithBlock:(DKEntityResultBlock)block {
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async(kDKObjectQueue_, ^{
     NSError *error = nil;
@@ -265,7 +265,7 @@ static dispatch_queue_t kDKObjectQueue_;
 
 - (BOOL)delete:(NSError **)error {
   // Check for valid object ID and entity name
-  if (!([self hasObjectId:error] &&
+  if (!([self hasEntityId:error] &&
         [self hasEntityName:error])) {
     return NO;
   }
@@ -273,7 +273,7 @@ static dispatch_queue_t kDKObjectQueue_;
   // Create request dict
   NSDictionary *requestDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                self.entityName, @"entity",
-                               self.objectId, @"oid", nil];
+                               self.entityId, @"oid", nil];
   
   // Send request synchronously
   DKRequest *request = [DKRequest request];
@@ -300,7 +300,7 @@ static dispatch_queue_t kDKObjectQueue_;
   [self deleteInBackgroundWithBlock:NULL];
 }
 
-- (void)deleteInBackgroundWithBlock:(DKObjectResultBlock)block {
+- (void)deleteInBackgroundWithBlock:(DKEntityResultBlock)block {
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async(kDKObjectQueue_, ^{
     NSError *error = nil;
@@ -321,7 +321,7 @@ static dispatch_queue_t kDKObjectQueue_;
   return obj;
 }
 
-- (void)objectForKey:(NSString *)key inBackgroundWithBlock:(DKObjectResultBlock)block {
+- (void)objectForKey:(NSString *)key inBackgroundWithBlock:(DKEntityResultBlock)block {
   
 }
 
@@ -392,7 +392,7 @@ static dispatch_queue_t kDKObjectQueue_;
 
 - (NSURL *)generatePublicURLForFields:(NSArray *)fieldKeys error:(NSError **)error {
   // Check for valid object ID and entity name
-  if (!([self hasObjectId:error] &&
+  if (!([self hasEntityId:error] &&
         [self hasEntityName:error])) {
     return nil;
   }
@@ -400,7 +400,7 @@ static dispatch_queue_t kDKObjectQueue_;
   // Create request dict
   NSMutableDictionary *requestDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                       self.entityName, @"entity",
-                                      self.objectId, @"oid", nil];
+                                      self.entityId, @"oid", nil];
   if (fieldKeys != nil) {
     [requestDict setObject:fieldKeys forKey:@"fields"];
   }
@@ -426,13 +426,13 @@ static dispatch_queue_t kDKObjectQueue_;
 
 @end
 
-@implementation DKObject (Private)
+@implementation DKEntity (Private)
 
-- (BOOL)hasObjectId:(NSError **)error {
-  if (self.objectId.length == 0) {
+- (BOOL)hasEntityId:(NSError **)error {
+  if (self.entityId.length == 0) {
     [NSError writeToError:error
-                     code:DKErrorInvalidObjectID
-              description:NSLocalizedString(@"Object ID invalid", nil)
+                     code:DKErrorInvalidEntityID
+              description:NSLocalizedString(@"Entity ID invalid", nil)
                  original:nil];
     return NO;
   }

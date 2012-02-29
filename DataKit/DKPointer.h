@@ -10,12 +10,12 @@
 
 @interface DKPointer : NSObject
 @property (nonatomic, copy, readonly) NSString *entityName;
-@property (nonatomic, copy, readonly) NSString *objectId;
+@property (nonatomic, copy, readonly) NSString *entityId;
 
-+ (DKPointer *)pointerWithEntityName:(NSString *)entityName objectId:(NSString *)objectId;
++ (DKPointer *)pointerWithEntityName:(NSString *)entityName entityId:(NSString *)entityId;
 + (id)new UNAVAILABLE_ATTRIBUTE;
 
 - (id)init UNAVAILABLE_ATTRIBUTE;
-- (id)initWithEntityName:(NSString *)entityName objectId:(NSString *)objectId;
+- (id)initWithEntityName:(NSString *)entityName entityId:(NSString *)entityId;
 
 @end

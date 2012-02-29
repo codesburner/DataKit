@@ -19,14 +19,14 @@ DKSynthesize(skip)
 DKSynthesize(cachePolicy)
 
 + (DKQuery *)queryWithEntityName:(NSString *)entityName {
-  return [[self alloc] initWithEntityName:entityName];
+  return [[self alloc] initWithName:entityName];
 }
 
-+ (DKObject *)getObjectOfEntity:(NSString *)entityName objectId:(NSString *)objectId {
++ (DKEntity *)getEntity:(NSString *)entityName withId:(NSString *)entityId {
   return nil;
 }
 
-+ (DKObject *)getObjectOfEntity:(NSString *)entityName objectId:(NSString *)objectId error:(NSError **)error {
++ (DKEntity *)getEntity:(NSString *)entityName withId:(NSString *)entityId error:(NSError **)error {
   return nil;
 }
 
@@ -146,15 +146,15 @@ DKSynthesize(cachePolicy)
   
 }
 
-- (DKObject *)getObjectById:(NSString *)objectId {
+- (DKEntity *)getEntityById:(NSString *)entityId {
   return nil;
 }
 
-- (DKObject *)getObjectById:(NSString *)objectId error:(NSError **)error {
+- (DKEntity *)getEntityById:(NSString *)entityId error:(NSError **)error {
   return nil;
 }
 
-- (void)getObjectById:(NSString *)objectId inBackgroundWithBlock:(DKQueryResultBlock)block {
+- (void)getEntityById:(NSString *)entityId inBackgroundWithBlock:(DKQueryResultBlock)block {
   
 }
 

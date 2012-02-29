@@ -9,7 +9,7 @@
 #import "DKConstants.h"
 
 
-@class DKObject;
+@class DKEntity;
 
 typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
 
@@ -20,8 +20,8 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
 @property (nonatomic, assign) DKCachePolicy cachePolicy;
 
 + (DKQuery *)queryWithEntityName:(NSString *)entityName;
-+ (DKObject *)getObjectOfEntity:(NSString *)entityName objectId:(NSString *)objectId UNIMPLEMENTED;
-+ (DKObject *)getObjectOfEntity:(NSString *)entityName objectId:(NSString *)objectId error:(NSError **)error UNIMPLEMENTED;
++ (DKEntity *)getEntity:(NSString *)entityName withId:(NSString *)entityId UNIMPLEMENTED;
++ (DKEntity *)getEntity:(NSString *)entityName withId:(NSString *)entityId error:(NSError **)error UNIMPLEMENTED;
 + (void)clearAllCachedResults UNIMPLEMENTED;
 + (id)new UNAVAILABLE_ATTRIBUTE;
 
@@ -54,9 +54,9 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
 - (NSInteger)countObjects UNIMPLEMENTED;
 - (NSInteger)countObjects:(NSError **)error UNIMPLEMENTED;
 - (void)countObjectsInBackgroundWithBlock:(DKQueryResultBlock)block UNIMPLEMENTED;
-- (DKObject *)getObjectById:(NSString *)objectId UNIMPLEMENTED;
-- (DKObject *)getObjectById:(NSString *)objectId error:(NSError **)error UNIMPLEMENTED;
-- (void)getObjectById:(NSString *)objectId inBackgroundWithBlock:(DKQueryResultBlock)block UNIMPLEMENTED;
+- (DKEntity *)getEntityById:(NSString *)entityId UNIMPLEMENTED;
+- (DKEntity *)getEntityById:(NSString *)entityId error:(NSError **)error UNIMPLEMENTED;
+- (void)getEntityById:(NSString *)entityId inBackgroundWithBlock:(DKQueryResultBlock)block UNIMPLEMENTED;
 - (void)cancel UNIMPLEMENTED;
 - (BOOL)hasCachedResult UNIMPLEMENTED;
 - (void)clearCachedResult UNIMPLEMENTED;

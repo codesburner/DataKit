@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 chocomoko.com. All rights reserved.
 //
 
-#import "DKObject.h"
+#import "DKEntity.h"
 
-@interface DKObject () // CLS_EXT
+@interface DKEntity () // CLS_EXT
 @property (nonatomic, copy, readwrite) NSString *entityName;
 @property (nonatomic, strong) NSMutableDictionary *setMap;
 @property (nonatomic, strong) NSMutableDictionary *unsetMap;
@@ -21,9 +21,9 @@
 @property (nonatomic, strong) NSDictionary *resultMap;
 @end
 
-@interface DKObject (Private)
+@interface DKEntity (Private)
 
-- (BOOL)hasObjectId:(NSError **)error;
+- (BOOL)hasEntityId:(NSError **)error;
 - (BOOL)hasEntityName:(NSError **)error;
 - (BOOL)commitObjectResultMap:(NSDictionary *)resultMap error:(NSError **)error;
 

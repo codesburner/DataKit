@@ -10,22 +10,22 @@
 
 @interface DKPointer ()
 @property (nonatomic, copy, readwrite) NSString *entityName;
-@property (nonatomic, copy, readwrite) NSString *objectId;
+@property (nonatomic, copy, readwrite) NSString *entityId;
 @end
 
 @implementation DKPointer
 DKSynthesize(entityName)
-DKSynthesize(objectId)
+DKSynthesize(entityId)
 
-+ (DKPointer *)pointerWithEntityName:(NSString *)entityName objectId:(NSString *)objectId {
-  return [[self alloc] initWithEntityName:entityName objectId:objectId];
++ (DKPointer *)pointerWithEntityName:(NSString *)entityName entityId:(NSString *)entityId {
+  return [[self alloc] initWithEntityName:entityName entityId:entityId];
 }
 
-- (id)initWithEntityName:(NSString *)entityName objectId:(NSString *)objectId {
+- (id)initWithEntityName:(NSString *)entityName entityId:(NSString *)entityId {
   self = [super init];
   if (self) {
     self.entityName = entityName;
-    self.objectId = objectId;
+    self.entityId = entityId;
   }
   return self;
 }

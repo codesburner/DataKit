@@ -7,7 +7,7 @@
 //
 
 #import "DKManager.h"
-#import "DKObject.h"
+#import "DKEntity.h"
 #import "DKPointer.h"
 #import "DKQuery.h"
 #import "DKConstants.h"

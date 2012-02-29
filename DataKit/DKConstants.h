@@ -23,7 +23,7 @@ typedef NSInteger DKCachePolicy;
 enum {
   DKErrorNone = 0,
   DKErrorInvalidEntityName = 100,
-  DKErrorInvalidObjectID,
+  DKErrorInvalidEntityID,
   DKErrorInvalidJSON,
   DKErrorConnectionFailed = 200,
   DKErrorOperationFailed = 300,
