@@ -41,98 +41,98 @@ typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
 /*!
  @method initWithName:
  @param entityName The name of the entity
- @return Initialized object.
- @abstract Initialized an object with the given entity type.
+ @return Initialized entity.
+ @abstract Initialize a new entity named |entityName|.
  */
 - (id)initWithName:(NSString *)entityName;
 
 /*!
  @method reset
- @abstract Resets the object to it's last saved state.
+ @abstract Resets the entity to it's last saved state.
  */
 - (void)reset;
 
 /*!
  @method save
- @return YES on success, NO if an error occurred.
- @abstract Saves changes made to object.
+ @return YES on success, NO if error occurred.
+ @abstract Saves changes made to entity.
  */
 - (BOOL)save;
 
 /*!
  @method save:
- @param error Is set to an error object if error occurred.
+ @param error Is set to an error if error occurred.
  @return YES on success, NO if an error occurred.
- @abstract Saves changes made to object.
+ @abstract Saves changes made to entity.
  */
 - (BOOL)save:(NSError **)error;
 
 /*!
  @method saveInBackground
- @abstract Saves changes made to object in background.
+ @abstract Saves changes made to entity in background.
  */
 - (void)saveInBackground;
 
 /*!
  @method saveInBackgroundWithBlock:
  @param block The callback block
- @abstract Saves changes made to object in background and invokes callback on completion.
+ @abstract Saves changes made to entity in background and invokes callback on completion.
  */
 - (void)saveInBackgroundWithBlock:(DKEntityResultBlock)block;
 
 /*!
  @method refresh
  @return YES on success, NO if an error occurred.
- @abstract Refreshes object with data stored on the server.
+ @abstract Refreshes entity with data stored on the server.
  */
 - (BOOL)refresh;
 
 /*!
  @method refresh:
- @param error Is set to an error object if error occurred.
+ @param error Is set to an error if error occurred.
  @return YES on success, NO if an error occurred.
- @abstract Refreshes object with data stored on the server.
+ @abstract Refreshes entity with data stored on the server.
  */
 - (BOOL)refresh:(NSError **)error;
 
 /*!
  @method refreshInBackground
- @abstract Refreshes object with data stored on the server in background.
+ @abstract Refreshes entity with data stored on the server in background.
  */
 - (void)refreshInBackground;
 
 /*!
  @method refreshInBackground:
  @param block The callback block
- @abstract Refreshes object with data stored on the server in background and invokes callback on completion.
+ @abstract Refreshes entity with data stored on the server in background and invokes callback on completion.
  */
 - (void)refreshInBackgroundWithBlock:(DKEntityResultBlock)block;
 
 /*!
  @method delete
  @return YES on success, NO if an error occurred.
- @abstract Deletes object.
+ @abstract Deletes entity.
  */
 - (BOOL)delete;
 
 /*!
  @method delete:
- @param error Is set to an error object if error occurred.
+ @param error Is set to an error if error occurred.
  @return YES on success, NO if an error occurred.
- @abstract Deletes object.
+ @abstract Deletes entity.
  */
 - (BOOL)delete:(NSError **)error;
 
 /*!
  @method deleteInBackground
- @abstract Deletes object in background.
+ @abstract Deletes entity in background.
  */
 - (void)deleteInBackground;
 
 /*!
  @method deleteInBackgroundWithBlock:
  @param block The callback block
- @abstract Deletes object in background and invokes callback on completion.
+ @abstract Deletes entity in background and invokes callback on completion.
  */
 - (void)deleteInBackgroundWithBlock:(DKEntityResultBlock)block;
 
