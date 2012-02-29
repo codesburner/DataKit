@@ -28,8 +28,7 @@ DKSynthesize(resultMap)
 
 // Database keys
 #define kDKEntityIDField @"_id"
-#define kDKEntityCreatedAtField @"_createdAt"
-#define kDKEntityUpdatedAtField @"_updatedAt"
+#define kDKEntityUpdatedField @"_updated"
 
 static dispatch_queue_t kDKObjectQueue_;
 
@@ -91,7 +90,7 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (NSDate *)updatedAt {
-  NSNumber *updatedAt = [self.resultMap objectForKey:kDKEntityUpdatedAtField];
+  NSNumber *updatedAt = [self.resultMap objectForKey:kDKEntityUpdatedField];
   if ([updatedAt isKindOfClass:[NSNumber class]]) {
     return [NSDate dateWithTimeIntervalSince1970:[updatedAt doubleValue]];
   }
@@ -99,9 +98,16 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (NSDate *)createdAt {
-  NSNumber *createdAt = [self.resultMap objectForKey:kDKEntityCreatedAtField];
-  if ([createdAt isKindOfClass:[NSNumber class]]) {
-    return [NSDate dateWithTimeIntervalSince1970:[createdAt doubleValue]];
+  NSString *eid = self.entityId;
+  if (eid.length > 8) {
+    // Parse the object id creation timestamp (firts 4 bytes of oid)
+    NSString *timestampHex = [eid substringToIndex:8];
+    NSScanner *scanner = [NSScanner scannerWithString:timestampHex];
+    
+    unsigned int timestamp;
+    if ([scanner scanHexInt:&timestamp]) {
+      return [NSDate dateWithTimeIntervalSince1970:timestamp];
+    }
   }
   return nil;
 }

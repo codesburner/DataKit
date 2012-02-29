@@ -17,8 +17,8 @@ typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
 @property (nonatomic, copy, readonly) NSString *entityName;
 @property (nonatomic, readonly) NSString *entityId;
 @property (nonatomic, readonly) DKPointer *entityPointer;
-@property (nonatomic, readonly) NSDate *updatedAt UNIMPLEMENTED;
-@property (nonatomic, readonly) NSDate *createdAt UNIMPLEMENTED;
+@property (nonatomic, readonly) NSDate *updatedAt;
+@property (nonatomic, readonly) NSDate *createdAt;
 @property (nonatomic, readonly) BOOL isNew;
 @property (nonatomic, readonly) BOOL isDirty;
 

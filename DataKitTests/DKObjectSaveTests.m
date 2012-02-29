@@ -34,7 +34,7 @@
   STAssertTrue(success, @"update should have been successful (return YES)");
   
   NSUInteger mapCount = object.resultMap.count;
-  STAssertEquals(mapCount, (NSUInteger)3, @"result map should have 3 elements, has %i", mapCount);
+  STAssertEquals(mapCount, (NSUInteger)4, @"result map should have 4 elements, has %i", mapCount);
   
   NSString *oid = [object objectForKey:@"_id"];
   NSString *name = [object objectForKey:@"name"];
@@ -43,6 +43,13 @@
   STAssertTrue(oid.length > 0, @"result map should have field '_id'");
   STAssertEqualObjects(name, @"Erik", @"result map should have name field set to 'Erik', is '%@'", name);
   STAssertEqualObjects(surname, @"Aigner", @"result map should have surname field set to 'Aigner', is '%@'", surname);
+  
+  NSTimeInterval createdAt = object.createdAt.timeIntervalSince1970;
+  NSTimeInterval updatedAt = object.updatedAt.timeIntervalSince1970;
+  NSTimeInterval createdNow = [[NSDate date] timeIntervalSince1970];
+  
+  STAssertEqualsWithAccuracy(createdAt, createdNow, 1.0, nil);
+  STAssertEqualsWithAccuracy(updatedAt, createdNow, 1.0, nil);
   
   // Update
   [object setObject:@"Stefan" forKey:@"name"];
@@ -54,7 +61,7 @@
   STAssertTrue(success, @"update should have been successful (return YES)");
   
   mapCount = object.resultMap.count;
-  STAssertEquals(mapCount, (NSUInteger)4, @"result map should have 4 elements, has %i", mapCount);
+  STAssertEquals(mapCount, (NSUInteger)5, @"result map should have 5 elements, has %i", mapCount);
   
   NSString *oid2 = [object objectForKey:@"_id"];
   name = [object objectForKey:@"name"];
@@ -67,6 +74,13 @@
   STAssertEqualObjects(surname, @"Aigner", @"result map should have surname field set to 'Aigner', is '%@'", surname);
   STAssertEqualObjects(more, @"More", @"result map should have more field set to 'More', is '%@'", surname);
   
+  createdAt = object.createdAt.timeIntervalSince1970;
+  updatedAt = object.updatedAt.timeIntervalSince1970;
+  NSTimeInterval updatedNow = [[NSDate date] timeIntervalSince1970];
+  
+  STAssertEqualsWithAccuracy(createdAt, createdNow, 1.0, nil);
+  STAssertEqualsWithAccuracy(updatedAt, updatedNow, 1.0, nil);
+  
   // Remove
   [object removeObjectForKey:@"more"];
   
@@ -76,10 +90,17 @@
   STAssertTrue(success, @"update (unset) should have been successful (return YES)");
   
   mapCount = object.resultMap.count;
-  STAssertEquals(mapCount, (NSUInteger)3, @"result map should have 3 elements, has %i", mapCount);
+  STAssertEquals(mapCount, (NSUInteger)4, @"result map should have 4 elements, has %i", mapCount);
   
   more = [object objectForKey:@"more"];
   STAssertNil(more, @"more field should have been deleted");
+  
+  createdAt = object.createdAt.timeIntervalSince1970;
+  updatedAt = object.updatedAt.timeIntervalSince1970;
+  updatedNow = [[NSDate date] timeIntervalSince1970];
+  
+  STAssertEqualsWithAccuracy(createdAt, createdNow, 1.0, nil);
+  STAssertEqualsWithAccuracy(updatedAt, updatedNow, 1.0, nil);
   
   // Refresh
   [object setObject:@"RefreshMeAway" forKey:@"refresh"];
@@ -93,7 +114,7 @@
   STAssertTrue(success, @"refresh should have been successful (return YES)");
   
   mapCount = object.resultMap.count;
-  STAssertEquals(mapCount, (NSUInteger)3, @"result map should have 3 elements, has %i", mapCount);
+  STAssertEquals(mapCount, (NSUInteger)4, @"result map should have 4 elements, has %i", mapCount);
   
   refreshField = [object objectForKey:@"refresh"];
   STAssertNil(refreshField, @"refresh field should have been cleared");
