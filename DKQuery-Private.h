@@ -12,4 +12,5 @@
 @property (nonatomic, copy, readwrite) NSString *entityName;
 @property (nonatomic, strong) NSMutableDictionary *queryMap;
 @property (nonatomic, strong) NSMutableArray *ors;
+@property (nonatomic, strong) NSMutableArray *ands;
 @end

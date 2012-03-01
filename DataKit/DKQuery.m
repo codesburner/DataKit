@@ -13,9 +13,9 @@
 #import "DKEntity.h"
 #import "DKEntity-Private.h"
 
-@interface DKQueryOrProxy : NSProxy
+@interface DKQueryConditionProxy : NSProxy
 
-+ (id)proxyForQuery:(DKQuery *)query;
++ (id)proxyForQuery:(DKQuery *)query conditionArray:(NSMutableArray *)array;
 
 @end
 
@@ -26,6 +26,7 @@ DKSynthesize(skip)
 DKSynthesize(cachePolicy)
 DKSynthesize(queryMap)
 DKSynthesize(ors)
+DKSynthesize(ands)
 
 + (DKQuery *)queryWithEntityName:(NSString *)entityName {
   return [[self alloc] initWithEntityName:entityName];
@@ -49,6 +50,7 @@ DKSynthesize(ors)
     self.entityName = entityName;
     self.queryMap = [NSMutableDictionary new];
     self.ors = [NSMutableArray new];
+    self.ands = [NSMutableArray new];
     self.cachePolicy = DKCachePolicyIgnoreCache;
   }
   return self;
@@ -57,10 +59,15 @@ DKSynthesize(ors)
 - (void)reset {
   [self.queryMap removeAllObjects];
   [self.ors removeAllObjects];
+  [self.ands removeAllObjects];
 }
 
 - (DKQuery *)or {
-  return [DKQueryOrProxy proxyForQuery:self];
+  return [DKQueryConditionProxy proxyForQuery:self conditionArray:self.ors];
+}
+
+- (DKQuery *)and {
+  return [DKQueryConditionProxy proxyForQuery:self conditionArray:self.ands];
 }
 
 - (void)orderAscendingByKey:(NSString *)key {
@@ -165,6 +172,9 @@ DKSynthesize(ors)
   if (self.ors.count > 0) {
     [requestDict setObject:self.ors forKey:@"or"];
   }
+  if (self.ands.count > 0) {
+    [requestDict setObject:self.ands forKey:@"and"];
+  }
   
   // Send request synchronously
   DKRequest *request = [DKRequest request];
@@ -254,14 +264,16 @@ DKSynthesize(ors)
 
 @end
 
-@implementation DKQueryOrProxy {
+@implementation DKQueryConditionProxy {
 @private
-  DKQuery *query_;
+  DKQuery         *query_;
+  NSMutableArray  *conditions_;
 }
 
-+ (id)proxyForQuery:(DKQuery *)query {
-  DKQueryOrProxy *proxy = [self alloc];
++ (id)proxyForQuery:(DKQuery *)query conditionArray:(NSMutableArray *)array {
+  DKQueryConditionProxy *proxy = [self alloc];
   proxy->query_ = query;
+  proxy->conditions_ = array;
   return proxy;
 }
 
@@ -272,7 +284,7 @@ DKSynthesize(ors)
   [invocation invokeWithTarget:query_];
 
   if (query_.queryMap.count > 0) {
-    [query_.ors addObject:query_.queryMap];
+    [conditions_ addObject:query_.queryMap];
   }
   query_.queryMap = queryMap;
 }

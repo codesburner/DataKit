@@ -49,9 +49,16 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
 /*!
  @method or
  @return or The OR proxy object.
- @abstract Add an OR condition using the OR proxy.
+ @abstract Add an OR condition using the proxy object.
  */
 - (DKQuery *)or;
+
+/*!
+ @method and
+ @return and The AND proxy object.
+ @abstract Add an AND condition using the proxy object.
+ */
+- (DKQuery *)and;
 
 - (void)orderAscendingByKey:(NSString *)key UNIMPLEMENTED;
 - (void)orderDescendingByKey:(NSString *)key UNIMPLEMENTED;
