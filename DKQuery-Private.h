@@ -11,4 +11,5 @@
 @interface DKQuery () // CLS_EXT
 @property (nonatomic, copy, readwrite) NSString *entityName;
 @property (nonatomic, strong) NSMutableDictionary *equalToMap;
+@property (nonatomic, strong) NSMutableDictionary *gltMap;
 @end

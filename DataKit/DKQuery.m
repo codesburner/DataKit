@@ -19,6 +19,7 @@ DKSynthesize(limit)
 DKSynthesize(skip)
 DKSynthesize(cachePolicy)
 DKSynthesize(equalToMap)
+DKSynthesize(gltMap)
 
 + (DKQuery *)queryWithEntityName:(NSString *)entityName {
   return [[self alloc] initWithEntityName:entityName];
@@ -41,6 +42,7 @@ DKSynthesize(equalToMap)
   if (self) {
     self.entityName = entityName;
     self.equalToMap = [NSMutableDictionary new];
+    self.gltMap = [NSMutableDictionary new];
     self.cachePolicy = DKCachePolicyIgnoreCache;
   }
   return self;
@@ -48,6 +50,7 @@ DKSynthesize(equalToMap)
 
 - (void)reset {
   [self.equalToMap removeAllObjects];
+  [self.gltMap removeAllObjects];
 }
 
 - (void)orderAscendingByKey:(NSString *)key {
@@ -63,19 +66,39 @@ DKSynthesize(equalToMap)
 }
 
 - (void)whereKey:(NSString *)key lessThan:(id)object {
-  
+  NSMutableDictionary *dict = [self.gltMap objectForKey:key];
+  if (dict == nil) {
+    dict = [NSMutableDictionary new];
+    [self.gltMap setObject:dict forKey:key];
+  }
+  [dict setObject:object forKey:@"$lt"];
 }
 
 - (void)whereKey:(NSString *)key lessThanOrEqualTo:(id)object {
-  
+  NSMutableDictionary *dict = [self.gltMap objectForKey:key];
+  if (dict == nil) {
+    dict = [NSMutableDictionary new];
+    [self.gltMap setObject:dict forKey:key];
+  }
+  [dict setObject:object forKey:@"$lte"];
 }
 
 - (void)whereKey:(NSString *)key greaterThan:(id)object {
-  
+  NSMutableDictionary *dict = [self.gltMap objectForKey:key];
+  if (dict == nil) {
+    dict = [NSMutableDictionary new];
+    [self.gltMap setObject:dict forKey:key];
+  }
+  [dict setObject:object forKey:@"$gt"];
 }
 
 - (void)whereKey:(NSString *)key greaterThanOrEqualTo:(id)object {
-  
+  NSMutableDictionary *dict = [self.gltMap objectForKey:key];
+  if (dict == nil) {
+    dict = [NSMutableDictionary new];
+    [self.gltMap setObject:dict forKey:key];
+  }
+  [dict setObject:object forKey:@"$gte"];
 }
 
 - (void)whereKey:(NSString *)key notEqualTo:(id)object {
@@ -128,6 +151,9 @@ DKSynthesize(equalToMap)
                                       self.entityName, @"entity", nil];
   if (self.equalToMap.count > 0) {
     [requestDict setObject:self.equalToMap forKey:@"eql"];
+  }
+  if (self.gltMap.count > 0) {
+    [requestDict setObject:self.gltMap forKey:@"glt"];
   }
   
   // Send request synchronously

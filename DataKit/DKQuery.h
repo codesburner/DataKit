@@ -57,10 +57,11 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
  */
 - (void)whereKey:(NSString *)key equalTo:(id)object;
 
-- (void)whereKey:(NSString *)key lessThan:(id)object UNIMPLEMENTED;
-- (void)whereKey:(NSString *)key lessThanOrEqualTo:(id)object UNIMPLEMENTED;
-- (void)whereKey:(NSString *)key greaterThan:(id)object UNIMPLEMENTED;
-- (void)whereKey:(NSString *)key greaterThanOrEqualTo:(id)object UNIMPLEMENTED;
+- (void)whereKey:(NSString *)key lessThan:(id)object;
+- (void)whereKey:(NSString *)key lessThanOrEqualTo:(id)object;
+- (void)whereKey:(NSString *)key greaterThan:(id)object;
+- (void)whereKey:(NSString *)key greaterThanOrEqualTo:(id)object;
+
 - (void)whereKey:(NSString *)key notEqualTo:(id)object UNIMPLEMENTED;
 - (void)whereKey:(NSString *)key containedIn:(NSArray *)array UNIMPLEMENTED;
 - (void)whereKey:(NSString *)key notContainedIn:(NSArray *)array UNIMPLEMENTED;
