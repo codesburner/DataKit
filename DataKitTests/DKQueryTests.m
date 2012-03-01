@@ -133,4 +133,51 @@
   [e1 delete];
 }
 
+- (void)testOrQuery {
+  NSString *entityName = @"QueryOr";
+  
+  DKEntity *e0 = [DKEntity entityWithName:entityName];
+  [e0 setObject:[NSNumber numberWithDouble:1.0] forKey:@"a"];
+  [e0 setObject:[NSNumber numberWithDouble:2.0] forKey:@"b"];
+  [e0 setObject:[NSNumber numberWithDouble:1.0] forKey:@"c"];
+  [e0 save];
+  
+  DKEntity *e1 = [DKEntity entityWithName:entityName];
+  [e1 setObject:[NSNumber numberWithDouble:2.0] forKey:@"a"];
+  [e1 setObject:[NSNumber numberWithDouble:1.0] forKey:@"b"];
+  [e1 setObject:[NSNumber numberWithDouble:1.0] forKey:@"c"];
+  [e1 save];
+  
+  DKEntity *e2 = [DKEntity entityWithName:entityName];
+  [e2 setObject:[NSNumber numberWithDouble:2.0] forKey:@"a"];
+  [e2 setObject:[NSNumber numberWithDouble:2.0] forKey:@"b"];
+  [e2 setObject:[NSNumber numberWithDouble:1.0] forKey:@"c"];
+  [e2 save];
+  
+  DKQuery *q = [DKQuery queryWithEntityName:entityName];
+  [[q or] whereKey:@"a" equalTo:[NSNumber numberWithDouble:1.0]];
+  [[q or] whereKey:@"b" equalTo:[NSNumber numberWithDouble:1.0]];
+  
+  NSError *error = nil;
+  NSArray *results = [q findAll:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertEquals(results.count, (NSUInteger)2, nil);
+  
+  DKEntity *r0 = [results objectAtIndex:0];
+  DKEntity *r1 = [results objectAtIndex:1];
+  
+  STAssertEqualObjects([r0 objectForKey:@"a"], [NSNumber numberWithDouble:1.0], nil);
+  STAssertEqualObjects([r0 objectForKey:@"b"], [NSNumber numberWithDouble:2.0], nil);
+  STAssertEqualObjects([r0 objectForKey:@"c"], [NSNumber numberWithDouble:1.0], nil);
+  
+  STAssertEqualObjects([r1 objectForKey:@"a"], [NSNumber numberWithDouble:2.0], nil);
+  STAssertEqualObjects([r1 objectForKey:@"b"], [NSNumber numberWithDouble:1.0], nil);
+  STAssertEqualObjects([r1 objectForKey:@"c"], [NSNumber numberWithDouble:1.0], nil);
+  
+  [e0 delete];
+  [e1 delete];
+  [e2 delete];
+}
+
 @end

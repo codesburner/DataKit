@@ -46,9 +46,15 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
  */
 - (void)reset;
 
+/*!
+ @method or
+ @return or The OR proxy object.
+ @abstract Add an OR condition using the OR proxy.
+ */
+- (DKQuery *)or;
+
 - (void)orderAscendingByKey:(NSString *)key UNIMPLEMENTED;
 - (void)orderDescendingByKey:(NSString *)key UNIMPLEMENTED;
-
 /*!
  @method whereKey:equalTo:
  @param key The entity key

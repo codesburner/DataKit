@@ -13,13 +13,19 @@
 #import "DKEntity.h"
 #import "DKEntity-Private.h"
 
+@interface DKQueryOrProxy : NSProxy
+
++ (id)proxyForQuery:(DKQuery *)query;
+
+@end
+
 @implementation DKQuery
 DKSynthesize(entityName)
 DKSynthesize(limit)
 DKSynthesize(skip)
 DKSynthesize(cachePolicy)
-DKSynthesize(equalToMap)
-DKSynthesize(gltMap)
+DKSynthesize(queryMap)
+DKSynthesize(ors)
 
 + (DKQuery *)queryWithEntityName:(NSString *)entityName {
   return [[self alloc] initWithEntityName:entityName];
@@ -41,16 +47,20 @@ DKSynthesize(gltMap)
   self = [super init];
   if (self) {
     self.entityName = entityName;
-    self.equalToMap = [NSMutableDictionary new];
-    self.gltMap = [NSMutableDictionary new];
+    self.queryMap = [NSMutableDictionary new];
+    self.ors = [NSMutableArray new];
     self.cachePolicy = DKCachePolicyIgnoreCache;
   }
   return self;
 }
 
 - (void)reset {
-  [self.equalToMap removeAllObjects];
-  [self.gltMap removeAllObjects];
+  [self.queryMap removeAllObjects];
+  [self.ors removeAllObjects];
+}
+
+- (DKQuery *)or {
+  return [DKQueryOrProxy proxyForQuery:self];
 }
 
 - (void)orderAscendingByKey:(NSString *)key {
@@ -62,41 +72,41 @@ DKSynthesize(gltMap)
 }
 
 - (void)whereKey:(NSString *)key equalTo:(id)object {
-  [self.equalToMap setObject:object forKey:key];
+  [self.queryMap setObject:object forKey:key];
 }
 
 - (void)whereKey:(NSString *)key lessThan:(id)object {
-  NSMutableDictionary *dict = [self.gltMap objectForKey:key];
+  NSMutableDictionary *dict = [self.queryMap objectForKey:key];
   if (dict == nil) {
     dict = [NSMutableDictionary new];
-    [self.gltMap setObject:dict forKey:key];
+    [self.queryMap setObject:dict forKey:key];
   }
   [dict setObject:object forKey:@"$lt"];
 }
 
 - (void)whereKey:(NSString *)key lessThanOrEqualTo:(id)object {
-  NSMutableDictionary *dict = [self.gltMap objectForKey:key];
+  NSMutableDictionary *dict = [self.queryMap objectForKey:key];
   if (dict == nil) {
     dict = [NSMutableDictionary new];
-    [self.gltMap setObject:dict forKey:key];
+    [self.queryMap setObject:dict forKey:key];
   }
   [dict setObject:object forKey:@"$lte"];
 }
 
 - (void)whereKey:(NSString *)key greaterThan:(id)object {
-  NSMutableDictionary *dict = [self.gltMap objectForKey:key];
+  NSMutableDictionary *dict = [self.queryMap objectForKey:key];
   if (dict == nil) {
     dict = [NSMutableDictionary new];
-    [self.gltMap setObject:dict forKey:key];
+    [self.queryMap setObject:dict forKey:key];
   }
   [dict setObject:object forKey:@"$gt"];
 }
 
 - (void)whereKey:(NSString *)key greaterThanOrEqualTo:(id)object {
-  NSMutableDictionary *dict = [self.gltMap objectForKey:key];
+  NSMutableDictionary *dict = [self.queryMap objectForKey:key];
   if (dict == nil) {
     dict = [NSMutableDictionary new];
-    [self.gltMap setObject:dict forKey:key];
+    [self.queryMap setObject:dict forKey:key];
   }
   [dict setObject:object forKey:@"$gte"];
 }
@@ -149,11 +159,11 @@ DKSynthesize(gltMap)
   // Create request dict
   NSMutableDictionary *requestDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                       self.entityName, @"entity", nil];
-  if (self.equalToMap.count > 0) {
-    [requestDict setObject:self.equalToMap forKey:@"eql"];
+  if (self.queryMap.count > 0) {
+    [requestDict setObject:self.queryMap forKey:@"q"];
   }
-  if (self.gltMap.count > 0) {
-    [requestDict setObject:self.gltMap forKey:@"glt"];
+  if (self.ors.count > 0) {
+    [requestDict setObject:self.ors forKey:@"or"];
   }
   
   // Send request synchronously
@@ -242,5 +252,33 @@ DKSynthesize(gltMap)
   
 }
 
+@end
+
+@implementation DKQueryOrProxy {
+@private
+  DKQuery *query_;
+}
+
++ (id)proxyForQuery:(DKQuery *)query {
+  DKQueryOrProxy *proxy = [self alloc];
+  proxy->query_ = query;
+  return proxy;
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation {
+  NSMutableDictionary *queryMap = query_.queryMap;
+  query_.queryMap = [NSMutableDictionary new];
+
+  [invocation invokeWithTarget:query_];
+
+  if (query_.queryMap.count > 0) {
+    [query_.ors addObject:query_.queryMap];
+  }
+  query_.queryMap = queryMap;
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
+  return [query_ methodSignatureForSelector:sel];
+}
 
 @end
