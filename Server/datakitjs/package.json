@@ -1,0 +1,12 @@
+{
+  "name": "datakit",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "2.5.6",
+    "mongodb": "0.9.9-3",
+    "sync": "v0.2.0"
+  },
+  "scripts": {
+    "sv": "supervisor -n error -w bin,lib,. run.js"
+  }
+}
