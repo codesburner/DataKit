@@ -466,4 +466,134 @@
   [e2 delete];
 }
 
+- (void)testRegexSafeString {
+  DKQuery *q = [DKQuery queryWithEntityName:@"SafeRegexTest"];
+  NSString *unsafeString = @"[some\\^$words.|in?*+(between)";
+  NSString *expectedString = @"\\[some\\\\\\^\\$words\\.\\|in\\?\\*\\+\\(between\\)";
+  NSString *safeString = [q makeRegexSafeString:unsafeString];
+  
+  STAssertEqualObjects(safeString, expectedString, @"%@", safeString);
+}
+
+- (void)testRegexQuery {
+  NSString *entityName = @"QueryRegex";
+  
+  DKEntity *e0 = [DKEntity entityWithName:entityName];
+  [e0 setObject:@"some words\nwith a newline\ninbetween" forKey:@"a"];
+  [e0 setObject:@"0" forKey:@"b"];
+  [e0 save];
+  
+  DKEntity *e1 = [DKEntity entityWithName:entityName];
+  [e1 setObject:@"another\nrandom regex\nstring" forKey:@"a"];
+  [e1 setObject:@"1" forKey:@"b"];
+  [e1 save];
+  
+  // Test standard regex
+  DKQuery *q = [DKQuery queryWithEntityName:entityName];
+  [q whereKey:@"a" matchesRegex:@"\\s+words"];
+  
+  NSError *error = nil;
+  NSArray *results = [q findAll:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertEquals(results.count, (NSUInteger)1, nil);
+  
+  DKEntity *r0 = [results lastObject];
+  
+  STAssertEqualObjects([r0 objectForKey:@"b"], @"0", nil);
+  
+  // Test multiline regex
+  DKQuery *q2 = [DKQuery queryWithEntityName:entityName];
+  [q2 whereKey:@"a" matchesRegex:@"regex$" options:DKRegexOptionMultiline];
+  
+  error = nil;
+  results = [q2 findAll:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertEquals(results.count, (NSUInteger)1, nil);
+  
+  r0 = [results lastObject];
+  
+  STAssertEqualObjects([r0 objectForKey:@"b"], @"1", nil);
+  
+  // Test multiline regex fail
+  DKQuery *q3 = [DKQuery queryWithEntityName:entityName];
+  [q3 whereKey:@"a" matchesRegex:@"regex$" options:0];
+  
+  error = nil;
+  results = [q3 findAll:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertEquals(results.count, (NSUInteger)0, nil);
+  
+  // Test dotall regex
+  DKQuery *q4 = [DKQuery queryWithEntityName:entityName];
+  [q4 whereKey:@"a" matchesRegex:@"regex.*string" options:DKRegexOptionDotall];
+  
+  error = nil;
+  results = [q4 findAll:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertEquals(results.count, (NSUInteger)1, nil);
+  
+  r0 = [results lastObject];
+  
+  STAssertEqualObjects([r0 objectForKey:@"b"], @"1", nil);
+  
+  // Test dotall regex fail
+  DKQuery *q5 = [DKQuery queryWithEntityName:entityName];
+  [q5 whereKey:@"a" matchesRegex:@"regex.*string" options:0];
+  
+  error = nil;
+  results = [q5 findAll:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertEquals(results.count, (NSUInteger)0, nil);
+  
+  // Test contains string (simple regex)
+  DKQuery *q6 = [DKQuery queryWithEntityName:entityName];
+  [q6 whereKey:@"a" containsString:@"newline\nin"];
+  
+  error = nil;
+  results = [q6 findAll:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertEquals(results.count, (NSUInteger)1, nil);
+  
+  r0 = [results lastObject];
+  
+  STAssertEqualObjects([r0 objectForKey:@"b"], @"0", nil);
+  
+  // Test prefix
+  DKQuery *q7 = [DKQuery queryWithEntityName:entityName];
+  [q7 whereKey:@"a" hasPrefix:@"some"];
+  
+  error = nil;
+  results = [q7 findAll:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertEquals(results.count, (NSUInteger)1, nil);
+  
+  r0 = [results lastObject];
+  
+  STAssertEqualObjects([r0 objectForKey:@"b"], @"0", nil);
+  
+  // Test suffix
+  DKQuery *q8 = [DKQuery queryWithEntityName:entityName];
+  [q8 whereKey:@"a" hasSuffix:@"ing"];
+  
+  error = nil;
+  results = [q8 findAll:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertEquals(results.count, (NSUInteger)1, nil);
+  
+  r0 = [results lastObject];
+  
+  STAssertEqualObjects([r0 objectForKey:@"b"], @"1", nil);
+  
+  [e0 delete];
+  [e1 delete];
+}
+
 @end

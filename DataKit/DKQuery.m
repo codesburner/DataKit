@@ -118,19 +118,42 @@ DKSynthesize(ands)
 }
 
 - (void)whereKey:(NSString *)key matchesRegex:(NSString *)regex {
-  
+  [self whereKey:key matchesRegex:regex options:0];
+}
+
+- (void)whereKey:(NSString *)key matchesRegex:(NSString *)regex options:(DKRegexOption)options {
+  NSMutableString *optionString = [NSMutableString new];
+  if ((options & DKRegexOptionCaseInsensitive) == DKRegexOptionCaseInsensitive) {
+    [optionString appendString:@"i"];
+  }
+  else if ((options & DKRegexOptionMultiline) == DKRegexOptionMultiline) {
+    [optionString appendString:@"m"];
+  }
+  else if ((options & DKRegexOptionDotall) == DKRegexOptionDotall) {
+    [optionString appendString:@"s"];
+  }
+  NSMutableDictionary *queryDict = [self queryDictForKey:key];
+  [queryDict setObject:regex forKey:@"$regex"];
+  if (optionString.length > 0) {
+    [queryDict setObject:optionString forKey:@"$options"];
+  }
 }
 
 - (void)whereKey:(NSString *)key containsString:(NSString *)string {
-  
+  NSString *safeString = [self makeRegexSafeString:string];
+  [self whereKey:key matchesRegex:safeString];
 }
 
-- (void)whereKey:(NSString *)key hasPrefix:(NSString *)string {
-  
+- (void)whereKey:(NSString *)key hasPrefix:(NSString *)prefix {
+  NSString *safeString = [self makeRegexSafeString:prefix];
+  NSString *regex = [NSString stringWithFormat:@"^%@", safeString];
+  [self whereKey:key matchesRegex:regex];
 }
 
-- (void)whereKey:(NSString *)key hasSuffix:(NSString *)string {
-  
+- (void)whereKey:(NSString *)key hasSuffix:(NSString *)suffix {
+  NSString *safeString = [self makeRegexSafeString:suffix];
+  NSString *regex = [NSString stringWithFormat:@"%@$", safeString];
+  [self whereKey:key matchesRegex:regex];
 }
 
 - (void)whereKeyExists:(NSString *)key {
@@ -301,6 +324,49 @@ DKSynthesize(ands)
   }
   
   return dict;
+}
+
+- (NSString *)makeRegexSafeString:(NSString *)string {
+  // There are 11 special regex characters we need to escape!
+  // 1: the opening square bracket [
+  // 2: the backslash \
+  // 3: the caret ^
+  // 4: the dollar sign $
+  // 5: the period or dot .
+  // 6: the vertical bar or pipe symbol |
+  // 7: the question mark ?
+  // 8: the asterisk or star *
+  // 9: the plus sign +
+  // 10: the opening round bracket (
+  // 11: and the closing round bracket )  
+  CFStringRef strIn = (__bridge CFStringRef)string;
+  CFMutableStringRef accu = CFStringCreateMutable(NULL, string.length * 2);
+  
+  for (NSUInteger loc=0; loc<string.length; loc++) {
+    unichar c =  CFStringGetCharacterAtIndex(strIn, loc);
+    BOOL escape = NO;
+    switch (c) {
+      case '[':
+      case '\\':
+      case '^':
+      case '$':
+      case '.':
+      case '|':
+      case '?':
+      case '*':
+      case '+':
+      case '(':
+      case ')': escape = YES; break;
+    }
+    if (escape) {
+      CFStringAppend(accu, CFSTR("\\"));
+    }
+    CFStringRef s = CFStringCreateWithCharacters(NULL, &c, 1);
+    CFStringAppend(accu, s);
+    CFRelease(s);
+  };
+  
+  return CFBridgingRelease(accu);
 }
 
 @end

@@ -30,3 +30,10 @@ enum {
   DKErrorOperationReturnedUnknownStatus
 };
 typedef NSInteger DKError;
+
+enum {
+  DKRegexOptionCaseInsensitive = (1 << 0),
+  DKRegexOptionMultiline = (1 << 1),
+  DKRegexOptionDotall = (1 << 2)
+};
+typedef NSInteger DKRegexOption;

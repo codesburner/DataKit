@@ -19,5 +19,6 @@
 @interface DKQuery (Private)
 
 - (NSMutableDictionary*)queryDictForKey:(NSString *)key;
+- (NSString *)makeRegexSafeString:(NSString *)string;
 
 @end

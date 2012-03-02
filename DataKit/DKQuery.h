@@ -160,10 +160,41 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
  */
 - (void)whereKey:(NSString *)key containsAllIn:(NSArray *)array;
 
-- (void)whereKey:(NSString *)key matchesRegex:(NSString *)regex UNIMPLEMENTED;
-- (void)whereKey:(NSString *)key containsString:(NSString *)string UNIMPLEMENTED;
-- (void)whereKey:(NSString *)key hasPrefix:(NSString *)string UNIMPLEMENTED;
-- (void)whereKey:(NSString *)key hasSuffix:(NSString *)string UNIMPLEMENTED;
+/*!
+ @param key The entity key
+ @param regex The regex to match
+ @abstract Matches the regex with no options set
+ */
+- (void)whereKey:(NSString *)key matchesRegex:(NSString *)regex;
+
+/*!
+ @param key The entity key
+ @param regex The regex to match
+ @param options The regex options
+ @abstract Matches the regex using the provided option mask
+ */
+- (void)whereKey:(NSString *)key matchesRegex:(NSString *)regex options:(DKRegexOption)options;
+
+/*!
+ @param key The entity key
+ @param string The string to match
+ @abstract Checks if the object for key contains the string
+ */
+- (void)whereKey:(NSString *)key containsString:(NSString *)string;
+
+/*!
+ @param key The entity key
+ @param prefix The prefix string to match
+ @abstract Checks if the object for key has the given prefix
+ */
+- (void)whereKey:(NSString *)key hasPrefix:(NSString *)prefix;
+
+/*!
+ @param key The entity key
+ @param prefix The suffix string to match
+ @abstract Checks if the object for key has the given suffix
+ */
+- (void)whereKey:(NSString *)key hasSuffix:(NSString *)suffix;
 
 /*!
  @method whereKeyExists:
