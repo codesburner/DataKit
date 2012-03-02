@@ -62,17 +62,45 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
 
 - (void)orderAscendingByKey:(NSString *)key UNIMPLEMENTED;
 - (void)orderDescendingByKey:(NSString *)key UNIMPLEMENTED;
+
 /*!
  @method whereKey:equalTo:
  @param key The entity key
- @param object The object to check for equality.
+ @param object The condition object
  @abstract Adds an equal condition to the query.
  */
 - (void)whereKey:(NSString *)key equalTo:(id)object;
 
+/*!
+ @method whereKey:lessThan:
+ @param key The entity key
+ @param object The condition object
+ @abstract Adds a less-than condition to the query.
+ */
 - (void)whereKey:(NSString *)key lessThan:(id)object;
+
+/*!
+ @method whereKey:lessThanOrEqualTo:
+ @param key The entity key
+ @param object The condition object
+ @abstract Adds a less-than-or-equal condition to the query.
+ */
 - (void)whereKey:(NSString *)key lessThanOrEqualTo:(id)object;
+
+/*!
+ @method whereKey:greaterThan:
+ @param key The entity key
+ @param object The condition object
+ @abstract Adds a greater-than condition to the query.
+ */
 - (void)whereKey:(NSString *)key greaterThan:(id)object;
+
+/*!
+ @method
+ @param key The entity key
+ @param object The condition object
+ @abstract Adds a greater-than-or-equal condition to the query.
+ */
 - (void)whereKey:(NSString *)key greaterThanOrEqualTo:(id)object;
 
 - (void)whereKey:(NSString *)key notEqualTo:(id)object UNIMPLEMENTED;
