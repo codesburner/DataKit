@@ -11,6 +11,13 @@
 @interface DKQuery () // CLS_EXT
 @property (nonatomic, copy, readwrite) NSString *entityName;
 @property (nonatomic, strong) NSMutableDictionary *queryMap;
+@property (nonatomic, strong) NSMutableDictionary *sort;
 @property (nonatomic, strong) NSMutableArray *ors;
 @property (nonatomic, strong) NSMutableArray *ands;
+@end
+
+@interface DKQuery (Private)
+
+- (NSMutableDictionary*)queryDictForKey:(NSString *)key;
+
 @end

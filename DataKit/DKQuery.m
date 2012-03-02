@@ -25,6 +25,7 @@ DKSynthesize(limit)
 DKSynthesize(skip)
 DKSynthesize(cachePolicy)
 DKSynthesize(queryMap)
+DKSynthesize(sort)
 DKSynthesize(ors)
 DKSynthesize(ands)
 
@@ -49,6 +50,7 @@ DKSynthesize(ands)
   if (self) {
     self.entityName = entityName;
     self.queryMap = [NSMutableDictionary new];
+    self.sort = [NSMutableDictionary new];
     self.ors = [NSMutableArray new];
     self.ands = [NSMutableArray new];
     self.cachePolicy = DKCachePolicyIgnoreCache;
@@ -58,6 +60,7 @@ DKSynthesize(ands)
 
 - (void)reset {
   [self.queryMap removeAllObjects];
+  [self.sort removeAllObjects];
   [self.ors removeAllObjects];
   [self.ands removeAllObjects];
 }
@@ -71,11 +74,11 @@ DKSynthesize(ands)
 }
 
 - (void)orderAscendingByKey:(NSString *)key {
-  
+  [self.sort setObject:[NSNumber numberWithInteger:1] forKey:key];
 }
 
 - (void)orderDescendingByKey:(NSString *)key {
-  
+  [self.sort setObject:[NSNumber numberWithInteger:-1] forKey:key];
 }
 
 - (void)whereKey:(NSString *)key equalTo:(id)object {
@@ -83,51 +86,35 @@ DKSynthesize(ands)
 }
 
 - (void)whereKey:(NSString *)key lessThan:(id)object {
-  NSMutableDictionary *dict = [self.queryMap objectForKey:key];
-  if (dict == nil) {
-    dict = [NSMutableDictionary new];
-    [self.queryMap setObject:dict forKey:key];
-  }
-  [dict setObject:object forKey:@"$lt"];
+  [[self queryDictForKey:key] setObject:object forKey:@"$lt"];
 }
 
 - (void)whereKey:(NSString *)key lessThanOrEqualTo:(id)object {
-  NSMutableDictionary *dict = [self.queryMap objectForKey:key];
-  if (dict == nil) {
-    dict = [NSMutableDictionary new];
-    [self.queryMap setObject:dict forKey:key];
-  }
-  [dict setObject:object forKey:@"$lte"];
+  [[self queryDictForKey:key] setObject:object forKey:@"$lte"];
 }
 
 - (void)whereKey:(NSString *)key greaterThan:(id)object {
-  NSMutableDictionary *dict = [self.queryMap objectForKey:key];
-  if (dict == nil) {
-    dict = [NSMutableDictionary new];
-    [self.queryMap setObject:dict forKey:key];
-  }
-  [dict setObject:object forKey:@"$gt"];
+  [[self queryDictForKey:key] setObject:object forKey:@"$gt"];
 }
 
 - (void)whereKey:(NSString *)key greaterThanOrEqualTo:(id)object {
-  NSMutableDictionary *dict = [self.queryMap objectForKey:key];
-  if (dict == nil) {
-    dict = [NSMutableDictionary new];
-    [self.queryMap setObject:dict forKey:key];
-  }
-  [dict setObject:object forKey:@"$gte"];
+  [[self queryDictForKey:key] setObject:object forKey:@"$gte"];
 }
 
 - (void)whereKey:(NSString *)key notEqualTo:(id)object {
-  
+  [[self queryDictForKey:key] setObject:object forKey:@"$ne"];
 }
 
 - (void)whereKey:(NSString *)key containedIn:(NSArray *)array {
-  
+  [[self queryDictForKey:key] setObject:array forKey:@"$in"];
 }
 
 - (void)whereKey:(NSString *)key notContainedIn:(NSArray *)array {
-  
+  [[self queryDictForKey:key] setObject:array forKey:@"$nin"];
+}
+
+- (void)whereKey:(NSString *)key containsAllIn:(NSArray *)array {
+  [[self queryDictForKey:key] setObject:array forKey:@"$all"];
 }
 
 - (void)whereKey:(NSString *)key matchesRegex:(NSString *)regex {
@@ -147,11 +134,11 @@ DKSynthesize(ands)
 }
 
 - (void)whereKeyExists:(NSString *)key {
-  
+  [[self queryDictForKey:key] setObject:[NSNumber numberWithBool:YES] forKey:@"$exists"];
 }
 
 - (void)whereKeyDoesNotExist:(NSString *)key {
-  
+  [[self queryDictForKey:key] setObject:[NSNumber numberWithBool:NO] forKey:@"$exists"];
 }
 
 - (void)includeKey:(NSString *)key {
@@ -174,6 +161,15 @@ DKSynthesize(ands)
   }
   if (self.ands.count > 0) {
     [requestDict setObject:self.ands forKey:@"and"];
+  }
+  if (self.sort.count > 0) {
+    [requestDict setObject:self.sort forKey:@"sort"];
+  }
+  if (self.limit > 0) {
+    [requestDict setObject:[NSNumber numberWithUnsignedInteger:self.limit] forKey:@"limit"];
+  }
+  if (self.skip > 0) {
+    [requestDict setObject:[NSNumber numberWithUnsignedInteger:self.skip] forKey:@"skip"];
   }
   
   // Send request synchronously
@@ -291,6 +287,20 @@ DKSynthesize(ands)
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
   return [query_ methodSignatureForSelector:sel];
+}
+
+@end
+
+@implementation DKQuery (Private)
+
+- (NSMutableDictionary*)queryDictForKey:(NSString *)key {
+  NSMutableDictionary *dict = [self.queryMap objectForKey:key];
+  if (dict == nil) {
+    dict = [NSMutableDictionary new];
+    [self.queryMap setObject:dict forKey:key];
+  }
+  
+  return dict;
 }
 
 @end

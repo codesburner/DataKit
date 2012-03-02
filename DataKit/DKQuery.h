@@ -15,8 +15,19 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
 
 @interface DKQuery : NSObject
 @property (nonatomic, copy, readonly) NSString *entityName;
-@property (nonatomic, assign) NSUInteger limit UNIMPLEMENTED;
-@property (nonatomic, assign) NSUInteger skip UNIMPLEMENTED;
+
+/*!
+ @property limit 
+ @abstract Limit of query results.
+ */
+@property (nonatomic, assign) NSUInteger limit;
+
+/*!
+ @property skip
+ @abstract Number of results to skip.
+ */
+@property (nonatomic, assign) NSUInteger skip;
+
 @property (nonatomic, assign) DKCachePolicy cachePolicy;
 
 /*!
@@ -60,8 +71,19 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
  */
 - (DKQuery *)and;
 
-- (void)orderAscendingByKey:(NSString *)key UNIMPLEMENTED;
-- (void)orderDescendingByKey:(NSString *)key UNIMPLEMENTED;
+/*!
+ @method orderAscendingByKey:
+ @param key The sort key
+ @abstract Sorts the query in ascending order by key.
+ */
+- (void)orderAscendingByKey:(NSString *)key;
+
+/*!
+ @method orderDescendingByKey:
+ @param key The sort key
+ @abstract Sorts the query in descending order by key.
+ */
+- (void)orderDescendingByKey:(NSString *)key;
 
 /*!
  @method whereKey:equalTo:
@@ -103,15 +125,60 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
  */
 - (void)whereKey:(NSString *)key greaterThanOrEqualTo:(id)object;
 
-- (void)whereKey:(NSString *)key notEqualTo:(id)object UNIMPLEMENTED;
-- (void)whereKey:(NSString *)key containedIn:(NSArray *)array UNIMPLEMENTED;
-- (void)whereKey:(NSString *)key notContainedIn:(NSArray *)array UNIMPLEMENTED;
+/*!
+ @method whereKey:notEqualTo:
+ @param key The entity key
+ @param object The condition object
+ @abstract Adds an not-equal condition to the query.
+ */
+- (void)whereKey:(NSString *)key notEqualTo:(id)object;
+
+/*!
+ @method whereKey:containedIn:
+ @param key The entity key
+ @param object The condition object
+ @abstract Adds an contained-in condition to the query.
+ @discussion The key value must be contained in the given array.
+ */
+- (void)whereKey:(NSString *)key containedIn:(NSArray *)array;
+
+/*!
+ @method whereKey:notContainedIn:
+ @param key The entity key
+ @param object The condition object
+ @abstract Adds an not-contained-in condition to the query.
+ @discussion The key value must not be contained in the given array.
+ */
+- (void)whereKey:(NSString *)key notContainedIn:(NSArray *)array;
+
+/*!
+ @method whereKey:containsAllIn:
+ @param key The entity key
+ @param object The condition object
+ @abstract Adds an contains-all condition to the query.
+ @discussion The key value must contain all values in the given array.
+ */
+- (void)whereKey:(NSString *)key containsAllIn:(NSArray *)array;
+
 - (void)whereKey:(NSString *)key matchesRegex:(NSString *)regex UNIMPLEMENTED;
 - (void)whereKey:(NSString *)key containsString:(NSString *)string UNIMPLEMENTED;
 - (void)whereKey:(NSString *)key hasPrefix:(NSString *)string UNIMPLEMENTED;
 - (void)whereKey:(NSString *)key hasSuffix:(NSString *)string UNIMPLEMENTED;
-- (void)whereKeyExists:(NSString *)key UNIMPLEMENTED;
-- (void)whereKeyDoesNotExist:(NSString *)key UNIMPLEMENTED;
+
+/*!
+ @method whereKeyExists:
+ @param key The entity key
+ @abstract Checks if the entity key exists.
+ */
+- (void)whereKeyExists:(NSString *)key;
+
+/*!
+ @method whereKeyExists:
+ @param key The entity key
+ @abstract Checks if the entity key does not exist.
+ */
+- (void)whereKeyDoesNotExist:(NSString *)key;
+
 - (void)includeKey:(NSString *)key UNIMPLEMENTED;
 
 /*!
