@@ -23,6 +23,7 @@
 
 @interface DKEntity (Private)
 
+- (id)validateAndConvertObject:(id)obj;
 - (BOOL)hasEntityId:(NSError **)error;
 - (BOOL)hasEntityName:(NSError **)error;
 - (BOOL)commitObjectResultMap:(NSDictionary *)resultMap error:(NSError **)error;
