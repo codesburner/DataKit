@@ -1,18 +1,18 @@
 //
-//  DKObjectSaveTests.m
+//  DKEntityTests.m
 //  DataKit
 //
 //  Created by Erik Aigner on 24.02.12.
 //  Copyright (c) 2012 chocomoko.com. All rights reserved.
 //
 
-#import "DKObjectSaveTests.h"
+#import "DKEntityTests.h"
 
 #import "DataKit.h"
 #import "DKEntity-Private.h"
 #import "NSData+DataKit.h"
 
-@implementation DKObjectSaveTests
+@implementation DKEntityTests
 
 - (void)setUp {
   [DKManager setAPIEndpoint:@"http://localhost:3000"];

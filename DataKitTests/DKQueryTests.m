@@ -12,8 +12,14 @@
 #import "DKEntity-Private.h"
 #import "DKQuery.h"
 #import "DKQuery-Private.h"
+#import "DKManager.h"
 
 @implementation DKQueryTests
+
+- (void)setUp {
+  [DKManager setAPIEndpoint:@"http://localhost:3000"];
+  [DKManager setAPISecret:@"c821a09ebf01e090a46b6bbe8b21bcb36eb5b432265a51a76739c20472908989"];
+}
 
 - (void)testEqualNotEqualToQuery {
   DKEntity *e0 = [DKEntity entityWithName:@"QueryEql"];
@@ -40,8 +46,8 @@
   NSTimeInterval updatedAt = result.updatedAt.timeIntervalSince1970;
   
   STAssertNotNil(result.entityId, nil);
-  STAssertEqualsWithAccuracy(createdAt, now, 1.0, nil);
-  STAssertEqualsWithAccuracy(updatedAt, now, 1.0, nil);
+  STAssertEqualsWithAccuracy(createdAt, now, 2.0, nil);
+  STAssertEqualsWithAccuracy(updatedAt, now, 2.0, nil);
   STAssertEqualObjects([result objectForKey:@"name"], @"obelix", nil);
   
   // Fetch matching not 'obelix'
@@ -60,8 +66,8 @@
   updatedAt = result.updatedAt.timeIntervalSince1970;
   
   STAssertNotNil(result.entityId, nil);
-  STAssertEqualsWithAccuracy(createdAt, now, 1.0, nil);
-  STAssertEqualsWithAccuracy(updatedAt, now, 1.0, nil);
+  STAssertEqualsWithAccuracy(createdAt, now, 2.0, nil);
+  STAssertEqualsWithAccuracy(updatedAt, now, 2.0, nil);
   STAssertEqualObjects([result objectForKey:@"name"], @"asterix", nil);
   
   // Fetch all

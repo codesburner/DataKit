@@ -1,5 +1,5 @@
 //
-//  DKObjectSaveTests.h
+//  DKEntityTests.h
 //  DataKit
 //
 //  Created by Erik Aigner on 24.02.12.
@@ -8,6 +8,6 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-@interface DKObjectSaveTests : SenTestCase
+@interface DKEntityTests : SenTestCase
 
 @end

@@ -26,14 +26,14 @@ DKSynthesize(popMap)
 DKSynthesize(pullAllMap)
 DKSynthesize(resultMap)
 
-// Database keys
 #define kDKEntityIDField @"_id"
 #define kDKEntityUpdatedField @"_updated"
+#define kDKEntityDataDictKey @"!dkdata"
 
 static dispatch_queue_t kDKObjectQueue_;
 
 + (void)initialize {
-  kDKObjectQueue_ = dispatch_queue_create("datakit-entity-queue", DISPATCH_QUEUE_SERIAL);
+  kDKObjectQueue_ = dispatch_queue_create("entity queue", DISPATCH_QUEUE_SERIAL);
 }
 
 + (DKEntity *)entityWithName:(NSString *)entityName {
@@ -324,6 +324,12 @@ static dispatch_queue_t kDKObjectQueue_;
   if (obj == nil) {
     obj = [self.resultMap objectForKey:key];
   }
+  if ([obj isKindOfClass:[NSDictionary class]]) {
+    NSString *base64 = [obj objectForKey:kDKEntityDataDictKey];
+    if (base64.length > 0) {
+      return [NSData dataWithBase64String:base64];
+    }
+  }
   return obj;
 }
 
@@ -336,27 +342,26 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (void)setObject:(id)object forKey:(NSString *)key {
-  object = [self validateAndConvertObject:object];
+  if ([object isKindOfClass:[NSData class]]) {
+    object = [NSDictionary dictionaryWithObject:[(NSData *)object base64String]
+                                         forKey:kDKEntityDataDictKey];
+  }
   [self.setMap setObject:object forKey:key];
 }
 
 - (void)pushObject:(id)object forKey:(NSString *)key {
-  object = [self validateAndConvertObject:object];
   [self.pushMap setObject:object forKey:key];
 }
 
 - (void)pushAllObjects:(NSArray *)objects forKey:(NSString *)key {
-  objects = [self validateAndConvertObject:objects];
   [self.pushAllMap setObject:objects forKey:key];
 }
 
 - (void)addObjectToSet:(id)object forKey:(NSString *)key {
-  object = [self validateAndConvertObject:object];
   [self addAllObjectsToSet:[NSArray arrayWithObject:object] forKey:key];
 }
 
 - (void)addAllObjectsToSet:(NSArray *)objects forKey:(NSString *)key {
-  objects = [self validateAndConvertObject:objects];
   NSMutableArray *list = [self.addToSetMap objectForKey:key];
   if (list == nil) {
     list = [NSMutableArray new];
@@ -382,13 +387,11 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (void)pullObject:(id)object forKey:(NSString *)key {
-  object = [self validateAndConvertObject:object];
   [self pullAllObjects:[NSArray arrayWithObject:object] forKey:key];
 }
 
 - (void)pullAllObjects:(NSArray *)objects forKey:(NSString *)key {
-  [self.pullAllMap setObject:[self validateAndConvertObject:objects]
-                      forKey:key];
+  [self.pullAllMap setObject:objects forKey:key];
 }
 
 - (void)removeObjectForKey:(NSString *)key {
@@ -440,42 +443,6 @@ static dispatch_queue_t kDKObjectQueue_;
 @end
 
 @implementation DKEntity (Private)
-
-- (id)validateAndConvertObject:(id)obj {
-  // Valid classes: NSString, NSNumber, NSArray, NSDictionary, or NSNull
-  if ([obj isKindOfClass:[NSString class]] ||
-      [obj isKindOfClass:[NSNumber class]] ||
-      [obj isKindOfClass:[NSNull class]]) {
-    return obj;
-  }
-  else if ([obj isKindOfClass:[NSData class]]) {
-    return [(NSData *)obj base64String];
-  }
-  else if ([obj isKindOfClass:[NSArray class]]) {
-    NSMutableArray *ary = [NSMutableArray new];
-    for (id obj2 in obj) {
-      [ary addObject:[self validateAndConvertObject:obj2]];
-    }
-    return [NSArray arrayWithArray:ary];
-  }
-  else if ([obj isKindOfClass:[NSDictionary class]]) {
-    NSMutableDictionary *dict = [NSMutableDictionary new];
-    for (NSString *key in obj) {
-      id obj2 = [(NSDictionary *)obj objectForKey:key];
-      [dict setObject:[self validateAndConvertObject:obj2]
-               forKey:key];
-    }
-    return [NSDictionary dictionaryWithDictionary:dict];
-  }
-  else if ([obj conformsToProtocol:@protocol(NSCoding)]) {
-    return [NSKeyedArchiver archivedDataWithRootObject:obj];
-  }
-  else {
-    [NSException raise:NSInvalidArgumentException
-                format:@"Object invalid, must be of type NSString, NSNumber, NSArray, NSDictionary, NSData or NSNull"];
-  }
-  return nil;
-}
 
 - (BOOL)hasEntityId:(NSError **)error {
   if (self.entityId.length == 0) {

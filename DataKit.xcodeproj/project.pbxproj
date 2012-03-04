@@ -28,9 +28,10 @@
 		DC5B610D14F7B1FE00CC5B42 /* DKRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DC5B610B14F7B1FE00CC5B42 /* DKRequest.m */; };
 		DC5B611514F7E6CD00CC5B42 /* NSError+DataKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DC5B611314F7E6CD00CC5B42 /* NSError+DataKit.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		DC5B611614F7E6CD00CC5B42 /* NSError+DataKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DC5B611414F7E6CD00CC5B42 /* NSError+DataKit.m */; };
-		DC5B611914F7F81200CC5B42 /* DKObjectSaveTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DC5B611814F7F81200CC5B42 /* DKObjectSaveTests.m */; };
+		DC5B611914F7F81200CC5B42 /* DKEntityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DC5B611814F7F81200CC5B42 /* DKEntityTests.m */; };
 		DC61AC7C14FCFE3B003A9057 /* NSString+DataKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DC61AC7A14FCFE3B003A9057 /* NSString+DataKit.h */; };
 		DC61AC7D14FCFE3B003A9057 /* NSString+DataKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DC61AC7B14FCFE3B003A9057 /* NSString+DataKit.m */; };
+		DC78ACA51503C3DA00CC6BCD /* DKEntityEncodeDecodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DC78ACA41503C3DA00CC6BCD /* DKEntityEncodeDecodeTests.m */; };
 		DC90FF9014FE4F9300F52435 /* DKQuery-Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DC90FF8E14FE4F9200F52435 /* DKQuery-Private.h */; };
 		DC90FF9414FE872700F52435 /* DKQueryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DC90FF9314FE872700F52435 /* DKQueryTests.m */; };
 		DCCC897714F804C600FA77A1 /* DKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = DC5B610E14F7B21E00CC5B42 /* DKConstants.h */; };
@@ -73,10 +74,12 @@
 		DC5B610E14F7B21E00CC5B42 /* DKConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKConstants.h; sourceTree = "<group>"; };
 		DC5B611314F7E6CD00CC5B42 /* NSError+DataKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+DataKit.h"; sourceTree = "<group>"; };
 		DC5B611414F7E6CD00CC5B42 /* NSError+DataKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+DataKit.m"; sourceTree = "<group>"; };
-		DC5B611714F7F81200CC5B42 /* DKObjectSaveTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKObjectSaveTests.h; sourceTree = "<group>"; };
-		DC5B611814F7F81200CC5B42 /* DKObjectSaveTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKObjectSaveTests.m; sourceTree = "<group>"; };
+		DC5B611714F7F81200CC5B42 /* DKEntityTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKEntityTests.h; sourceTree = "<group>"; };
+		DC5B611814F7F81200CC5B42 /* DKEntityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKEntityTests.m; sourceTree = "<group>"; };
 		DC61AC7A14FCFE3B003A9057 /* NSString+DataKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DataKit.h"; sourceTree = "<group>"; };
 		DC61AC7B14FCFE3B003A9057 /* NSString+DataKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+DataKit.m"; sourceTree = "<group>"; };
+		DC78ACA31503C3DA00CC6BCD /* DKEntityEncodeDecodeTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKEntityEncodeDecodeTests.h; sourceTree = "<group>"; };
+		DC78ACA41503C3DA00CC6BCD /* DKEntityEncodeDecodeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKEntityEncodeDecodeTests.m; sourceTree = "<group>"; };
 		DC90FF8E14FE4F9200F52435 /* DKQuery-Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DKQuery-Private.h"; sourceTree = "<group>"; };
 		DC90FF9214FE872700F52435 /* DKQueryTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKQueryTests.h; sourceTree = "<group>"; };
 		DC90FF9314FE872700F52435 /* DKQueryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKQueryTests.m; sourceTree = "<group>"; };
@@ -157,10 +160,12 @@
 			isa = PBXGroup;
 			children = (
 				DC03847714F68EA1000DADD6 /* Supporting Files */,
-				DC5B611714F7F81200CC5B42 /* DKObjectSaveTests.h */,
-				DC5B611814F7F81200CC5B42 /* DKObjectSaveTests.m */,
+				DC5B611714F7F81200CC5B42 /* DKEntityTests.h */,
+				DC5B611814F7F81200CC5B42 /* DKEntityTests.m */,
 				DC90FF9214FE872700F52435 /* DKQueryTests.h */,
 				DC90FF9314FE872700F52435 /* DKQueryTests.m */,
+				DC78ACA31503C3DA00CC6BCD /* DKEntityEncodeDecodeTests.h */,
+				DC78ACA41503C3DA00CC6BCD /* DKEntityEncodeDecodeTests.m */,
 			);
 			path = DataKitTests;
 			sourceTree = "<group>";
@@ -326,8 +331,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC5B611914F7F81200CC5B42 /* DKObjectSaveTests.m in Sources */,
+				DC5B611914F7F81200CC5B42 /* DKEntityTests.m in Sources */,
 				DC90FF9414FE872700F52435 /* DKQueryTests.m in Sources */,
+				DC78ACA51503C3DA00CC6BCD /* DKEntityEncodeDecodeTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

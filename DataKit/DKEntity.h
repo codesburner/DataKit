@@ -149,7 +149,7 @@ typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
 
 /*!
  @method setObject:forKey:
- @param object The object to store. Must be JSON compliant.
+ @param object The object to store. Must be JSON compliant or NSData.
  @param key The key for the object.
  @abstract Sets the object for the given key.
  */

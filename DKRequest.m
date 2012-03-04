@@ -99,8 +99,13 @@ DKSynthesize(cachePolicy)
     
     // A successful operation must not always return a JSON body
     if (data.length > 0) {
-      NSLog(@"data => %@", [[NSString alloc] initWithData:data
-                                                 encoding:NSUTF8StringEncoding]);
+#ifdef CONFIGURATION_Debug
+      NSString *dataStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+      if (dataStr.length < 800) {
+        NSLog(@"data => %@", dataStr);
+      }
+#endif
+      
       resultObj = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&JSONError];
     }
     if (JSONError != nil) {
