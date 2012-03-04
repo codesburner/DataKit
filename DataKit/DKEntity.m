@@ -148,34 +148,60 @@ static dispatch_queue_t kDKObjectQueue_;
     return YES;
   }
   
-  // TODO: Prevent use of '$' and '.' in objects/keys
+  // Prevent use of '!', '$' and '.' in keys
+  static NSCharacterSet *forbiddenChars;
+  if (forbiddenChars == nil) {
+    forbiddenChars = [NSCharacterSet characterSetWithCharactersInString:@"!$."];
+  }
+  
+  __block id (^validateKeys)(id obj);
+  validateKeys = [^(id obj) {
+    if ([obj isKindOfClass:[NSDictionary class]]) {
+      for (NSString *key in obj) {
+        NSRange range = [key rangeOfCharacterFromSet:forbiddenChars];
+        if (range.location != NSNotFound &&
+            ![key isEqualToString:kDKEntityDataDictKey]) {
+          [NSException raise:NSInvalidArgumentException
+                      format:@"Invalid object key '%@'. Keys may not contain '!', '$' or '.'", key];
+        }
+        id obj2 = [obj objectForKey:key];
+        validateKeys(obj2);
+      }
+    }
+    else if ([obj isKindOfClass:[NSArray class]]) {
+      for (id obj2 in obj) {
+        validateKeys(obj2);
+      }
+    }
+    return obj;
+  } copy];
   
   // Create request dict
   NSMutableDictionary *requestDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                       self.entityName, @"entity", nil];
   if (self.setMap.count > 0) {
-    [requestDict setObject:self.setMap forKey:@"set"];
+    [requestDict setObject:validateKeys(self.setMap) forKey:@"set"];
   }
   if (self.unsetMap.count > 0) {
-    [requestDict setObject:self.unsetMap forKey:@"unset"];
+    [requestDict setObject:validateKeys(self.unsetMap) forKey:@"unset"];
   }
   if (self.incMap.count > 0) {
-    [requestDict setObject:self.incMap forKey:@"inc"];
+    [requestDict setObject:validateKeys(self.incMap) forKey:@"inc"];
   }
   if (self.pushMap.count > 0) {
-    [requestDict setObject:self.pushMap forKey:@"push"];
+    [requestDict setObject:validateKeys(self.pushMap) forKey:@"push"];
   }
   if (self.pushAllMap.count > 0) {
-    [requestDict setObject:self.pushAllMap forKey:@"pushAll"];
+    [requestDict setObject:validateKeys(self.pushAllMap) forKey:@"pushAll"];
   }
   if (self.addToSetMap.count > 0) {
-    [requestDict setObject:self.addToSetMap forKey:@"addToSet"];
+    [requestDict setObject:validateKeys(self.addToSetMap) forKey:@"addToSet"];
   }
   if (self.popMap.count > 0) {
-    [requestDict setObject:self.popMap forKey:@"pop"];
+    [requestDict setObject:validateKeys(self.popMap) forKey:@"pop"];
   }
   if (self.pullAllMap.count > 0) {
-    [requestDict setObject:self.pullAllMap forKey:@"pullAll"];
+    [requestDict setObject:validateKeys(self.pullAllMap) forKey:@"pullAll"];
   }
   
   NSString *oid = self.entityId;
