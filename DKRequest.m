@@ -9,6 +9,7 @@
 #import "DKRequest.h"
 
 #import "DKManager.h"
+#import "DKRelation.h"
 #import "NSError+DataKit.h"
 
 @interface DKRequest ()
@@ -26,6 +27,9 @@
 @implementation DKRequest
 DKSynthesize(endpoint)
 DKSynthesize(cachePolicy)
+
+#define kDKObjectDataToken @"dkdata!"
+#define kDKObjectRelationToken @"dkrel!"
 
 + (DKRequest *)request {
   return [[self alloc] init];
@@ -48,7 +52,45 @@ DKSynthesize(cachePolicy)
   return self;
 }
 
+- (id)iterateJSON:(id)JSONObject modify:(id (^)(id obj))handler {
+  id converted = handler(JSONObject);
+  if ([converted isKindOfClass:[NSDictionary class]]) {
+    NSMutableDictionary *dict = [NSMutableDictionary new];
+    for (id key in converted) {
+      id obj = [converted objectForKey:key];
+      [dict setObject:[self iterateJSON:obj modify:handler]
+               forKey:key];
+    }
+    converted = [NSDictionary dictionaryWithDictionary:dict];
+  }
+  else if ([converted isKindOfClass:[NSArray class]]) {
+    NSMutableArray *ary = [NSMutableArray new];
+    for (id obj in converted) {
+      [ary addObject:[self iterateJSON:obj modify:handler]];
+    }
+    converted = [NSArray arrayWithArray:ary];
+  }
+  return converted;
+}
+
 - (id)sendRequestWithObject:(id)JSONObject method:(NSString *)apiMethod error:(NSError **)error {
+  // Encode special objects
+  JSONObject = [self iterateJSON:JSONObject modify:^id(id objectToModify) {
+    if ([objectToModify isKindOfClass:[NSData class]]) {
+      return [NSDictionary dictionaryWithObject:[(NSData *)objectToModify base64String]
+                                         forKey:kDKObjectDataToken];
+    }
+    else if ([objectToModify isKindOfClass:[DKRelation class]]) {
+      DKRelation *relation = (DKRelation *)objectToModify;
+      return [NSString stringWithFormat:@"%@%@!%@",
+              kDKObjectRelationToken,
+              relation.entityName,
+              relation.entityId];
+    }
+    return objectToModify;
+  }];
+  
+  // Create url request
   NSURL *URL = [NSURL URLWithString:[self.endpoint stringByAppendingPathComponent:apiMethod]];
   NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:URL];
   req.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
@@ -115,6 +157,29 @@ DKSynthesize(cachePolicy)
                    original:JSONError];
     }
     else {
+      // Decode special objects
+      resultObj = [self iterateJSON:resultObj modify:^id(id objectToModify) {
+        if ([objectToModify isKindOfClass:[NSDictionary class]]) {
+          NSDictionary *dict = (NSDictionary *)objectToModify;
+          NSString *base64 = [dict objectForKey:kDKObjectDataToken];
+          if ([base64 isKindOfClass:[NSString class]]) {
+            if (base64.length > 0 && dict.count == 1) {
+              return [NSData dataWithBase64String:base64];
+            }
+          }
+        }
+        else if ([objectToModify isKindOfClass:[NSString class]] &&
+                 [(NSString *)objectToModify hasPrefix:kDKObjectRelationToken]) {
+          NSArray *comp = [(NSString *)objectToModify componentsSeparatedByString:@"!"];
+          if (comp.count == 3) {
+            DKRelation *relation = [DKRelation relationWithEntityName:[comp objectAtIndex:1]
+                                                             entityId:[comp objectAtIndex:2]];
+            return relation;
+          }
+        }
+        return objectToModify;
+      }];
+      
       return resultObj;
     }
   }

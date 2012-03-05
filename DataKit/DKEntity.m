@@ -28,8 +28,6 @@ DKSynthesize(resultMap)
 
 #define kDKEntityIDField @"_id"
 #define kDKEntityUpdatedField @"_updated"
-#define kDKEntityDataToken @"dkdata!"
-#define kDKEntityRelationToken @"dkrel!"
 
 static dispatch_queue_t kDKObjectQueue_;
 
@@ -160,8 +158,7 @@ static dispatch_queue_t kDKObjectQueue_;
     if ([obj isKindOfClass:[NSDictionary class]]) {
       for (NSString *key in obj) {
         NSRange range = [key rangeOfCharacterFromSet:forbiddenChars];
-        if (range.location != NSNotFound &&
-            ![key isEqualToString:kDKEntityDataToken]) {
+        if (range.location != NSNotFound) {
           [NSException raise:NSInvalidArgumentException
                       format:@"Invalid object key '%@'. Keys may not contain '!', '$' or '.'", key];
         }
@@ -351,38 +348,10 @@ static dispatch_queue_t kDKObjectQueue_;
   if (obj == nil) {
     obj = [self.resultMap objectForKey:key];
   }
-  if ([obj isKindOfClass:[NSDictionary class]]) {
-    NSString *base64 = [obj objectForKey:kDKEntityDataToken];
-    if (base64.length > 0) {
-      return [NSData dataWithBase64String:base64];
-    }
-  }
-  if ([obj isKindOfClass:[NSString class]]) {
-    NSString *str = (NSString *)obj;
-    if ([str hasPrefix:kDKEntityRelationToken]) {
-      NSArray *comp = [str componentsSeparatedByString:@"!"];
-      if (comp.count == 3) {
-        DKRelation *relation = [DKRelation relationWithEntityName:[comp objectAtIndex:1]
-                                                         entityId:[comp objectAtIndex:2]];
-        return relation;
-      }
-    }
-  }
   return obj;
 }
 
 - (void)setObject:(id)object forKey:(NSString *)key {
-  if ([object isKindOfClass:[NSData class]]) {
-    object = [NSDictionary dictionaryWithObject:[(NSData *)object base64String]
-                                         forKey:kDKEntityDataToken];
-  }
-  else if ([object isKindOfClass:[DKRelation class]]) {
-    DKRelation *relation = (DKRelation *)object;
-    object = [NSString stringWithFormat:@"%@%@!%@",
-              kDKEntityRelationToken,
-              relation.entityName,
-              relation.entityId];
-  }
   [self.setMap setObject:object forKey:key];
 }
 

@@ -291,6 +291,9 @@ exports.saveObject = function(req, res) {
       if (doc.length > 0) {
         doc = doc[0];
       }
+      
+      _encodeDkObj(doc);
+      
       res.json(doc, 200);
     }
     catch (e) {
@@ -344,6 +347,9 @@ exports.refreshObject = function(req, res) {
       if (!_exists(result)) {
         throw "Could not find object";
       }
+      
+      _encodeDkObj(result);
+      
       res.send(result, 200);
     }
     catch (e) {
