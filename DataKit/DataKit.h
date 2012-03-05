@@ -8,6 +8,6 @@
 
 #import "DKManager.h"
 #import "DKEntity.h"
-#import "DKPointer.h"
+#import "DKRelation.h"
 #import "DKQuery.h"
 #import "DKConstants.h"

@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @class DKEntity;
-@class DKPointer;
+@class DKRelation;
 
 typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
 
 @interface DKEntity : NSObject
 @property (nonatomic, copy, readonly) NSString *entityName;
 @property (nonatomic, readonly) NSString *entityId;
-@property (nonatomic, readonly) DKPointer *entityPointer;
+@property (nonatomic, readonly) DKRelation *entityPointer;
 @property (nonatomic, readonly) NSDate *updatedAt;
 @property (nonatomic, readonly) NSDate *createdAt;
 @property (nonatomic, readonly) BOOL isNew;
@@ -132,13 +132,11 @@ typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
  */
 - (id)objectForKey:(NSString *)key;
 
-- (void)objectForKey:(NSString *)key inBackgroundWithBlock:(DKEntityResultBlock)block UNIMPLEMENTED;
-- (DKPointer *)pointerForKey:(NSString *)key UNIMPLEMENTED;
-
 /*!
  @param object The object to store.
  @param key The key for the object.
- @abstract Sets the object for the given key. The object must be JSON compliant or NSData and the keys must not include "!", "$" or "." characters.
+ @abstract Sets the object for the given key.
+ @discussion The object must be of type NSString, NSNumber, NSArray, NSDictionary, NSNull (JSON compliant) or NSData, DKRelation. The keys must not include "!", "$" or "." characters.
  */
 - (void)setObject:(id)object forKey:(NSString *)key;
 

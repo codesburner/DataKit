@@ -77,14 +77,14 @@ var _traverse = function(o, func) {
 }
 var _decodeDkObj = function(o) {
   _traverse(o, function(key, value) {
-    if (key === "!dkdata") {
+    if (key === "dkdata!") {
       this[key] = new Buffer(value, "base64");
     }
   });
 }
 var _encodeDkObj = function(o) {
   _traverse(o, function(key, value) {
-    if (key === "!dkdata") {
+    if (key === "dkdata!") {
       this[key] = value.toString("base64");
     }
   });
@@ -378,6 +378,13 @@ exports.query = function(req, res) {
     }
     if (_exists(skip)) opts["skip"] = parseInt(skip);
     if (_exists(limit)) opts["limit"] = parseInt(limit);
+    
+    // replace oid strings with oid objects
+    _traverse(query, function(key, value) {
+      if (key == "_id") {
+        this[key] = new mongo.ObjectID(value);
+      }
+    });
     
     try {
       // TODO: remove debug query log

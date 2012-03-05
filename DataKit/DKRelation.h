@@ -1,5 +1,5 @@
 //
-//  DKPointer.h
+//  DKRelation.h
 //  DataKit
 //
 //  Created by Erik Aigner on 23.02.12.
@@ -8,11 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DKPointer : NSObject
+#import "DKEntity.h"
+#import "DKQuery.h"
+
+@interface DKRelation : NSObject
 @property (nonatomic, copy, readonly) NSString *entityName;
 @property (nonatomic, copy, readonly) NSString *entityId;
 
-+ (DKPointer *)pointerWithEntityName:(NSString *)entityName entityId:(NSString *)entityId;
++ (DKRelation *)relationWithEntityName:(NSString *)entityName entityId:(NSString *)entityId;
++ (DKRelation *)relationWithEntity:(DKEntity *)entity;
 + (id)new UNAVAILABLE_ATTRIBUTE;
 
 - (id)init UNAVAILABLE_ATTRIBUTE;

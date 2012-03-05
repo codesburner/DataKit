@@ -1,24 +1,28 @@
 //
-//  DKPointer.m
+//  DKRelation.m
 //  DataKit
 //
 //  Created by Erik Aigner on 23.02.12.
 //  Copyright (c) 2012 chocomoko.com. All rights reserved.
 //
 
-#import "DKPointer.h"
+#import "DKRelation.h"
 
-@interface DKPointer ()
+@interface DKRelation ()
 @property (nonatomic, copy, readwrite) NSString *entityName;
 @property (nonatomic, copy, readwrite) NSString *entityId;
 @end
 
-@implementation DKPointer
+@implementation DKRelation
 DKSynthesize(entityName)
 DKSynthesize(entityId)
 
-+ (DKPointer *)pointerWithEntityName:(NSString *)entityName entityId:(NSString *)entityId {
++ (DKRelation *)relationWithEntityName:(NSString *)entityName entityId:(NSString *)entityId {
   return [[self alloc] initWithEntityName:entityName entityId:entityId];
+}
+
++ (DKRelation *)relationWithEntity:(DKEntity *)entity {
+  return [[self alloc] initWithEntityName:entity.entityName entityId:entity.entityId];
 }
 
 - (id)initWithEntityName:(NSString *)entityName entityId:(NSString *)entityId {

@@ -9,7 +9,7 @@
 #import "DKEntity.h"
 #import "DKEntity-Private.h"
 
-#import "DKPointer.h"
+#import "DKRelation.h"
 #import "DKRequest.h"
 #import "DKConstants.h"
 #import "DKManager.h"
@@ -28,7 +28,8 @@ DKSynthesize(resultMap)
 
 #define kDKEntityIDField @"_id"
 #define kDKEntityUpdatedField @"_updated"
-#define kDKEntityDataDictKey @"!dkdata"
+#define kDKEntityDataToken @"dkdata!"
+#define kDKEntityRelationToken @"dkrel!"
 
 static dispatch_queue_t kDKObjectQueue_;
 
@@ -80,11 +81,11 @@ static dispatch_queue_t kDKObjectQueue_;
   return nil;
 }
 
-- (DKPointer *)entityPointer {
+- (DKRelation *)entityPointer {
   if (self.entityId.length > 0 &&
       self.entityName.length > 0) {
-    return [DKPointer pointerWithEntityName:self.entityName
-                                   entityId:self.entityId];
+    return [DKRelation relationWithEntityName:self.entityName
+                                     entityId:self.entityId];
   }
   return nil;
 }
@@ -160,7 +161,7 @@ static dispatch_queue_t kDKObjectQueue_;
       for (NSString *key in obj) {
         NSRange range = [key rangeOfCharacterFromSet:forbiddenChars];
         if (range.location != NSNotFound &&
-            ![key isEqualToString:kDKEntityDataDictKey]) {
+            ![key isEqualToString:kDKEntityDataToken]) {
           [NSException raise:NSInvalidArgumentException
                       format:@"Invalid object key '%@'. Keys may not contain '!', '$' or '.'", key];
         }
@@ -351,26 +352,36 @@ static dispatch_queue_t kDKObjectQueue_;
     obj = [self.resultMap objectForKey:key];
   }
   if ([obj isKindOfClass:[NSDictionary class]]) {
-    NSString *base64 = [obj objectForKey:kDKEntityDataDictKey];
+    NSString *base64 = [obj objectForKey:kDKEntityDataToken];
     if (base64.length > 0) {
       return [NSData dataWithBase64String:base64];
+    }
+  }
+  if ([obj isKindOfClass:[NSString class]]) {
+    NSString *str = (NSString *)obj;
+    if ([str hasPrefix:kDKEntityRelationToken]) {
+      NSArray *comp = [str componentsSeparatedByString:@"!"];
+      if (comp.count == 3) {
+        DKRelation *relation = [DKRelation relationWithEntityName:[comp objectAtIndex:1]
+                                                         entityId:[comp objectAtIndex:2]];
+        return relation;
+      }
     }
   }
   return obj;
 }
 
-- (void)objectForKey:(NSString *)key inBackgroundWithBlock:(DKEntityResultBlock)block {
-  
-}
-
-- (DKPointer *)pointerForKey:(NSString *)key {
-  return nil;
-}
-
 - (void)setObject:(id)object forKey:(NSString *)key {
   if ([object isKindOfClass:[NSData class]]) {
     object = [NSDictionary dictionaryWithObject:[(NSData *)object base64String]
-                                         forKey:kDKEntityDataDictKey];
+                                         forKey:kDKEntityDataToken];
+  }
+  else if ([object isKindOfClass:[DKRelation class]]) {
+    DKRelation *relation = (DKRelation *)object;
+    object = [NSString stringWithFormat:@"%@%@!%@",
+              kDKEntityRelationToken,
+              relation.entityName,
+              relation.entityId];
   }
   [self.setMap setObject:object forKey:key];
 }
