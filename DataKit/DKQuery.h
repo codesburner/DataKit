@@ -36,9 +36,9 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
  */
 + (DKQuery *)queryWithEntityName:(NSString *)entityName;
 
-+ (DKEntity *)getEntity:(NSString *)entityName withId:(NSString *)entityId UNIMPLEMENTED;
-+ (DKEntity *)getEntity:(NSString *)entityName withId:(NSString *)entityId error:(NSError **)error UNIMPLEMENTED;
-+ (void)clearAllCachedResults UNIMPLEMENTED;
++ (DKEntity *)getEntity:(NSString *)entityName withId:(NSString *)entityId UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
++ (DKEntity *)getEntity:(NSString *)entityName withId:(NSString *)entityId error:(NSError **)error UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
++ (void)clearAllCachedResults UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
 + (id)new UNAVAILABLE_ATTRIBUTE;
 
 - (id)init UNAVAILABLE_ATTRIBUTE;
@@ -192,7 +192,7 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
  */
 - (void)whereKeyDoesNotExist:(NSString *)key;
 
-- (void)includeKey:(NSString *)key UNIMPLEMENTED;
+- (void)includeKey:(NSString *)key UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
 
 /*!
  @return The matching entities
@@ -207,18 +207,18 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
  */
 - (NSArray *)findAll:(NSError **)error;
 
-- (void)findObjectsInBackgroundWithBlock:(DKQueryResultBlock)block UNIMPLEMENTED;
-- (id)getFirstObject UNIMPLEMENTED;
-- (id)getFirstObject:(NSError **)error UNIMPLEMENTED;
-- (void)getFirstObjectInBackgroundWithBlock:(DKQueryResultBlock)block UNIMPLEMENTED;
-- (NSInteger)countObjects UNIMPLEMENTED;
-- (NSInteger)countObjects:(NSError **)error UNIMPLEMENTED;
-- (void)countObjectsInBackgroundWithBlock:(DKQueryResultBlock)block UNIMPLEMENTED;
-- (DKEntity *)getEntityById:(NSString *)entityId UNIMPLEMENTED;
-- (DKEntity *)getEntityById:(NSString *)entityId error:(NSError **)error UNIMPLEMENTED;
-- (void)getEntityById:(NSString *)entityId inBackgroundWithBlock:(DKQueryResultBlock)block UNIMPLEMENTED;
-- (void)cancel UNIMPLEMENTED;
-- (BOOL)hasCachedResult UNIMPLEMENTED;
-- (void)clearCachedResult UNIMPLEMENTED;
+- (void)findObjectsInBackgroundWithBlock:(DKQueryResultBlock)block UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
+- (id)getFirstObject UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
+- (id)getFirstObject:(NSError **)error UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
+- (void)getFirstObjectInBackgroundWithBlock:(DKQueryResultBlock)block UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
+- (NSInteger)countObjects UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
+- (NSInteger)countObjects:(NSError **)error UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
+- (void)countObjectsInBackgroundWithBlock:(DKQueryResultBlock)block UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
+- (DKEntity *)getEntityById:(NSString *)entityId UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
+- (DKEntity *)getEntityById:(NSString *)entityId error:(NSError **)error UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
+- (void)getEntityById:(NSString *)entityId inBackgroundWithBlock:(DKQueryResultBlock)block UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
+- (void)cancel UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
+- (BOOL)hasCachedResult UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
+- (void)clearCachedResult UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
 
 @end

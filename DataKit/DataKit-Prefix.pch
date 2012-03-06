@@ -12,5 +12,4 @@
 
 // Macros
 #define DKSynthesize(x) @synthesize x = x##_;
-#define UNIMPLEMENTED UNAVAILABLE_ATTRIBUTE
 #endif

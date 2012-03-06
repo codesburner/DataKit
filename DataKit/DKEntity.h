@@ -29,10 +29,10 @@ typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
  */
 + (DKEntity *)entityWithName:(NSString *)entityName;
 
-+ (BOOL)saveAll:(NSArray *)objects UNIMPLEMENTED;
-+ (BOOL)saveAll:(NSArray *)objects error:(NSError **)error UNIMPLEMENTED;
-+ (BOOL)saveAllInBackground:(NSArray *)objects UNIMPLEMENTED;
-+ (BOOL)saveAllInBackground:(NSArray *)objects withBlock:(DKEntityResultBlock)block UNIMPLEMENTED;
++ (BOOL)saveAll:(NSArray *)objects UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
++ (BOOL)saveAll:(NSArray *)objects error:(NSError **)error UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
++ (BOOL)saveAllInBackground:(NSArray *)objects UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
++ (BOOL)saveAllInBackground:(NSArray *)objects withBlock:(DKEntityResultBlock)block UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
 + (id)new UNAVAILABLE_ATTRIBUTE;
 
 - (id)init UNAVAILABLE_ATTRIBUTE;
