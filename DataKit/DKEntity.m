@@ -40,19 +40,129 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 + (BOOL)saveAll:(NSArray *)objects {
-  return NO;
+  return [self saveAll:objects error:NULL];
 }
 
 + (BOOL)saveAll:(NSArray *)objects error:(NSError **)error {
-  return NO;
+  NSMutableArray *requestObjects = [NSMutableArray new];
+  
+  for (DKEntity *entity in objects) {
+    // Check if data has been written
+    if (!entity.isDirty) {
+      return YES;
+    }
+    
+    // Prevent use of '!', '$' and '.' in keys
+    static NSCharacterSet *forbiddenChars;
+    if (forbiddenChars == nil) {
+      forbiddenChars = [NSCharacterSet characterSetWithCharactersInString:@"!$."];
+    }
+    
+    __block id (^validateKeys)(id obj);
+    validateKeys = [^(id obj) {
+      if ([obj isKindOfClass:[NSDictionary class]]) {
+        for (NSString *key in obj) {
+          NSRange range = [key rangeOfCharacterFromSet:forbiddenChars];
+          if (range.location != NSNotFound) {
+            [NSException raise:NSInvalidArgumentException
+                        format:@"Invalid object key '%@'. Keys may not contain '!', '$' or '.'", key];
+          }
+          id obj2 = [obj objectForKey:key];
+          validateKeys(obj2);
+        }
+      }
+      else if ([obj isKindOfClass:[NSArray class]]) {
+        for (id obj2 in obj) {
+          validateKeys(obj2);
+        }
+      }
+      return obj;
+    } copy];
+    
+    // Create request dict
+    NSMutableDictionary *requestDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                        entity.entityName, @"entity", nil];
+    if (entity.setMap.count > 0) {
+      [requestDict setObject:validateKeys(entity.setMap) forKey:@"set"];
+    }
+    if (entity.unsetMap.count > 0) {
+      [requestDict setObject:validateKeys(entity.unsetMap) forKey:@"unset"];
+    }
+    if (entity.incMap.count > 0) {
+      [requestDict setObject:validateKeys(entity.incMap) forKey:@"inc"];
+    }
+    if (entity.pushMap.count > 0) {
+      [requestDict setObject:validateKeys(entity.pushMap) forKey:@"push"];
+    }
+    if (entity.pushAllMap.count > 0) {
+      [requestDict setObject:validateKeys(entity.pushAllMap) forKey:@"pushAll"];
+    }
+    if (entity.addToSetMap.count > 0) {
+      [requestDict setObject:validateKeys(entity.addToSetMap) forKey:@"addToSet"];
+    }
+    if (entity.popMap.count > 0) {
+      [requestDict setObject:validateKeys(entity.popMap) forKey:@"pop"];
+    }
+    if (entity.pullAllMap.count > 0) {
+      [requestDict setObject:validateKeys(entity.pullAllMap) forKey:@"pullAll"];
+    }
+    
+    NSString *oid = entity.entityId;
+    if (oid.length > 0) {
+      [requestDict setObject:oid forKey:@"oid"];
+    }
+    
+    [requestObjects addObject:requestDict];
+  }
+  
+  NSArray *results = nil;
+  if (requestObjects.count > 0) {    
+    // Send request synchronously
+    DKRequest *request = [DKRequest request];
+    request.cachePolicy = DKCachePolicyIgnoreCache;
+    
+    NSError *requestError = nil;
+    results = [request sendRequestWithObject:requestObjects method:@"save" error:&requestError];
+    if (requestError != nil) {
+      if (error != nil) {
+        *error = requestError;
+      }
+      return NO;
+    }
+  }
+  
+  NSUInteger i = 0;
+  for (DKEntity *entity in objects) {
+    NSError *commitError = nil;
+    BOOL success = [entity commitObjectResultMap:[results objectAtIndex:i]
+                                           error:&commitError];
+    if (!success) {
+      if (error != NULL) {
+        *error = commitError;
+      }
+      return NO;
+    }
+    i++;
+  }
+  
+  return YES;
 }
 
-+ (BOOL)saveAllInBackground:(NSArray *)objects {
-  return NO;
++ (void)saveAllInBackground:(NSArray *)objects {
+  return;
 }
 
-+ (BOOL)saveAllInBackground:(NSArray *)objects withBlock:(DKEntityResultBlock)block {
-  return NO;
++ (void)saveAllInBackground:(NSArray *)objects withBlock:(DKEntityResultsBlock)block {
+  dispatch_queue_t q = dispatch_get_current_queue();
+  dispatch_async(kDKObjectQueue_, ^{
+    NSError *error = nil;
+    [self saveAll:objects error:&error];
+    if (block != NULL) {
+      dispatch_async(q, ^{
+        block(objects, error); 
+      });
+    }
+  });
 }
 
 - (id)initWithName:(NSString *)entityName {
@@ -142,87 +252,7 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (BOOL)save:(NSError **)error {
-  // Check if data has been written
-  if (!self.isDirty) {
-    return YES;
-  }
-  
-  // Prevent use of '!', '$' and '.' in keys
-  static NSCharacterSet *forbiddenChars;
-  if (forbiddenChars == nil) {
-    forbiddenChars = [NSCharacterSet characterSetWithCharactersInString:@"!$."];
-  }
-  
-  __block id (^validateKeys)(id obj);
-  validateKeys = [^(id obj) {
-    if ([obj isKindOfClass:[NSDictionary class]]) {
-      for (NSString *key in obj) {
-        NSRange range = [key rangeOfCharacterFromSet:forbiddenChars];
-        if (range.location != NSNotFound) {
-          [NSException raise:NSInvalidArgumentException
-                      format:@"Invalid object key '%@'. Keys may not contain '!', '$' or '.'", key];
-        }
-        id obj2 = [obj objectForKey:key];
-        validateKeys(obj2);
-      }
-    }
-    else if ([obj isKindOfClass:[NSArray class]]) {
-      for (id obj2 in obj) {
-        validateKeys(obj2);
-      }
-    }
-    return obj;
-  } copy];
-  
-  // Create request dict
-  NSMutableDictionary *requestDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                      self.entityName, @"entity", nil];
-  if (self.setMap.count > 0) {
-    [requestDict setObject:validateKeys(self.setMap) forKey:@"set"];
-  }
-  if (self.unsetMap.count > 0) {
-    [requestDict setObject:validateKeys(self.unsetMap) forKey:@"unset"];
-  }
-  if (self.incMap.count > 0) {
-    [requestDict setObject:validateKeys(self.incMap) forKey:@"inc"];
-  }
-  if (self.pushMap.count > 0) {
-    [requestDict setObject:validateKeys(self.pushMap) forKey:@"push"];
-  }
-  if (self.pushAllMap.count > 0) {
-    [requestDict setObject:validateKeys(self.pushAllMap) forKey:@"pushAll"];
-  }
-  if (self.addToSetMap.count > 0) {
-    [requestDict setObject:validateKeys(self.addToSetMap) forKey:@"addToSet"];
-  }
-  if (self.popMap.count > 0) {
-    [requestDict setObject:validateKeys(self.popMap) forKey:@"pop"];
-  }
-  if (self.pullAllMap.count > 0) {
-    [requestDict setObject:validateKeys(self.pullAllMap) forKey:@"pullAll"];
-  }
-  
-  NSString *oid = self.entityId;
-  if (oid.length > 0) {
-    [requestDict setObject:oid forKey:@"oid"];
-  }
-  
-  NSArray *requestObjects = [NSArray arrayWithObject:requestDict];
-  
-  // Send request synchronously
-  DKRequest *request = [DKRequest request];
-  request.cachePolicy = DKCachePolicyIgnoreCache;
-  
-  NSError *requestError = nil;
-  id resultMap = [request sendRequestWithObject:requestObjects method:@"save" error:&requestError];
-  if (requestError != nil) {
-    if (error != nil) {
-      *error = requestError;
-    }
-    return NO;
-  }
-  
-  return [self commitObjectResultMap:[resultMap lastObject] error:error];
+  return [isa saveAll:[NSArray arrayWithObject:self] error:error];
 }
 
 - (void)saveInBackground {

@@ -11,7 +11,8 @@
 @class DKEntity;
 @class DKRelation;
 
-typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
+typedef void (^DKEntityResultBlock)(DKEntity *entity, NSError *error);
+typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
 
 @interface DKEntity : NSObject
 @property (nonatomic, copy, readonly) NSString *entityName;
@@ -29,10 +30,10 @@ typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
  */
 + (DKEntity *)entityWithName:(NSString *)entityName;
 
-+ (BOOL)saveAll:(NSArray *)objects UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-+ (BOOL)saveAll:(NSArray *)objects error:(NSError **)error UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-+ (BOOL)saveAllInBackground:(NSArray *)objects UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-+ (BOOL)saveAllInBackground:(NSArray *)objects withBlock:(DKEntityResultBlock)block UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
++ (BOOL)saveAll:(NSArray *)objects;
++ (BOOL)saveAll:(NSArray *)objects error:(NSError **)error;
++ (void)saveAllInBackground:(NSArray *)objects;
++ (void)saveAllInBackground:(NSArray *)objects withBlock:(DKEntityResultsBlock)block;
 
 + (id)new UNAVAILABLE_ATTRIBUTE;
 
