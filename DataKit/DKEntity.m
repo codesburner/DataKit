@@ -207,12 +207,14 @@ static dispatch_queue_t kDKObjectQueue_;
     [requestDict setObject:oid forKey:@"oid"];
   }
   
+  NSArray *requestObjects = [NSArray arrayWithObject:requestDict];
+  
   // Send request synchronously
   DKRequest *request = [DKRequest request];
   request.cachePolicy = DKCachePolicyIgnoreCache;
   
   NSError *requestError = nil;
-  id resultMap = [request sendRequestWithObject:requestDict method:@"save" error:&requestError];
+  id resultMap = [request sendRequestWithObject:requestObjects method:@"save" error:&requestError];
   if (requestError != nil) {
     if (error != nil) {
       *error = requestError;
@@ -220,7 +222,7 @@ static dispatch_queue_t kDKObjectQueue_;
     return NO;
   }
   
-  return [self commitObjectResultMap:resultMap error:error];
+  return [self commitObjectResultMap:[resultMap lastObject] error:error];
 }
 
 - (void)saveInBackground {
