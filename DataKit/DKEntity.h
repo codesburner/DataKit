@@ -23,6 +23,9 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
 @property (nonatomic, readonly) BOOL isNew;
 @property (nonatomic, readonly) BOOL isDirty;
 
++ (id)new UNAVAILABLE_ATTRIBUTE;
+- (id)init UNAVAILABLE_ATTRIBUTE;
+
 /*!
  @param entityName The name of the entity
  @return Initialized object.
@@ -30,14 +33,37 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  */
 + (DKEntity *)entityWithName:(NSString *)entityName;
 
-+ (BOOL)saveAll:(NSArray *)objects;
-+ (BOOL)saveAll:(NSArray *)objects error:(NSError **)error;
-+ (void)saveAllInBackground:(NSArray *)objects;
-+ (void)saveAllInBackground:(NSArray *)objects withBlock:(DKEntityResultsBlock)block;
+/*!
+ @param entities The entities to save
+ @return Returns YES on success, NO on error
+ @abstract Batch saves all entities.
+ @discussion This is useful if you want to transmit all entities at once to the server and perform the save.
+ */
++ (BOOL)saveAll:(NSArray *)entities;
 
-+ (id)new UNAVAILABLE_ATTRIBUTE;
+/*!
+ @param entities The entities to save
+ @param error The error object, if any
+ @return Returns YES on success, NO on error
+ @abstract Batch saves all entities.
+ @discussion This is useful if you want to transmit all entities at once to the server and perform the save.
+ */
++ (BOOL)saveAll:(NSArray *)entities error:(NSError **)error;
 
-- (id)init UNAVAILABLE_ATTRIBUTE;
+/*!
+ @param entities The entities to save
+ @abstract Batch saves all entities in the background
+ @discussion This is useful if you want to transmit all entities at once to the server and perform the save.
+ */
++ (void)saveAllInBackground:(NSArray *)entities;
+
+/*!
+ @param entities The entities to save
+ @param block The result callback
+ @abstract Batch saves all entities in the background
+ @discussion This is useful if you want to transmit all entities at once to the server and perform the save.
+ */
++ (void)saveAllInBackground:(NSArray *)entities withBlock:(DKEntityResultsBlock)block;
 
 /*!
  @param entityName The name of the entity
