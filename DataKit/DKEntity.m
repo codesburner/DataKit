@@ -343,6 +343,34 @@ static dispatch_queue_t kDKObjectQueue_;
   });
 }
 
+- (BOOL)ensureIndexForKey:(NSString *)key {
+  return [self ensureIndexForKey:key unique:NO dropDuplicates:NO error:NULL];
+}
+
+- (BOOL)ensureIndexForKey:(NSString *)key unique:(BOOL)unique dropDuplicates:(BOOL)dropDups error:(NSError **)error {
+  // Create request dict
+  NSDictionary *requestDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                               self.entityName, @"entity",
+                               key, @"key",
+                               [NSNumber numberWithBool:unique], @"unique",
+                               [NSNumber numberWithBool:dropDups], @"drop", nil];
+  
+  // Send request synchronously
+  DKRequest *request = [DKRequest request];
+  request.cachePolicy = DKCachePolicyIgnoreCache;
+  
+  NSError *requestError = nil;
+  [request sendRequestWithObject:requestDict method:@"index" error:&requestError];
+  if (requestError != nil) {
+    if (error != nil) {
+      *error = requestError;
+    }
+    return NO;
+  }
+  
+  return YES;
+}
+
 - (id)objectForKey:(NSString *)key {
   id obj = [self.setMap objectForKey:key];
   if (obj == nil) {

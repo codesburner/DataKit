@@ -33,6 +33,7 @@ typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
 + (BOOL)saveAll:(NSArray *)objects error:(NSError **)error UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
 + (BOOL)saveAllInBackground:(NSArray *)objects UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
 + (BOOL)saveAllInBackground:(NSArray *)objects withBlock:(DKEntityResultBlock)block UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
+
 + (id)new UNAVAILABLE_ATTRIBUTE;
 
 - (id)init UNAVAILABLE_ATTRIBUTE;
@@ -124,6 +125,21 @@ typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
  @abstract Deletes entity in background and invokes callback on completion.
  */
 - (void)deleteInBackgroundWithBlock:(DKEntityResultBlock)block;
+
+/*!
+ @param key The key to index
+ @abstract Ensures that the key is indexed
+ */
+- (BOOL)ensureIndexForKey:(NSString *)key;
+
+/*!
+ @param key The key to index
+ @param unique Make sure the key is unique in this entity
+ @param dropDups Automatically drop duplicates
+ @param error The error object to be written on error
+ @abstract Ensures that the key is indexed and optionally unique.
+ */
+- (BOOL)ensureIndexForKey:(NSString *)key unique:(BOOL)unique dropDuplicates:(BOOL)dropDups error:(NSError **)error;
 
 /*!
  @param key The key to get

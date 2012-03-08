@@ -198,7 +198,8 @@
 }
 
 - (void)testObjectAddToSet {
-  DKEntity *object = [DKEntity entityWithName:@"AddToSetValues"];
+  NSString *entityName = @"AddToSetValues";
+  DKEntity *object = [DKEntity entityWithName:entityName];
   [object setObject:[NSArray arrayWithObject:@"stefan"] forKey:@"names"];
   
   NSError *error = nil;
@@ -309,6 +310,45 @@
   STAssertEqualObjects(values, list, nil);
   
   [object delete];
+}
+
+- (void)testEnsureIndex {
+  NSString *entityName = @"EnsureIndexes";
+  DKEntity *e = [DKEntity entityWithName:entityName];
+  [e setObject:@"erik" forKey:@"names"];
+  
+  NSError *error = nil;
+  BOOL success = [e save:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertTrue(success, nil);
+  
+  // Test unique index
+  error = nil;
+  success = [e ensureIndexForKey:@"names" unique:YES dropDuplicates:YES error:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertTrue(success, nil);
+  
+  DKEntity *e2 = [DKEntity entityWithName:entityName];
+  [e2 setObject:@"stefan" forKey:@"names"];
+  
+  error = nil;
+  success = [e2 save:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertTrue(success, nil);
+  
+  [e2 setObject:@"erik" forKey:@"names"];
+  
+  error = nil;
+  success = [e2 save:&error];
+  
+  STAssertNotNil(error, error.localizedDescription);
+  STAssertFalse(success, nil);
+  
+  [e delete];
+  [e2 delete];
 }
 
 @end
