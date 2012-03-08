@@ -139,9 +139,30 @@
   STAssertTrue(success, @"delete should have been successful (return YES)");
 }
 
+- (void)testRemoveWithoutPriorSave {
+  NSString *entityName = @"RemoveWithoutPriorSave";
+  
+  DKEntity *e = [DKEntity entityWithName:entityName];
+  [e setObject:@"a" forKey:@"x"];
+  [e setObject:@"b" forKey:@"y"];
+  [e removeObjectForKey:@"x"];
+  
+  NSError *error = nil;
+  BOOL success = [e save:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertTrue(success, nil);
+  
+  STAssertEqualObjects([e objectForKey:@"y"], @"b", nil);
+  STAssertNil([e objectForKey:@"x"], nil);
+  
+  [e delete];  
+}
+
 - (void)testObjectKeyIncrement {
-  // Insert
-  DKEntity *object = [DKEntity entityWithName:@"Value"];
+  NSString *entityName = @"IncrementValue";
+  
+  DKEntity *object = [DKEntity entityWithName:entityName];
   [object setObject:@"TestValue" forKey:@"key"];
   [object setObject:[NSNumber numberWithInteger:3] forKey:@"amount"];
   
@@ -161,10 +182,29 @@
   STAssertEquals([[object objectForKey:@"amount"] integerValue], (NSInteger)5, nil);
   
   [object delete];
+  
+  // Test increment without prior save
+  DKEntity *e = [DKEntity entityWithName:entityName];
+  [e setObject:[NSNumber numberWithInt:6] forKey:@"count"];
+  [e incrementKey:@"count" byAmount:[NSNumber numberWithInt:2]];
+  
+  error = nil;
+  success = [e save:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertTrue(success, nil);
+  
+  NSNumber *count = [e objectForKey:@"count"];
+  NSNumber *comp = [NSNumber numberWithInt:8];
+  
+  STAssertEqualObjects(count, comp, nil);
+  
+  [e delete];
 }
 
 - (void)testObjectPush {
-  DKEntity *object = [DKEntity entityWithName:@"PushValue"];
+  NSString *entityName = @"PushValue";
+  DKEntity *object = [DKEntity entityWithName:entityName];
   [object setObject:[NSArray arrayWithObject:@"stefan"] forKey:@"nameList"];
   
   NSError *error = nil;
@@ -195,6 +235,42 @@
   STAssertEqualObjects(list, comp, nil);
   
   [object delete];
+  
+  // Test push without prior insert
+  DKEntity *e = [DKEntity entityWithName:entityName];
+  [e setObject:[NSArray arrayWithObjects:@"j", @"k", nil] forKey:@"values"];
+  [e pushObject:@"l" forKey:@"values"];
+  
+  error = nil;
+  success = [e save:&error];
+  
+  STAssertNil(error, error.description);
+  STAssertTrue(success, nil);
+  
+  list = [e objectForKey:@"values"];
+  comp = [NSArray arrayWithObjects:@"j", @"k", @"l", nil];
+  
+  STAssertEqualObjects(list, comp, nil);
+  
+  [e delete];
+  
+  // Test push all without prior insert
+  DKEntity *e2 = [DKEntity entityWithName:entityName];
+  [e2 setObject:[NSArray arrayWithObjects:@"o", @"p", nil] forKey:@"values"];
+  [e2 pushAllObjects:[NSArray arrayWithObjects:@"q", @"r", nil] forKey:@"values"];
+  
+  error = nil;
+  success = [e2 save:&error];
+  
+  STAssertNil(error, error.description);
+  STAssertTrue(success, nil);
+  
+  list = [e2 objectForKey:@"values"];
+  comp = [NSArray arrayWithObjects:@"o", @"p", @"q", @"r", nil];
+  
+  STAssertEqualObjects(list, comp, nil);
+  
+  [e2 delete];
 }
 
 - (void)testObjectAddToSet {
@@ -225,11 +301,31 @@
   STAssertEqualObjects(list, comp, nil);
   
   [object delete];
+  
+  // Test add to set without prior insert
+  DKEntity *e = [DKEntity entityWithName:entityName];
+  [e setObject:[NSArray arrayWithObjects:@"a", @"b", @"c", nil] forKey:@"values"];
+  [e addAllObjectsToSet:[NSArray arrayWithObjects:@"b", @"d", nil] forKey:@"values"];
+  
+  error = nil;
+  success = [e save:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertTrue(success, nil);
+  
+  list = [e objectForKey:@"values"];
+  comp = [NSArray arrayWithObjects:@"a", @"b", @"c", @"d", nil];
+  
+  STAssertEqualObjects(list, comp, nil);
+  
+  [e delete];
 }
 
 - (void)testObjectPop {
+  NSString *entityName = @"PopValues";
+  
   NSMutableArray *names = [NSMutableArray arrayWithObjects:@"stefan", @"erik", @"markus", nil];
-  DKEntity *object = [DKEntity entityWithName:@"PopValues"];
+  DKEntity *object = [DKEntity entityWithName:entityName];
   [object setObject:names forKey:@"names"];
   
   NSError *error = nil;
@@ -262,19 +358,40 @@
   STAssertEqualObjects(list, names, nil);
   
   [object delete];
+  
+  // Test pop without prior insert
+  DKEntity *e = [DKEntity entityWithName:entityName];
+  [e setObject:[NSArray arrayWithObjects:@"a", @"b", @"c", nil] forKey:@"values"];
+  [e popFirstObjectForKey:@"values"];
+  
+  error = nil;
+  success = [e save:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertTrue(success, nil);
+  
+  list = [e objectForKey:@"values"];
+  NSArray *comp = [NSArray arrayWithObjects:@"b", @"c", nil];
+  
+  STAssertEqualObjects(list, comp, nil);
+  
+  [e delete];
 }
 
 - (void)testObjectPull {
+  NSString *entityName = @"PullValues";
+  NSString *key = @"values";
   NSMutableArray *values = [NSMutableArray arrayWithObjects:@"a", @"b", @"b", @"c", @"d", @"d", nil];
-  DKEntity *object = [DKEntity entityWithName:@"PullValues"];
-  [object setObject:values forKey:@"values"];
+  
+  DKEntity *object = [DKEntity entityWithName:entityName];
+  [object setObject:values forKey:key];
   
   NSError *error = nil;
   BOOL success = [object save:&error];
   STAssertTrue(success, nil);
   STAssertNil(error, error.description);
   
-  [object pullObject:@"x" forKey:@"values"];
+  [object pullObject:@"x" forKey:key];
   
   error = nil;
   success = [object save:&error];
@@ -284,7 +401,7 @@
   NSArray *list = [object objectForKey:@"values"];
   STAssertEqualObjects(values, list, nil);
   
-  [object pullObject:@"b" forKey:@"values"];
+  [object pullObject:@"b" forKey:key];
   
   error = nil;
   success = [object save:&error];
@@ -293,7 +410,7 @@
   
   [values removeObject:@"b"];
   
-  list = [object objectForKey:@"values"];
+  list = [object objectForKey:key];
   STAssertEqualObjects(values, list, nil);
   
   [object pullAllObjects:[NSArray arrayWithObjects:@"c", @"d", nil] forKey:@"values"];
@@ -306,10 +423,30 @@
   [values removeObject:@"c"];
   [values removeObject:@"d"];
   
-  list = [object objectForKey:@"values"];
+  list = [object objectForKey:key];
   STAssertEqualObjects(values, list, nil);
   
   [object delete];
+  
+  // Test object pull without prior insert
+  DKEntity *e = [DKEntity entityWithName:entityName];
+  [e setObject:[NSArray arrayWithObjects:@"X", @"Y", @"Z", nil] forKey:@"values"];
+  [e pullObject:@"Y" forKey:key];
+  
+  STAssertTrue(e.pullAllMap.count > 0, nil);
+  
+  error = nil;
+  success = [e save:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertTrue(success, nil);
+  
+  list = [e objectForKey:key];
+  NSArray *comp = [NSArray arrayWithObjects:@"X", @"Z", nil];
+  
+  STAssertEqualObjects(comp, list, @"list: %@", list);
+  
+  [e delete];
 }
 
 - (void)testEnsureIndex {

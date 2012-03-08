@@ -160,7 +160,7 @@ typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
  @param object The object to push
  @param key The key for the object.
  @abstract Appends the object to the field with |key| if it is an existing array, otherwise sets field to a single element array containing the object if field is not present.
- @discussion Push has only an effect if the object already exists in the database (not new, has an object ID). If field is present but not an array, object save will fail. Object must be a JSON type and the keys must not include "!", "$" or "." characters.
+ @discussion If field is present but not an array, object save will fail. Object must be a JSON type and the keys must not include "!", "$" or "." characters.
  */
 - (void)pushObject:(id)object forKey:(NSString *)key;
 
@@ -168,7 +168,7 @@ typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
  @param objects The object array to push
  @param key The key for the objects.
  @abstract Appends each object to the field with |key| if it is an existing array, otherwise sets field to a new array containing the objects if field is not present.
- @discussion Push-all has only an effect if the object already exists in the database (not new, has an object ID). If field is present but not an array, object save will fail. Objects must be JSON types and the keys must not include "!", "$" or "." characters.
+ @discussion If field is present but not an array, object save will fail. Objects must be JSON types and the keys must not include "!", "$" or "." characters.
  */
 - (void)pushAllObjects:(NSArray *)objects forKey:(NSString *)key;
 
@@ -176,7 +176,7 @@ typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
  @param object The object to add.
  @param key The key for the object
  @abstract Adds the object to the array only if the object is not already present and if field |key| is an existing array, otherwise sets field |key| to a single object array containing |object| if field not present.
- @discussion Add-to-set has only an effect if the object already exists in the database (not new, has an object ID). If field is present but not an array, object save will fail. Object must be a JSON type and the keys must not include "!", "$" or "." characters.
+ @discussion If field is present but not an array, object save will fail. Object must be a JSON type and the keys must not include "!", "$" or "." characters.
  */
 - (void)addObjectToSet:(id)object forKey:(NSString *)key;
 
@@ -184,21 +184,21 @@ typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
  @param objects The objects to add.
  @param key The key for the objects
  @abstract Adds the objects to the array only if the objects are not already present and if field |key| is an existing array, otherwise sets field |key| to the object array containing |objects| if field not present.
- @discussion Add-to-set has only an effect if the object already exists in the database (not new, has an object ID). If field is present but not an array, object save will fail. All objects must be JSON types and the keys must not include "!", "$" or "." characters.
+ @discussion If field is present but not an array, object save will fail. All objects must be JSON types and the keys must not include "!", "$" or "." characters.
  */
 - (void)addAllObjectsToSet:(NSArray *)objects forKey:(NSString *)key;
 
 /*!
  @param key The object key
  @abstract Removes the last object from the array at |key|.
- @discussion Pop has only an effect if the object already exists in the database (not new, has an object ID).
+ @discussion Pop-last will override any pop-first action.
  */
 - (void)popLastObjectForKey:(NSString *)key;
 
 /*!
  @param key The object key
  @abstract Removes the first object from the array at |key|.
- @discussion Pop has only an effect if the object already exists in the database (not new, has an object ID).
+ @discussion Pop-first will override anny pop-last action.
  */
 - (void)popFirstObjectForKey:(NSString *)key;
 
@@ -206,7 +206,7 @@ typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
  @param object The object to pull
  @param key The object key
  @abstract Removes all occurrences of object from field |key|, if field is an array.
- @discussion Pull has only an effect if the object already exists in the database (not new, has an object ID). If field is present, but not an array save will fail.
+ @discussion If field is present, but not an array save will fail.
  */
 - (void)pullObject:(id)object forKey:(NSString *)key;
 
@@ -214,21 +214,19 @@ typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
  @param objects The objects to pull
  @param key The object key
  @abstract Removes all occurrences of |objects| from field |key|, if field is an array.
- @discussion Pull has only an effect if the object already exists in the database (not new, has an object ID). If field is present, but not an array save will fail.
+ @discussion If field is present, but not an array save will fail.
  */
 - (void)pullAllObjects:(NSArray *)objects forKey:(NSString *)key;
 
 /*!
  @param key The key to remove
  @abstract Removes the object stored under key.
- @discussion Increment has only an effect if the object already exists in the database (not new, has an object ID).
  */
 - (void)removeObjectForKey:(NSString *)key;
 
 /*!
  @param key The key to increment
  @abstract Increments the key by 1.
- @discussion Increment has only an effect if the object already exists in the database (not new, has an object ID).
  */
 - (void)incrementKey:(NSString *)key;
 
@@ -236,7 +234,6 @@ typedef void (^DKEntityResultBlock)(DKEntity *object, NSError *error);
  @param key The key to increment
  @param amount The increment amount
  @abstract Increments the key by amount. Amount can also be a negative value.
- @discussion Increment has only an effect if the object already exists in the database (not new, has an object ID).
  */
 - (void)incrementKey:(NSString *)key byAmount:(NSNumber *)amount;
 
