@@ -164,6 +164,13 @@ DKSynthesize(currentOffset)
     DKEntityTableNextPageCell *cell = (id)[tableView cellForRowAtIndexPath:indexPath];
     [self loadNextPageWithNextPageCell:cell];
   }
+  else {
+    [self tableView:tableView didSelectRowAtIndexPath:indexPath entity:[self.entities objectAtIndex:indexPath.row]];
+  }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath entity:(DKEntity *)entity {
+  // stub
 }
 
 @end
