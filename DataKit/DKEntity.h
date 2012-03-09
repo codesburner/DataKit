@@ -156,6 +156,7 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
 /*!
  @param key The key to index
  @abstract Ensures that the key is indexed
+ @discussion Indexes often enhance query performance dramatically.
  */
 - (BOOL)ensureIndexForKey:(NSString *)key;
 
@@ -165,6 +166,7 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  @param dropDups Automatically drop duplicates
  @param error The error object to be written on error
  @abstract Ensures that the key is indexed and optionally unique.
+ @discussion Indexes often enhance query performance dramatically.
  */
 - (BOOL)ensureIndexForKey:(NSString *)key unique:(BOOL)unique dropDuplicates:(BOOL)dropDups error:(NSError **)error;
 
