@@ -12,7 +12,8 @@
 
 @interface DKEntityTableViewController : UITableViewController
 @property (nonatomic, copy) NSString *entityName;
-@property (nonatomic, copy) NSString *displayedKey;
+@property (nonatomic, copy) NSString *displayedTitleKey;
+@property (nonatomic, copy) NSString *displayedImageKey;
 @property (nonatomic, strong) DKQuery *query;
 @property (nonatomic, assign) NSUInteger objectsPerPage;
 @property (nonatomic, readonly) NSUInteger numberOfDisplayedPages;

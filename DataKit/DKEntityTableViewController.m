@@ -23,7 +23,8 @@
 
 @implementation DKEntityTableViewController
 DKSynthesize(entityName)
-DKSynthesize(displayedKey)
+DKSynthesize(displayedTitleKey)
+DKSynthesize(displayedImageKey)
 DKSynthesize(query)
 DKSynthesize(objectsPerPage)
 DKSynthesize(numberOfDisplayedPages)
@@ -127,9 +128,13 @@ DKSynthesize(currentOffset)
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
   }
   
-  if (self.displayedKey != nil) {
-    DKEntity *entity = [self.entities objectAtIndex:indexPath.row];
-    cell.textLabel.text = [entity objectForKey:self.displayedKey];
+  DKEntity *entity = [self.entities objectAtIndex:indexPath.row];
+  
+  if (self.displayedTitleKey.length > 0) {
+    cell.textLabel.text = [entity objectForKey:self.displayedTitleKey];
+  }
+  if (self.displayedImageKey.length > 0) {
+    cell.imageView.image = [UIImage imageWithData:[entity objectForKey:self.displayedImageKey]];
   }
   
   return cell;
