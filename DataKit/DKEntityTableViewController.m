@@ -181,7 +181,7 @@ DKSynthesize(activityAccessoryView)
     
     [self.contentView addSubview:self.activityAccessoryView];
     
-    self.textLabel.textColor = [UIColor colorWithWhite:0.7 alpha:1.0];
+    self.textLabel.textColor = [UIColor colorWithWhite:0.4 alpha:1.0];
     self.textLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
     self.textLabel.shadowOffset = CGSizeMake(0.0, 1.0);
     self.textLabel.font = [UIFont boldSystemFontOfSize:14.0];
@@ -203,19 +203,23 @@ DKSynthesize(activityAccessoryView)
   CGSize spinnerSize = self.activityAccessoryView.frame.size;
   CGFloat padding = 10.0;
   
-  CGRect textFrame = CGRectMake((CGRectGetWidth(bounds) - textSize.width - spinnerSize.width - padding) / 2.0,
+  BOOL isAnimating = self.activityAccessoryView.isAnimating;
+  
+  CGRect textFrame = CGRectMake((CGRectGetWidth(bounds) - textSize.width - (isAnimating ? spinnerSize.width - padding : 0)) / 2.0,
                                 (CGRectGetHeight(bounds) - textSize.height) / 2.0,
                                 textSize.width,
                                 textSize.height);
   
   self.textLabel.frame = CGRectIntegral(textFrame);
   
-  CGRect spinnerFrame = CGRectMake(CGRectGetMaxX(textFrame) + padding,
-                                   (CGRectGetHeight(bounds) - spinnerSize.height) / 2.0,
-                                   spinnerSize.width,
-                                   spinnerSize.height);
-  
-  self.activityAccessoryView.frame = spinnerFrame;
+  if (isAnimating) {
+    CGRect spinnerFrame = CGRectMake(CGRectGetMaxX(textFrame) + padding,
+                                     (CGRectGetHeight(bounds) - spinnerSize.height) / 2.0,
+                                     spinnerSize.width,
+                                     spinnerSize.height);
+    
+    self.activityAccessoryView.frame = spinnerFrame;
+  }
 }
 
 @end
