@@ -12,6 +12,7 @@
 
 @interface DKEntityTableViewController ()
 @property (nonatomic, assign) BOOL hasMore;
+@property (nonatomic, assign, readwrite) BOOL isLoading;
 @property (nonatomic, assign) NSUInteger currentOffset;
 @property (nonatomic, strong, readwrite) NSMutableArray *entities;
 @end
@@ -58,12 +59,16 @@ DKSynthesize(currentOffset)
   q.skip = self.currentOffset;
   q.limit = self.objectsPerPage;
   
+  self.isLoading = YES;
+  
   [q findAllInBackgroundWithBlock:^(NSArray *results, NSError *error) {
     if (results.count > 0) {
-      [self.entities addObjectsFromArray:results];
-      self.currentOffset += results.count;
-      self.hasMore = (results.count == self.objectsPerPage);
+      [self.entities addObjectsFromArray:results];  
     }
+    
+    self.currentOffset += results.count;
+    self.hasMore = (results.count == self.objectsPerPage);
+    self.isLoading = NO;
     
     if (error != nil) {
       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
@@ -94,12 +99,15 @@ DKSynthesize(currentOffset)
 }
 
 - (void)loadNextPageWithNextPageCell:(DKEntityTableNextPageCell *)cell {
+  if (self.isLoading) {
+    return;
+  }
   [cell.activityAccessoryView startAnimating];
-  [cell setNeedsDisplay];
   [cell setNeedsLayout];
   
   [self appendNextPageWithFinishCallback:^{
     [cell.activityAccessoryView stopAnimating];
+    [cell setNeedsLayout];
   }];
 }
 
@@ -159,13 +167,21 @@ DKSynthesize(activityAccessoryView)
     accessoryView.hidesWhenStopped = YES;
     
     self.activityAccessoryView = accessoryView;
-    self.accessoryView = self.activityAccessoryView;
+    
+    [self.contentView addSubview:self.activityAccessoryView];
+    
+    self.textLabel.textColor = [UIColor colorWithWhite:0.7 alpha:1.0];
+    self.textLabel.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+    self.textLabel.shadowOffset = CGSizeMake(0.0, 1.0);
+    self.textLabel.font = [UIFont boldSystemFontOfSize:14.0];
   }
   return self;
 }
 
 - (void)layoutSubviews {
   [super layoutSubviews];
+  
+  // Center text label
   UIFont *font = self.textLabel.font;
   NSString *text = self.textLabel.text;
   
@@ -173,13 +189,22 @@ DKSynthesize(activityAccessoryView)
   CGSize textSize = [text sizeWithFont:font
                               forWidth:CGRectGetWidth(bounds)
                          lineBreakMode:UILineBreakModeTailTruncation];
+  CGSize spinnerSize = self.activityAccessoryView.frame.size;
+  CGFloat padding = 10.0;
   
-  CGRect frame = CGRectMake((CGRectGetWidth(bounds) - textSize.width) / 2.0,
-                            (CGRectGetHeight(bounds) - textSize.height) / 2.0,
-                            textSize.width,
-                            textSize.height);
+  CGRect textFrame = CGRectMake((CGRectGetWidth(bounds) - textSize.width - spinnerSize.width - padding) / 2.0,
+                                (CGRectGetHeight(bounds) - textSize.height) / 2.0,
+                                textSize.width,
+                                textSize.height);
   
-  self.textLabel.frame = frame;
+  self.textLabel.frame = CGRectIntegral(textFrame);
+  
+  CGRect spinnerFrame = CGRectMake(CGRectGetMaxX(textFrame) + padding,
+                                   (CGRectGetHeight(bounds) - spinnerSize.height) / 2.0,
+                                   spinnerSize.width,
+                                   spinnerSize.height);
+  
+  self.activityAccessoryView.frame = spinnerFrame;
 }
 
 @end

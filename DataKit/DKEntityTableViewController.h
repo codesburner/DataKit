@@ -16,7 +16,7 @@
 @property (nonatomic, strong) DKQuery *query;
 @property (nonatomic, assign) NSUInteger objectsPerPage;
 @property (nonatomic, readonly) NSUInteger numberOfDisplayedPages;
-@property (nonatomic, readonly) BOOL isLoading;
+@property (nonatomic, assign, readonly) BOOL isLoading;
 @property (nonatomic, strong, readonly) NSMutableArray *entities;
 
 - (id)initWithEntityName:(NSString *)entityName;
