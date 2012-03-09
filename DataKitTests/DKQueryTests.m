@@ -602,4 +602,60 @@
   [e1 delete];
 }
 
+- (void)testFindOneCountAndById {
+  NSString *en = @"FindOneCountAndById";
+  
+  DKEntity *e = [DKEntity entityWithName:en];
+  [e setObject:@"x" forKey:@"a"];
+  [e setObject:@"y" forKey:@"b"];
+  [e save];
+  
+  DKEntity *e2 = [DKEntity entityWithName:en];
+  [e2 setObject:@"x" forKey:@"a"];
+  [e2 save];
+  
+  // Verify find all returns 2 objects
+  DKQuery *q = [DKQuery queryWithEntityName:en];
+  [q whereKey:@"a" equalTo:@"x"];
+  
+  NSArray *results = [q findAll];
+  
+  STAssertEquals(results.count, (NSUInteger)2, nil);
+  
+  // Find one
+  DKQuery *q2 = [DKQuery queryWithEntityName:en];
+  [q2 whereKey:@"a" equalTo:@"x"];
+  
+  NSError *error = nil;
+  DKEntity *er = [q2 findOne:&error];
+  
+  NSString *y = [er objectForKey:@"b"];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertNotNil(er, nil);
+  STAssertEqualObjects(y, @"y", nil);
+  
+  // Test count
+  DKQuery *q3 = [DKQuery queryWithEntityName:en];
+  [q3 whereKey:@"a" equalTo:@"x"];
+  
+  error = nil;
+  NSUInteger count = [q3 countAll:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertEquals(count, (NSUInteger)2, nil);
+  
+  // Test find by id
+  DKQuery *q4 = [DKQuery queryWithEntityName:en];
+  
+  error = nil;
+  DKEntity *er2 = [q4 findById:e2.entityId error:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertEqualObjects(e2.entityId, er2.entityId, nil);
+  
+  [e delete];
+  [e2 delete];
+}
+
 @end

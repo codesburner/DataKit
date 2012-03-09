@@ -14,6 +14,9 @@
 @property (nonatomic, strong) NSMutableDictionary *sort;
 @property (nonatomic, strong) NSMutableArray *ors;
 @property (nonatomic, strong) NSMutableArray *ands;
+
+- (NSArray *)find:(NSError **)error one:(BOOL)findOne count:(NSUInteger *)countOut;
+
 @end
 
 @interface DKQuery (Private)

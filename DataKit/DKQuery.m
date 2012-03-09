@@ -29,20 +29,14 @@ DKSynthesize(sort)
 DKSynthesize(ors)
 DKSynthesize(ands)
 
+static dispatch_queue_t kDKQueryQueue_;
+
++ (void)initialize {
+  kDKQueryQueue_ = dispatch_queue_create("query queue", DISPATCH_QUEUE_SERIAL);
+}
+
 + (DKQuery *)queryWithEntityName:(NSString *)entityName {
   return [[self alloc] initWithEntityName:entityName];
-}
-
-+ (DKEntity *)getEntity:(NSString *)entityName withId:(NSString *)entityId {
-  return nil;
-}
-
-+ (DKEntity *)getEntity:(NSString *)entityName withId:(NSString *)entityId error:(NSError **)error {
-  return nil;
-}
-
-+ (void)clearAllCachedResults {
-  
 }
 
 - (id)initWithEntityName:(NSString *)entityName {
@@ -165,14 +159,10 @@ DKSynthesize(ands)
 }
 
 - (void)includeKey:(NSString *)key {
-  
+  // TODO: implement
 }
 
-- (NSArray *)findAll {
-  return [self findAll:NULL];
-}
-
-- (NSArray *)findAll:(NSError **)error {
+- (NSArray *)find:(NSError **)error one:(BOOL)findOne count:(NSUInteger *)countOut {
   // Create request dict
   NSMutableDictionary *requestDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                       self.entityName, @"entity", nil];
@@ -194,13 +184,19 @@ DKSynthesize(ands)
   if (self.skip > 0) {
     [requestDict setObject:[NSNumber numberWithUnsignedInteger:self.skip] forKey:@"skip"];
   }
+  if (findOne) {
+    [requestDict setObject:[NSNumber numberWithBool:YES] forKey:@"findOne"];
+  }
+  if (countOut != NULL) {
+    [requestDict setObject:[NSNumber numberWithBool:YES] forKey:@"count"];
+  }
   
   // Send request synchronously
   DKRequest *request = [DKRequest request];
   request.cachePolicy = self.cachePolicy;
   
   NSError *requestError = nil;
-  NSArray *results = [request sendRequestWithObject:requestDict method:@"query" error:&requestError];
+  id results = [request sendRequestWithObject:requestDict method:@"query" error:&requestError];
   if (requestError != nil) {
     if (error != nil) {
       *error = requestError;
@@ -208,6 +204,7 @@ DKSynthesize(ands)
     return nil;
   }
   
+  // Query returned results
   if ([results isKindOfClass:[NSArray class]]) {
     NSMutableArray *entities = [NSMutableArray new];
     for (NSDictionary *objDict in results) {
@@ -221,64 +218,106 @@ DKSynthesize(ands)
     
     return [NSArray arrayWithArray:entities];
   }
+  // Query returned object count
+  else if ([results isKindOfClass:[NSNumber class]]) {
+    if (countOut != NULL) {
+      *countOut = [(NSNumber *)results unsignedIntegerValue];
+    }
+  }
   else {
 #ifdef CONFIGURATION_Debug
-    NSLog(@"warning: query did not return object list");
+    NSLog(@"warning: query did not return object list: %@", results);
 #endif
   }
   return nil;
 }
 
-- (void)findObjectsInBackgroundWithBlock:(DKQueryResultBlock)block {
-  
+- (NSArray *)findAll {
+  return [self findAll:NULL];
 }
 
-- (id)getFirstObject {
-  return nil;
+- (NSArray *)findAll:(NSError **)error {
+  return [self find:error one:NO count:NULL];
 }
 
-- (id)getFirstObject:(NSError **)error {
-  return nil;
+- (void)findAllInBackgroundWithBlock:(DKQueryResultsBlock)block {
+  dispatch_queue_t q = dispatch_get_current_queue();
+  dispatch_async(kDKQueryQueue_, ^{
+    NSError *error = nil;
+    NSArray *entities = [self findAll:&error];
+    if (block != NULL) {
+      dispatch_async(q, ^{
+        block(entities, error); 
+      });
+    }
+  });
 }
 
-- (void)getFirstObjectInBackgroundWithBlock:(DKQueryResultBlock)block {
-  
+- (DKEntity *)findOne {
+  return [self findOne:NULL];
 }
 
-- (NSInteger)countObjects {
-  return -1;
+- (DKEntity *)findOne:(NSError **)error {
+  return [[self find:error one:YES count:NULL] lastObject];
 }
 
-- (NSInteger)countObjects:(NSError **)error {
-  return -1;
+- (void)findOneInBackgroundWithBlock:(DKQueryResultBlock)block {
+  dispatch_queue_t q = dispatch_get_current_queue();
+  dispatch_async(kDKQueryQueue_, ^{
+    NSError *error = nil;
+    DKEntity *entity = [self findOne:&error];
+    if (block != NULL) {
+      dispatch_async(q, ^{
+        block(entity, error); 
+      });
+    }
+  });
 }
 
-- (void)countObjectsInBackgroundWithBlock:(DKQueryResultBlock)block {
-  
+- (DKEntity *)findById:(NSString *)entityId {
+  return [self findById:entityId error:NULL];
 }
 
-- (DKEntity *)getEntityById:(NSString *)entityId {
-  return nil;
+- (DKEntity *)findById:(NSString *)entityId error:(NSError **)error {
+  [self reset];
+  [self whereKey:@"_id" equalTo:entityId];
+  return [self findOne:error];
 }
 
-- (DKEntity *)getEntityById:(NSString *)entityId error:(NSError **)error {
-  return nil;
+- (void)findById:(NSString *)entityId inBackgroundWithBlock:(DKQueryResultBlock)block {
+  dispatch_queue_t q = dispatch_get_current_queue();
+  dispatch_async(kDKQueryQueue_, ^{
+    NSError *error = nil;
+    DKEntity *entity = [self findById:entityId error:&error];
+    if (block != NULL) {
+      dispatch_async(q, ^{
+        block(entity, error); 
+      });
+    }
+  });
 }
 
-- (void)getEntityById:(NSString *)entityId inBackgroundWithBlock:(DKQueryResultBlock)block {
-  
+- (NSInteger)countAll {
+  return [self countAll:NULL];
 }
 
-- (void)cancel {
-  
+- (NSInteger)countAll:(NSError **)error {
+  NSUInteger count = 0;
+  [self find:error one:NO count:&count];
+  return count;
 }
 
-- (BOOL)hasCachedResult {
-  return NO;
-}
-
-- (void)clearCachedResult {
-  
+- (void)countAllInBackgroundWithBlock:(DKQueryResultCountBlock)block {
+  dispatch_queue_t q = dispatch_get_current_queue();
+  dispatch_async(kDKQueryQueue_, ^{
+    NSError *error = nil;
+    NSUInteger count = [self countAll:&error];
+    if (block != NULL) {
+      dispatch_async(q, ^{
+        block(count, error); 
+      });
+    }
+  });
 }
 
 @end

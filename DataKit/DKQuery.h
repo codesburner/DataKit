@@ -11,7 +11,9 @@
 
 @class DKEntity;
 
-typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
+typedef void (^DKQueryResultBlock)(DKEntity *entity, NSError *error);
+typedef void (^DKQueryResultsBlock)(NSArray *results, NSError *error);
+typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
 
 @interface DKQuery : NSObject
 @property (nonatomic, copy, readonly) NSString *entityName;
@@ -36,11 +38,7 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
  */
 + (DKQuery *)queryWithEntityName:(NSString *)entityName;
 
-+ (DKEntity *)getEntity:(NSString *)entityName withId:(NSString *)entityId UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-+ (DKEntity *)getEntity:(NSString *)entityName withId:(NSString *)entityId error:(NSError **)error UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-+ (void)clearAllCachedResults UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
 + (id)new UNAVAILABLE_ATTRIBUTE;
-
 - (id)init UNAVAILABLE_ATTRIBUTE;
 
 /*!
@@ -207,18 +205,70 @@ typedef void (^DKQueryResultBlock)(NSArray *results, NSError *error);
  */
 - (NSArray *)findAll:(NSError **)error;
 
-- (void)findObjectsInBackgroundWithBlock:(DKQueryResultBlock)block UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-- (id)getFirstObject UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-- (id)getFirstObject:(NSError **)error UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-- (void)getFirstObjectInBackgroundWithBlock:(DKQueryResultBlock)block UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-- (NSInteger)countObjects UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-- (NSInteger)countObjects:(NSError **)error UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-- (void)countObjectsInBackgroundWithBlock:(DKQueryResultBlock)block UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-- (DKEntity *)getEntityById:(NSString *)entityId UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-- (DKEntity *)getEntityById:(NSString *)entityId error:(NSError **)error UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-- (void)getEntityById:(NSString *)entityId inBackgroundWithBlock:(DKQueryResultBlock)block UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-- (void)cancel UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-- (BOOL)hasCachedResult UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
-- (void)clearCachedResult UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
+/*!
+ @param block The result callback
+ @abstract Finds all matching entities in background and returns them to the callback block.
+ */
+- (void)findAllInBackgroundWithBlock:(DKQueryResultsBlock)block;
+
+/*!
+ @return Returns the matched entity
+ @abstract Finds the first matching entity.
+ */
+- (DKEntity *)findOne;
+
+/*!
+ @param error The error object written on error
+ @return Returns the matched entity
+ @abstract Finds the first matching entity.
+ */
+- (DKEntity *)findOne:(NSError **)error;
+
+/*!
+ @param block The result callback block
+ @abstract Finds the first matching entity in the background and returns it to the callback block.
+ */
+- (void)findOneInBackgroundWithBlock:(DKQueryResultBlock)block;
+
+/*!
+ @param entityId The entity ID to find
+ @return Returns the entity with the matching ID
+ @abstract Finds an entity by it's unique ID.
+ */
+- (DKEntity *)findById:(NSString *)entityId;
+
+/*!
+ @param entityId The entity ID to find
+ @param error The error object that is written on error
+ @return Returns the entity with the matching ID
+ @abstract Finds an entity by it's unique ID.
+ */
+- (DKEntity *)findById:(NSString *)entityId error:(NSError **)error;
+
+/*!
+ @param entityId The entity ID to find
+ @param block The result callback block
+ @abstract Finds an entity by it's unique ID in the background and returns it to the callback block.
+ */
+- (void)findById:(NSString *)entityId inBackgroundWithBlock:(DKQueryResultBlock)block;
+
+/*!
+ @return The matched entity count
+ @abstract Counts the entities matching the query.
+ */
+- (NSInteger)countAll;
+
+/*!
+ @param error The error object that is written on error
+ @return The matched entity count
+ @abstract Counts the entities matching the query.
+ */
+- (NSInteger)countAll:(NSError **)error;
+
+/*!
+ @param block The result callback block
+ @abstract Counts the entities matching the query in the background and returns the result to the block
+ */
+- (void)countAllInBackgroundWithBlock:(DKQueryResultCountBlock)block;
 
 @end
