@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "DKQuery.h"
+#import "DKEntity.h"
 
 @interface DKEntityTableViewController : UITableViewController
 @property (nonatomic, copy) NSString *entityName;
@@ -26,6 +27,7 @@
 - (void)reload;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (UITableViewCell *)tableView:(UITableView *)tableView setupTableViewCellForEntity:(DKEntity *)entity reuseIdentifier:(NSString *)identifier;
 - (UITableViewCell *)nextPageCellForTableView:(UITableView *)tableView;
 
 @end

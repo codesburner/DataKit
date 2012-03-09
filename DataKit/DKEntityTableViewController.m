@@ -121,14 +121,13 @@ DKSynthesize(currentOffset)
     return [self nextPageCellForTableView:tableView];
   }
   
+  DKEntity *entity = [self.entities objectAtIndex:indexPath.row];
+  
   static NSString *identifier = @"DKEntityTableCell";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
   if (cell == nil) {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell = [self tableView:tableView setupTableViewCellForEntity:entity reuseIdentifier:identifier];
   }
-  
-  DKEntity *entity = [self.entities objectAtIndex:indexPath.row];
   
   if (self.displayedTitleKey.length > 0) {
     cell.textLabel.text = [entity objectForKey:self.displayedTitleKey];
@@ -136,6 +135,13 @@ DKSynthesize(currentOffset)
   if (self.displayedImageKey.length > 0) {
     cell.imageView.image = [UIImage imageWithData:[entity objectForKey:self.displayedImageKey]];
   }
+  
+  return cell;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView setupTableViewCellForEntity:(DKEntity *)entity reuseIdentifier:(NSString *)identifier {
+  UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+  cell.selectionStyle = UITableViewCellSelectionStyleNone;
   
   return cell;
 }
