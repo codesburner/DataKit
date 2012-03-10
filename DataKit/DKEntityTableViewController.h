@@ -27,9 +27,9 @@
 - (void)reloadInBackgroundWithBlock:(void (^)(NSError *error))block;
 - (DKQuery *)tableQuery;
 
+- (BOOL)tableViewCellIsNextPageCellAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
-- (UITableViewCell *)tableView:(UITableView *)tableView setupTableViewCellForEntity:(DKEntity *)entity reuseIdentifier:(NSString *)identifier;
-- (UITableViewCell *)nextPageCellForTableView:(UITableView *)tableView;
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath entity:(DKEntity *)entity;
+- (UITableViewCell *)tableViewNextPageCell:(UITableView *)tableView;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end

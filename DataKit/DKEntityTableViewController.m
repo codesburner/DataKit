@@ -101,10 +101,6 @@ DKSynthesize(currentOffset)
   return q;
 }
 
-- (BOOL)isNextPageCellIndexPath:(NSIndexPath *)indexPath {
-  return (self.hasMore && (indexPath.row == self.entities.count));
-}
-
 - (void)loadNextPageWithNextPageCell:(DKEntityTableNextPageCell *)cell {
   if (self.isLoading) {
     return;
@@ -118,13 +114,17 @@ DKSynthesize(currentOffset)
   }];
 }
 
+- (BOOL)tableViewCellIsNextPageCellAtIndexPath:(NSIndexPath *)indexPath {
+  return (self.hasMore && (indexPath.row == self.entities.count));
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return self.entities.count + (self.hasMore ? 1 : 0);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  if ([self isNextPageCellIndexPath:indexPath]) {
-    return [self nextPageCellForTableView:tableView];
+  if ([self tableViewCellIsNextPageCellAtIndexPath:indexPath]) {
+    return [self tableViewNextPageCell:tableView];
   }
   
   DKEntity *entity = [self.entities objectAtIndex:indexPath.row];
@@ -132,7 +132,8 @@ DKSynthesize(currentOffset)
   static NSString *identifier = @"DKEntityTableCell";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
   if (cell == nil) {
-    cell = [self tableView:tableView setupTableViewCellForEntity:entity reuseIdentifier:identifier];
+    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
   }
   
   if (self.displayedTitleKey.length > 0) {
@@ -145,14 +146,7 @@ DKSynthesize(currentOffset)
   return cell;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView setupTableViewCellForEntity:(DKEntity *)entity reuseIdentifier:(NSString *)identifier {
-  UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-  cell.selectionStyle = UITableViewCellSelectionStyleNone;
-  
-  return cell;
-}
-
-- (UITableViewCell *)nextPageCellForTableView:(UITableView *)tableView {
+- (UITableViewCell *)tableViewNextPageCell:(UITableView *)tableView {
   static NSString *identifier = @"DKEntityTableNextPageCell";
   DKEntityTableNextPageCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
   if (cell == nil) {
@@ -166,7 +160,7 @@ DKSynthesize(currentOffset)
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  if ([self isNextPageCellIndexPath:indexPath]) {
+  if ([self tableViewCellIsNextPageCellAtIndexPath:indexPath]) {
     DKEntityTableNextPageCell *cell = (id)[tableView cellForRowAtIndexPath:indexPath];
     [self loadNextPageWithNextPageCell:cell];
   }
