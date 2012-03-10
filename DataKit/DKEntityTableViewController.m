@@ -54,6 +54,7 @@ DKSynthesize(currentOffset)
   q.limit = self.objectsPerPage;
   
   self.isLoading = YES;
+  self.tableView.userInteractionEnabled = NO;
   
   [q findAllInBackgroundWithBlock:^(NSArray *results, NSError *error) {
     if (results.count > 0) {
@@ -63,6 +64,7 @@ DKSynthesize(currentOffset)
     self.currentOffset += results.count;
     self.hasMore = (results.count == self.objectsPerPage);
     self.isLoading = NO;
+    self.tableView.userInteractionEnabled = YES;
     
     if (error != nil) {
       UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
