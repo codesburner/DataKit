@@ -149,10 +149,11 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 + (void)saveAllInBackground:(NSArray *)objects {
-  return;
+  [self saveAllInBackground:objects withBlock:NULL];
 }
 
 + (void)saveAllInBackground:(NSArray *)objects withBlock:(DKEntityResultsBlock)block {
+  block = [block copy];
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async(kDKObjectQueue_, ^{
     NSError *error = nil;
@@ -268,6 +269,7 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (void)saveInBackgroundWithBlock:(DKEntityResultBlock)block {
+  block = [block copy];
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async(kDKObjectQueue_, ^{
     NSError *error = nil;
@@ -317,6 +319,7 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (void)refreshInBackgroundWithBlock:(DKEntityResultBlock)block {
+  block = [block copy];
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async(kDKObjectQueue_, ^{
     NSError *error = nil;
@@ -371,6 +374,7 @@ static dispatch_queue_t kDKObjectQueue_;
 }
 
 - (void)deleteInBackgroundWithBlock:(DKEntityResultBlock)block {
+  block = [block copy];
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async(kDKObjectQueue_, ^{
     NSError *error = nil;
