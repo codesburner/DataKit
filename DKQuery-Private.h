@@ -15,7 +15,7 @@
 @property (nonatomic, strong) NSMutableArray *ors;
 @property (nonatomic, strong) NSMutableArray *ands;
 
-- (NSArray *)find:(NSError **)error one:(BOOL)findOne count:(NSUInteger *)countOut;
+- (NSArray *)find:(NSError **)error one:(BOOL)findOne maxRandomResults:(NSUInteger)maxRand count:(NSUInteger *)countOut;
 
 @end
 

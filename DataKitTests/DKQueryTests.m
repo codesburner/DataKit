@@ -658,4 +658,42 @@
   [e2 delete];
 }
 
+- (void)testFindRandom {
+  NSString *name = @"Random";
+  
+  NSMutableArray *entities = [NSMutableArray new];
+  for (int i=0; i<50; i++) {
+    DKEntity *e = [DKEntity entityWithName:name];
+    [e setObject:[NSNumber numberWithInt:i] forKey:@"i"];
+    [e save];
+    
+    [entities addObject:e];
+  }
+  
+  DKQuery *q = [DKQuery queryWithEntityName:name];
+  
+  NSMutableArray *results = [NSMutableArray new];
+  for (int i=0; i<10; i++) {
+    NSError *error = nil;
+    NSArray *r = [q findRandomEntitiesWithMaxResults:5 error:&error];
+    
+    STAssertNil(error, error.localizedDescription);
+    STAssertEquals(r.count, (NSUInteger)5, nil);
+    
+    [results addObject:r];
+  }
+  
+  for (NSArray *r in results) {
+    for (NSArray *r2 in results) {
+      if (r != r2) {
+        STAssertFalse([r isEqualToArray:r2], @"should not be equal %@ %@", r, r2);
+      }
+    }
+  }
+  
+  for (DKEntity *e in entities) {
+    [e delete];
+  }
+}
+
 @end

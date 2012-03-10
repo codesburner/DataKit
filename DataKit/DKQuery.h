@@ -253,6 +253,27 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
 - (void)findById:(NSString *)entityId inBackgroundWithBlock:(DKQueryResultBlock)block;
 
 /*!
+ @param maxResults The maximum number of random entities to return (must be greater 0)
+ @return The random entities
+ @abstract Finds a random entity set and returns it
+ */
+- (NSArray *)findRandomEntitiesWithMaxResults:(NSUInteger)maxResults;
+
+/*!
+ @param maxResults The maximum number of random entities to return (must be greater 0)
+ @param error The error object written on error
+ @return The random entities
+ @abstract Finds a random entity set and returns it
+ */
+- (NSArray *)findRandomEntitiesWithMaxResults:(NSUInteger)maxResults error:(NSError **)error;
+
+/*!
+ @param maxResults The maximum number of random entities to return (must be greater 0)
+ @abstract Finds a random entity set in the background and returns the results to the callback.
+ */
+- (void)findRandomEntitiesWithMaxResults:(NSUInteger)maxResults inBackgroundWithBlock:(DKQueryResultsBlock)block;
+
+/*!
  @return The matched entity count
  @abstract Counts the entities matching the query.
  */

@@ -514,6 +514,17 @@ static dispatch_queue_t kDKObjectQueue_;
   return [NSURL URLWithString:ep]; 
 }
 
+- (BOOL)isEqual:(id)object {
+  if ([object isKindOfClass:isa]) {
+    return [[(DKEntity *)object entityId] isEqualToString:self.entityId];
+  }
+  return NO;
+}
+
+- (NSString *)description {
+  return [NSString stringWithFormat:@"<%@: %p %@>", NSStringFromClass(isa), self, self.entityId];
+}
+
 @end
 
 @implementation DKEntity (Private)
