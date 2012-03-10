@@ -22,7 +22,7 @@
 @implementation DKQuery
 DKSynthesize(entityName)
 DKSynthesize(limit)
-DKSynthesize(randomLimit)
+DKSynthesize(randomizeResults)
 DKSynthesize(skip)
 DKSynthesize(cachePolicy)
 DKSynthesize(queryMap)
@@ -182,8 +182,8 @@ static dispatch_queue_t kDKQueryQueue_;
   if (self.limit > 0) {
     [requestDict setObject:[NSNumber numberWithUnsignedInteger:self.limit] forKey:@"limit"];
   }
-  else if (self.randomLimit > 0) {
-    [requestDict setObject:[NSNumber numberWithUnsignedInteger:self.randomLimit] forKey:@"rlimit"];
+  if (self.randomizeResults) {
+    [requestDict setObject:[NSNumber numberWithBool:YES] forKey:@"rand"];
   }
   if (self.skip > 0) {
     [requestDict setObject:[NSNumber numberWithUnsignedInteger:self.skip] forKey:@"skip"];

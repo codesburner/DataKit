@@ -670,8 +670,10 @@
     [entities addObject:e];
   }
   
+  // Test randomized results
   DKQuery *q = [DKQuery queryWithEntityName:name];
-  q.randomLimit = 5;
+  q.limit = 5;
+  q.randomizeResults = YES;
   
   NSMutableArray *results = [NSMutableArray new];
   for (int i=0; i<10; i++) {
@@ -691,6 +693,17 @@
       }
     }
   }
+  
+  // Test ordered results
+  q.randomizeResults = NO;
+  
+  NSError *error = nil;
+  NSArray *r = [q findAll:&error];
+  
+  NSArray *match = [entities subarrayWithRange:NSMakeRange(0, 5)];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertEqualObjects(match, r, nil);
   
   for (DKEntity *e in entities) {
     [e delete];

@@ -21,16 +21,15 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
 /*!
  @property limit 
  @abstract Limit of query results.
- @warning This property is mutually exclusive to <randomLimit>.
  */
 @property (nonatomic, assign) NSUInteger limit;
 
 /*!
- @property randomLimit
- @abstract Finds random entities up to the specified limit.
- @warning This property is mutually exclusive to <limit>.
+ @property randomizeResults
+ @abstract Randomizes the returned query results.
+ @warning This may slow down the query operation.
  */
-@property (nonatomic, assign) NSUInteger randomLimit;
+@property (nonatomic, assign) BOOL randomizeResults;
 
 /*!
  @property skip
