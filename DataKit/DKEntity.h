@@ -20,6 +20,7 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
 @property (nonatomic, readonly) DKRelation *entityPointer;
 @property (nonatomic, readonly) NSDate *updatedAt;
 @property (nonatomic, readonly) NSDate *createdAt;
+@property (nonatomic, readonly) NSInteger sequenceNumber;
 @property (nonatomic, readonly) BOOL isNew;
 @property (nonatomic, readonly) BOOL isDirty;
 

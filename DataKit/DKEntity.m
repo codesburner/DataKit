@@ -221,6 +221,14 @@ static dispatch_queue_t kDKObjectQueue_;
   return nil;
 }
 
+- (NSInteger)sequenceNumber {
+  NSNumber *seq = [self.resultMap objectForKey:@"_seq"];
+  if (seq != nil) {
+    return [seq integerValue];
+  }
+  return -1;
+}
+
 - (BOOL)isNew {
   return (self.entityId.length == 0);
 }

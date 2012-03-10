@@ -32,7 +32,6 @@ DKSynthesize(cachePolicy)
 #define kDKObjectRelationToken @"dk:rel"
 #define kDKObjectRelationEntityNameKey @"entity"
 #define kDKObjectRelationEntityIDKey @"id"
-#define kDKObjectSequenceToken @"dk:seq"
 
 + (DKRequest *)request {
   return [[self alloc] init];

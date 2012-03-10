@@ -34,7 +34,7 @@
   STAssertTrue(success, @"update should have been successful (return YES)");
   
   NSUInteger mapCount = object.resultMap.count;
-  STAssertEquals(mapCount, (NSUInteger)4, @"result map should have 4 elements, has %i", mapCount);
+  STAssertEquals(mapCount, (NSUInteger)5, @"result map should have 5 elements, has %i", mapCount);
   
   NSString *oid = [object objectForKey:@"_id"];
   NSString *name = [object objectForKey:@"name"];
@@ -61,7 +61,7 @@
   STAssertTrue(success, @"update should have been successful (return YES)");
   
   mapCount = object.resultMap.count;
-  STAssertEquals(mapCount, (NSUInteger)5, @"result map should have 5 elements, has %i", mapCount);
+  STAssertEquals(mapCount, (NSUInteger)6, @"result map should have 6 elements, has %i", mapCount);
   
   NSString *oid2 = [object objectForKey:@"_id"];
   name = [object objectForKey:@"name"];
@@ -90,7 +90,7 @@
   STAssertTrue(success, @"update (unset) should have been successful (return YES)");
   
   mapCount = object.resultMap.count;
-  STAssertEquals(mapCount, (NSUInteger)4, @"result map should have 4 elements, has %i", mapCount);
+  STAssertEquals(mapCount, (NSUInteger)5, @"result map should have 5 elements, has %i", mapCount);
   
   more = [object objectForKey:@"more"];
   STAssertNil(more, @"more field should have been deleted");
@@ -114,7 +114,7 @@
   STAssertTrue(success, @"refresh should have been successful (return YES)");
   
   mapCount = object.resultMap.count;
-  STAssertEquals(mapCount, (NSUInteger)4, @"result map should have 4 elements, has %i", mapCount);
+  STAssertEquals(mapCount, (NSUInteger)5, @"result map should have 5 elements, has %i", mapCount);
   
   refreshField = [object objectForKey:@"refresh"];
   STAssertNil(refreshField, @"refresh field should have been cleared");
@@ -137,6 +137,30 @@
   success = [object delete:&error];
   STAssertNil(error, @"delete should not return error, did return %@", error);
   STAssertTrue(success, @"delete should have been successful (return YES)");
+}
+
+- (void)testSequenceNumbers {
+  NSString *en = @"Sequence";
+  
+  DKEntity *e = [DKEntity entityWithName:en];
+  [e setObject:@"x" forKey:@"a"];
+  [e save];
+  
+  DKEntity *e2 = [DKEntity entityWithName:en];
+  [e2 setObject:@"x" forKey:@"a"];
+  [e2 save];
+  
+  DKEntity *e3 = [DKEntity entityWithName:en];
+  [e3 setObject:@"x" forKey:@"a"];
+  [e3 save];
+  
+  STAssertTrue(e.sequenceNumber >= 0, nil);
+  STAssertEquals(e2.sequenceNumber, e.sequenceNumber + 1, nil);
+  STAssertEquals(e3.sequenceNumber, e2.sequenceNumber + 1, nil);
+  
+  [e delete];
+  [e2 delete];
+  [e3 delete];
 }
 
 - (void)testRemoveWithoutPriorSave {
