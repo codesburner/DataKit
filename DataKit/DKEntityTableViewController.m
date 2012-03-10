@@ -55,7 +55,7 @@ DKSynthesize(currentOffset)
   return self;
 }
 
-- (void)appendNextPageWithFinishCallback:(void (^)(void))callback {
+- (void)appendNextPageWithFinishCallback:(void (^)(NSError *error))callback {
   DKQuery *q = self.query;
   q.skip = self.currentOffset;
   q.limit = self.objectsPerPage;
@@ -83,16 +83,20 @@ DKSynthesize(currentOffset)
     [self.tableView reloadData];
     
     if (callback != NULL) {
-      callback();
+      callback(error);
     }
   }];
 }
 
-- (void)reload {
+- (void)reloadInBackground {
+  [self reloadInBackgroundWithBlock:NULL];
+}
+
+- (void)reloadInBackgroundWithBlock:(void (^)(NSError *))block {
   self.hasMore = YES;
   self.currentOffset = 0;
   [self.entities removeAllObjects];
-  [self appendNextPageWithFinishCallback:NULL];
+  [self appendNextPageWithFinishCallback:block];
 }
 
 - (BOOL)isNextPageCellIndexPath:(NSIndexPath *)indexPath {
@@ -106,7 +110,7 @@ DKSynthesize(currentOffset)
   [cell.activityAccessoryView startAnimating];
   [cell setNeedsLayout];
   
-  [self appendNextPageWithFinishCallback:^{
+  [self appendNextPageWithFinishCallback:^(NSError *error){
     [cell.activityAccessoryView stopAnimating];
     [cell setNeedsLayout];
   }];

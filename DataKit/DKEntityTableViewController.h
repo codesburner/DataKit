@@ -24,7 +24,8 @@
 - (id)initWithEntityName:(NSString *)entityName;
 - (id)initWithStyle:(UITableViewStyle)style entityName:(NSString *)entityName;
 
-- (void)reload;
+- (void)reloadInBackground;
+- (void)reloadInBackgroundWithBlock:(void (^)(NSError *error))block;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell *)tableView:(UITableView *)tableView setupTableViewCellForEntity:(DKEntity *)entity reuseIdentifier:(NSString *)identifier;
