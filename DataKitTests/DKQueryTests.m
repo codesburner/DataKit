@@ -675,7 +675,7 @@
   NSMutableArray *results = [NSMutableArray new];
   for (int i=0; i<10; i++) {
     NSError *error = nil;
-    NSArray *r = [q findRandomEntitiesWithMaxResults:5 error:&error];
+    NSArray *r = [q findRandomWithMaxResults:5 error:&error];
     
     STAssertNil(error, error.localizedDescription);
     STAssertEquals(r.count, (NSUInteger)5, nil);

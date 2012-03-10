@@ -300,21 +300,21 @@ static dispatch_queue_t kDKQueryQueue_;
   });
 }
 
-- (NSArray *)findRandomEntitiesWithMaxResults:(NSUInteger)maxResults {
-  return [self findRandomEntitiesWithMaxResults:maxResults error:NULL];
+- (NSArray *)findRandomWithMaxResults:(NSUInteger)maxResults {
+  return [self findRandomWithMaxResults:maxResults error:NULL];
 }
 
-- (NSArray *)findRandomEntitiesWithMaxResults:(NSUInteger)maxResults error:(NSError **)error {
+- (NSArray *)findRandomWithMaxResults:(NSUInteger)maxResults error:(NSError **)error {
   NSAssert(maxResults > 0, @"max results must be greater zero");
   [self reset];
   return [self find:error one:NO maxRandomResults:maxResults count:NULL];
 }
 
-- (void)findRandomEntitiesWithMaxResults:(NSUInteger)maxResults inBackgroundWithBlock:(DKQueryResultsBlock)block {
+- (void)findRandomWithMaxResults:(NSUInteger)maxResults inBackgroundWithBlock:(DKQueryResultsBlock)block {
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async(kDKQueryQueue_, ^{
     NSError *error = nil;
-    NSArray *results = [self findRandomEntitiesWithMaxResults:maxResults error:&error];
+    NSArray *results = [self findRandomWithMaxResults:maxResults error:&error];
     if (block != NULL) {
       dispatch_async(q, ^{
         block(results, error); 
