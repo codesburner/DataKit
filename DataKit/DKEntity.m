@@ -55,7 +55,7 @@ static dispatch_queue_t kDKObjectQueue_;
     // Prevent use of '!', '$' and '.' in keys
     static NSCharacterSet *forbiddenChars;
     if (forbiddenChars == nil) {
-      forbiddenChars = [NSCharacterSet characterSetWithCharactersInString:@"!$."];
+      forbiddenChars = [NSCharacterSet characterSetWithCharactersInString:@"$."];
     }
     
     __block id (^validateKeys)(id obj);
@@ -65,7 +65,7 @@ static dispatch_queue_t kDKObjectQueue_;
           NSRange range = [key rangeOfCharacterFromSet:forbiddenChars];
           if (range.location != NSNotFound) {
             [NSException raise:NSInvalidArgumentException
-                        format:@"Invalid object key '%@'. Keys may not contain '!', '$' or '.'", key];
+                        format:@"Invalid object key '%@'. Keys may not contain '$' or '.'", key];
           }
           id obj2 = [obj objectForKey:key];
           validateKeys(obj2);

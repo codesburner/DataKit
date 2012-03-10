@@ -14,6 +14,11 @@
 typedef void (^DKEntityResultBlock)(DKEntity *entity, NSError *error);
 typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
 
+/**
+ A DKEntity represents an object stored in the collection with the given name.
+ 
+ @warning *Important*: `$` and `.` characters cannot be used in object keys
+ */
 @interface DKEntity : NSObject
 @property (nonatomic, copy, readonly) NSString *entityName;
 @property (nonatomic, readonly) NSString *entityId;
@@ -27,12 +32,23 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
 + (id)new UNAVAILABLE_ATTRIBUTE;
 - (id)init UNAVAILABLE_ATTRIBUTE;
 
+/** @name Creating and Initializing Entities */
+
 /*!
  @param entityName The name of the entity
  @return Initialized object.
  @abstract Initialized an object with the given entity type.
  */
 + (DKEntity *)entityWithName:(NSString *)entityName;
+
+/*!
+ @param entityName The name of the entity
+ @return Initialized entity.
+ @abstract Initialize a new entity named |entityName|.
+ */
+- (id)initWithName:(NSString *)entityName;
+
+/** @name Saving Entities */
 
 /*!
  @param entities The entities to save
@@ -67,21 +83,9 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
 + (void)saveAllInBackground:(NSArray *)entities withBlock:(DKEntityResultsBlock)block;
 
 /*!
- @param entityName The name of the entity
- @return Initialized entity.
- @abstract Initialize a new entity named |entityName|.
- */
-- (id)initWithName:(NSString *)entityName;
-
-/*!
- @abstract Resets the entity to it's last saved state.
- */
-- (void)reset;
-
-/*!
  @return YES on success, NO if error occurred.
  @abstract Saves changes made to entity.
- @discussion Will raise an NSInvalidArgumentException if any key contains a '!', '$' or '.' character.
+ @exception NSInvalidArgumentException Raised if any key contains an `$` or `.` character.
  */
 - (BOOL)save;
 
@@ -89,22 +93,24 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  @param error Is set to an error if error occurred.
  @return YES on success, NO if an error occurred.
  @abstract Saves changes made to entity.
- @discussion Will raise an NSInvalidArgumentException if any key contains a '!', '$' or '.' character.
+ @exception NSInvalidArgumentException Raised if any key contains an `$` or `.` character.
  */
 - (BOOL)save:(NSError **)error;
 
 /*!
  @abstract Saves changes made to entity in background.
- @discussion Will raise an NSInvalidArgumentException if any key contains a '!', '$' or '.' character.
+ @exception NSInvalidArgumentException Raised if any key contains an `$` or `.` character.
  */
 - (void)saveInBackground;
 
 /*!
  @param block The callback block
  @abstract Saves changes made to entity in background and invokes callback on completion.
- @discussion Will raise an NSInvalidArgumentException if any key contains a '!', '$' or '.' character.
+ @exception NSInvalidArgumentException Raised if any key contains an `$` or `.` character.
  */
 - (void)saveInBackgroundWithBlock:(DKEntityResultBlock)block;
+
+/** @name Refreshing Entities */
 
 /*!
  @return YES on success, NO if an error occurred.
@@ -130,6 +136,8 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  */
 - (void)refreshInBackgroundWithBlock:(DKEntityResultBlock)block;
 
+/** @name Deleting Entities */
+
 /*!
  @return YES on success, NO if an error occurred.
  @abstract Deletes entity.
@@ -154,22 +162,7 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  */
 - (void)deleteInBackgroundWithBlock:(DKEntityResultBlock)block;
 
-/*!
- @param key The key to index
- @abstract Ensures that the key is indexed
- @discussion Indexes often enhance query performance dramatically.
- */
-- (BOOL)ensureIndexForKey:(NSString *)key;
-
-/*!
- @param key The key to index
- @param unique Make sure the key is unique in this entity
- @param dropDups Automatically drop duplicates
- @param error The error object to be written on error
- @abstract Ensures that the key is indexed and optionally unique.
- @discussion Indexes often enhance query performance dramatically.
- */
-- (BOOL)ensureIndexForKey:(NSString *)key unique:(BOOL)unique dropDuplicates:(BOOL)dropDups error:(NSError **)error;
+/** @name Getting Objects*/
 
 /*!
  @param key The key to get
@@ -178,11 +171,14 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  */
 - (id)objectForKey:(NSString *)key;
 
+/** @name Modifying Objects*/
+
 /*!
  @param object The object to store.
  @param key The key for the object.
  @abstract Sets the object for the given key.
- @discussion The object must be of type NSString, NSNumber, NSArray, NSDictionary, NSNull (JSON compliant) or NSData, DKRelation. The keys must not include "!", "$" or "." characters.
+ @discussion The object must be of type NSString, NSNumber, NSArray, NSDictionary, NSNull, NSData or <DKRelation>.
+ @warning The key must not include an `$` or `.` character.
  */
 - (void)setObject:(id)object forKey:(NSString *)key;
 
@@ -190,7 +186,8 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  @param object The object to push
  @param key The key for the object.
  @abstract Appends the object to the field with |key| if it is an existing array, otherwise sets field to a single element array containing the object if field is not present.
- @discussion If field is present but not an array, object save will fail. Object must be a JSON type and the keys must not include "!", "$" or "." characters.
+ @discussion If field is present but not an array, object save will fail. Object must be a JSON type.
+ @warning The key must not include an `$` or `.` character.
  */
 - (void)pushObject:(id)object forKey:(NSString *)key;
 
@@ -198,7 +195,8 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  @param objects The object array to push
  @param key The key for the objects.
  @abstract Appends each object to the field with |key| if it is an existing array, otherwise sets field to a new array containing the objects if field is not present.
- @discussion If field is present but not an array, object save will fail. Objects must be JSON types and the keys must not include "!", "$" or "." characters.
+ @discussion If field is present but not an array, object save will fail. Objects must be JSON types.
+ @warning The key must not include an `$` or `.` character.
  */
 - (void)pushAllObjects:(NSArray *)objects forKey:(NSString *)key;
 
@@ -206,7 +204,8 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  @param object The object to add.
  @param key The key for the object
  @abstract Adds the object to the array only if the object is not already present and if field |key| is an existing array, otherwise sets field |key| to a single object array containing |object| if field not present.
- @discussion If field is present but not an array, object save will fail. Object must be a JSON type and the keys must not include "!", "$" or "." characters.
+ @discussion If field is present but not an array, object save will fail. Object must be a JSON type.
+ @warning The key must not include an `$` or `.` character.
  */
 - (void)addObjectToSet:(id)object forKey:(NSString *)key;
 
@@ -214,7 +213,8 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  @param objects The objects to add.
  @param key The key for the objects
  @abstract Adds the objects to the array only if the objects are not already present and if field |key| is an existing array, otherwise sets field |key| to the object array containing |objects| if field not present.
- @discussion If field is present but not an array, object save will fail. All objects must be JSON types and the keys must not include "!", "$" or "." characters.
+ @discussion If field is present but not an array, object save will fail. All objects must be JSON types.
+ @warning The key must not include an `$` or `.` character.
  */
 - (void)addAllObjectsToSet:(NSArray *)objects forKey:(NSString *)key;
 
@@ -267,6 +267,27 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  */
 - (void)incrementKey:(NSString *)key byAmount:(NSNumber *)amount;
 
+/** @name Indexing */
+
+/*!
+ @param key The key to index
+ @abstract Ensures that the key is indexed
+ @discussion Indexes often enhance query performance dramatically.
+ */
+- (BOOL)ensureIndexForKey:(NSString *)key;
+
+/*!
+ @param key The key to index
+ @param unique Make sure the key is unique in this entity
+ @param dropDups Automatically drop duplicates
+ @param error The error object to be written on error
+ @abstract Ensures that the key is indexed and optionally unique.
+ @discussion Indexes often enhance query performance dramatically.
+ */
+- (BOOL)ensureIndexForKey:(NSString *)key unique:(BOOL)unique dropDuplicates:(BOOL)dropDups error:(NSError **)error;
+
+/** @name Public URLs */
+
 /*!
  @param fieldKeys An array with fields of the object to show. If set to nil returns all fields.
  @param error The error object.
@@ -275,5 +296,12 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  @discussion If the fields array contains one element a request to this URL will return the fields raw data, if the array is nil (select all fields) or it's count is greater than one the request will return a JSON representation of the object.
  */
 - (NSURL *)generatePublicURLForFields:(NSArray *)fieldKeys error:(NSError **)error;
+
+/** @name Resetting State */
+
+/*!
+ @abstract Resets the entity to it's last saved state.
+ */
+- (void)reset;
 
 @end

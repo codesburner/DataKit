@@ -11,6 +11,9 @@
 #import "DKEntity.h"
 #import "DKQuery.h"
 
+/**
+ Defines a relation to another entity
+ */
 @interface DKRelation : NSObject
 @property (nonatomic, copy, readonly) NSString *entityName;
 @property (nonatomic, copy, readonly) NSString *entityId;
