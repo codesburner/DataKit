@@ -22,6 +22,7 @@
 @implementation DKQuery
 DKSynthesize(entityName)
 DKSynthesize(limit)
+DKSynthesize(randomLimit)
 DKSynthesize(skip)
 DKSynthesize(cachePolicy)
 DKSynthesize(queryMap)
@@ -162,7 +163,7 @@ static dispatch_queue_t kDKQueryQueue_;
   // TODO: implement
 }
 
-- (NSArray *)find:(NSError **)error one:(BOOL)findOne maxRandomResults:(NSUInteger)maxRand count:(NSUInteger *)countOut {
+- (NSArray *)find:(NSError **)error one:(BOOL)findOne count:(NSUInteger *)countOut {
   // Create request dict
   NSMutableDictionary *requestDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                       self.entityName, @"entity", nil];
@@ -181,6 +182,9 @@ static dispatch_queue_t kDKQueryQueue_;
   if (self.limit > 0) {
     [requestDict setObject:[NSNumber numberWithUnsignedInteger:self.limit] forKey:@"limit"];
   }
+  else if (self.randomLimit > 0) {
+    [requestDict setObject:[NSNumber numberWithUnsignedInteger:self.randomLimit] forKey:@"rlimit"];
+  }
   if (self.skip > 0) {
     [requestDict setObject:[NSNumber numberWithUnsignedInteger:self.skip] forKey:@"skip"];
   }
@@ -190,9 +194,7 @@ static dispatch_queue_t kDKQueryQueue_;
   if (countOut != NULL) {
     [requestDict setObject:[NSNumber numberWithBool:YES] forKey:@"count"];
   }
-  if (maxRand > 0) {
-    [requestDict setObject:[NSNumber numberWithUnsignedInteger:maxRand] forKey:@"mrand"];
-  }
+  
   
   // Send request synchronously
   DKRequest *request = [DKRequest request];
@@ -240,7 +242,7 @@ static dispatch_queue_t kDKQueryQueue_;
 }
 
 - (NSArray *)findAll:(NSError **)error {
-  return [self find:error one:NO maxRandomResults:0 count:NULL];
+  return [self find:error one:NO count:NULL];
 }
 
 - (void)findAllInBackgroundWithBlock:(DKQueryResultsBlock)block {
@@ -261,7 +263,7 @@ static dispatch_queue_t kDKQueryQueue_;
 }
 
 - (DKEntity *)findOne:(NSError **)error {
-  return [[self find:error one:YES maxRandomResults:0 count:NULL] lastObject];
+  return [[self find:error one:YES count:NULL] lastObject];
 }
 
 - (void)findOneInBackgroundWithBlock:(DKQueryResultBlock)block {
@@ -300,36 +302,13 @@ static dispatch_queue_t kDKQueryQueue_;
   });
 }
 
-- (NSArray *)findRandomWithMaxResults:(NSUInteger)maxResults {
-  return [self findRandomWithMaxResults:maxResults error:NULL];
-}
-
-- (NSArray *)findRandomWithMaxResults:(NSUInteger)maxResults error:(NSError **)error {
-  NSAssert(maxResults > 0, @"max results must be greater zero");
-  [self reset];
-  return [self find:error one:NO maxRandomResults:maxResults count:NULL];
-}
-
-- (void)findRandomWithMaxResults:(NSUInteger)maxResults inBackgroundWithBlock:(DKQueryResultsBlock)block {
-  dispatch_queue_t q = dispatch_get_current_queue();
-  dispatch_async(kDKQueryQueue_, ^{
-    NSError *error = nil;
-    NSArray *results = [self findRandomWithMaxResults:maxResults error:&error];
-    if (block != NULL) {
-      dispatch_async(q, ^{
-        block(results, error); 
-      });
-    }
-  });
-}
-
 - (NSInteger)countAll {
   return [self countAll:NULL];
 }
 
 - (NSInteger)countAll:(NSError **)error {
   NSUInteger count = 0;
-  [self find:error one:NO maxRandomResults:0 count:&count];
+  [self find:error one:NO count:&count];
   return count;
 }
 

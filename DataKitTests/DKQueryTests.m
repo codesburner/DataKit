@@ -671,11 +671,12 @@
   }
   
   DKQuery *q = [DKQuery queryWithEntityName:name];
+  q.randomLimit = 5;
   
   NSMutableArray *results = [NSMutableArray new];
   for (int i=0; i<10; i++) {
     NSError *error = nil;
-    NSArray *r = [q findRandomWithMaxResults:5 error:&error];
+    NSArray *r = [q findAll:&error];
     
     STAssertNil(error, error.localizedDescription);
     STAssertEquals(r.count, (NSUInteger)5, nil);
