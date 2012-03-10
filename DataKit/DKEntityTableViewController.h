@@ -15,7 +15,6 @@
 @property (nonatomic, copy) NSString *entityName;
 @property (nonatomic, copy) NSString *displayedTitleKey;
 @property (nonatomic, copy) NSString *displayedImageKey;
-@property (nonatomic, strong) DKQuery *query;
 @property (nonatomic, assign) NSUInteger objectsPerPage;
 @property (nonatomic, readonly) NSUInteger numberOfDisplayedPages;
 @property (nonatomic, assign, readonly) BOOL isLoading;
@@ -26,6 +25,7 @@
 
 - (void)reloadInBackground;
 - (void)reloadInBackgroundWithBlock:(void (^)(NSError *error))block;
+- (DKQuery *)tableQuery;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 - (UITableViewCell *)tableView:(UITableView *)tableView setupTableViewCellForEntity:(DKEntity *)entity reuseIdentifier:(NSString *)identifier;

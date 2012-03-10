@@ -25,7 +25,6 @@
 DKSynthesize(entityName)
 DKSynthesize(displayedTitleKey)
 DKSynthesize(displayedImageKey)
-DKSynthesize(query)
 DKSynthesize(objectsPerPage)
 DKSynthesize(numberOfDisplayedPages)
 DKSynthesize(isLoading)
@@ -45,18 +44,12 @@ DKSynthesize(currentOffset)
     self.currentOffset = 0;
     self.entityName = entityName;
     self.entities = [NSMutableArray new];
-    
-    // Init query
-    DKQuery *q = [DKQuery queryWithEntityName:entityName];
-    [q orderDescendingByKey:@"_id"];
-    
-    self.query = q;
   }
   return self;
 }
 
 - (void)appendNextPageWithFinishCallback:(void (^)(NSError *error))callback {
-  DKQuery *q = self.query;
+  DKQuery *q = [self tableQuery];
   q.skip = self.currentOffset;
   q.limit = self.objectsPerPage;
   
@@ -97,6 +90,13 @@ DKSynthesize(currentOffset)
   self.currentOffset = 0;
   [self.entities removeAllObjects];
   [self appendNextPageWithFinishCallback:block];
+}
+
+- (DKQuery *)tableQuery {
+  DKQuery *q = [DKQuery queryWithEntityName:self.entityName];
+  [q orderDescendingByKey:@"_id"];
+  
+  return q;
 }
 
 - (BOOL)isNextPageCellIndexPath:(NSIndexPath *)indexPath {
