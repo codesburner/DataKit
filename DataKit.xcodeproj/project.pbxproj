@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		DC03846114F68EA1000DADD6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC03846014F68EA1000DADD6 /* Foundation.framework */; };
 		DC03846F14F68EA1000DADD6 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC03846E14F68EA1000DADD6 /* SenTestingKit.framework */; };
-		DC03847114F68EA1000DADD6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC03847014F68EA1000DADD6 /* UIKit.framework */; };
 		DC03847214F68EA1000DADD6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC03846014F68EA1000DADD6 /* Foundation.framework */; };
 		DC03847514F68EA1000DADD6 /* libDataKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC03845D14F68EA1000DADD6 /* libDataKit.a */; };
 		DC03847B14F68EA1000DADD6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC03847914F68EA1000DADD6 /* InfoPlist.strings */; };
@@ -19,6 +18,9 @@
 		DC03848E14F6955A000DADD6 /* DKRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = DC03848C14F6955A000DADD6 /* DKRelation.m */; };
 		DC03849114F69C72000DADD6 /* DKQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = DC03848F14F69C72000DADD6 /* DKQuery.h */; };
 		DC03849214F69C72000DADD6 /* DKQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = DC03849014F69C72000DADD6 /* DKQuery.m */; };
+		DC162311150BBA4900F12198 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC162310150BBA4900F12198 /* CoreGraphics.framework */; };
+		DC162319150BBC7E00F12198 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC830522150513A200D6AB1C /* UIKit.framework */; };
+		DC16231A150BBC8A00F12198 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC162310150BBA4900F12198 /* CoreGraphics.framework */; };
 		DC52508714FA4F2C00646185 /* DKEntity-Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DC52508514FA4F2C00646185 /* DKEntity-Private.h */; };
 		DC52509814FAE1DC00646185 /* NSData+DataKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DC52509614FAE1DC00646185 /* NSData+DataKit.h */; };
 		DC52509914FAE1DC00646185 /* NSData+DataKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DC52509714FAE1DC00646185 /* NSData+DataKit.m */; };
@@ -59,7 +61,6 @@
 		DC03846514F68EA1000DADD6 /* DataKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataKit.h; sourceTree = "<group>"; };
 		DC03846D14F68EA1000DADD6 /* DataKitTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DataKitTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC03846E14F68EA1000DADD6 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		DC03847014F68EA1000DADD6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		DC03847814F68EA1000DADD6 /* DataKitTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DataKitTests-Info.plist"; sourceTree = "<group>"; };
 		DC03847A14F68EA1000DADD6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DC03848714F691BA000DADD6 /* DKEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKEntity.h; sourceTree = "<group>"; };
@@ -68,6 +69,7 @@
 		DC03848C14F6955A000DADD6 /* DKRelation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKRelation.m; sourceTree = "<group>"; };
 		DC03848F14F69C72000DADD6 /* DKQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKQuery.h; sourceTree = "<group>"; };
 		DC03849014F69C72000DADD6 /* DKQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKQuery.m; sourceTree = "<group>"; };
+		DC162310150BBA4900F12198 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		DC52508514FA4F2C00646185 /* DKEntity-Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DKEntity-Private.h"; sourceTree = "<group>"; };
 		DC52509614FAE1DC00646185 /* NSData+DataKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+DataKit.h"; sourceTree = "<group>"; };
 		DC52509714FAE1DC00646185 /* NSData+DataKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+DataKit.m"; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC162311150BBA4900F12198 /* CoreGraphics.framework in Frameworks */,
 				DC830523150513A200D6AB1C /* UIKit.framework in Frameworks */,
 				DC03846114F68EA1000DADD6 /* Foundation.framework in Frameworks */,
 			);
@@ -108,8 +111,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC16231A150BBC8A00F12198 /* CoreGraphics.framework in Frameworks */,
+				DC162319150BBC7E00F12198 /* UIKit.framework in Frameworks */,
 				DC03846F14F68EA1000DADD6 /* SenTestingKit.framework in Frameworks */,
-				DC03847114F68EA1000DADD6 /* UIKit.framework in Frameworks */,
 				DC03847214F68EA1000DADD6 /* Foundation.framework in Frameworks */,
 				DC03847514F68EA1000DADD6 /* libDataKit.a in Frameworks */,
 			);
@@ -141,10 +145,10 @@
 		DC03845F14F68EA1000DADD6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DC162310150BBA4900F12198 /* CoreGraphics.framework */,
 				DC830522150513A200D6AB1C /* UIKit.framework */,
 				DC03846014F68EA1000DADD6 /* Foundation.framework */,
 				DC03846E14F68EA1000DADD6 /* SenTestingKit.framework */,
-				DC03847014F68EA1000DADD6 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

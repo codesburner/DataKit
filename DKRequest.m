@@ -28,8 +28,11 @@
 DKSynthesize(endpoint)
 DKSynthesize(cachePolicy)
 
-#define kDKObjectDataToken @"dkdata!"
-#define kDKObjectRelationToken @"dkrel!"
+#define kDKObjectDataToken @"dk:data"
+#define kDKObjectRelationToken @"dk:rel"
+#define kDKObjectRelationEntityNameKey @"entity"
+#define kDKObjectRelationEntityIDKey @"id"
+#define kDKObjectSequenceToken @"dk:seq"
 
 + (DKRequest *)request {
   return [[self alloc] init];
@@ -76,16 +79,18 @@ DKSynthesize(cachePolicy)
 - (id)sendRequestWithObject:(id)JSONObject method:(NSString *)apiMethod error:(NSError **)error {
   // Encode special objects
   JSONObject = [self iterateJSON:JSONObject modify:^id(id objectToModify) {
+    // NSData
     if ([objectToModify isKindOfClass:[NSData class]]) {
       return [NSDictionary dictionaryWithObject:[(NSData *)objectToModify base64String]
                                          forKey:kDKObjectDataToken];
     }
+    // DKRelations
     else if ([objectToModify isKindOfClass:[DKRelation class]]) {
       DKRelation *relation = (DKRelation *)objectToModify;
-      return [NSString stringWithFormat:@"%@%@!%@",
-              kDKObjectRelationToken,
-              relation.entityName,
-              relation.entityId];
+      NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
+                            relation.entityName, kDKObjectRelationEntityNameKey,
+                            relation.entityId, kDKObjectRelationEntityIDKey, nil];
+      return [NSDictionary dictionaryWithObject:info forKey:kDKObjectRelationToken];
     }
     return objectToModify;
   }];
@@ -161,20 +166,20 @@ DKSynthesize(cachePolicy)
       resultObj = [self iterateJSON:resultObj modify:^id(id objectToModify) {
         if ([objectToModify isKindOfClass:[NSDictionary class]]) {
           NSDictionary *dict = (NSDictionary *)objectToModify;
+          
+          // Check for embedded NSData ...
           NSString *base64 = [dict objectForKey:kDKObjectDataToken];
           if ([base64 isKindOfClass:[NSString class]]) {
             if (base64.length > 0 && dict.count == 1) {
               return [NSData dataWithBase64String:base64];
             }
           }
-        }
-        else if ([objectToModify isKindOfClass:[NSString class]] &&
-                 [(NSString *)objectToModify hasPrefix:kDKObjectRelationToken]) {
-          NSArray *comp = [(NSString *)objectToModify componentsSeparatedByString:@"!"];
-          if (comp.count == 3) {
-            DKRelation *relation = [DKRelation relationWithEntityName:[comp objectAtIndex:1]
-                                                             entityId:[comp objectAtIndex:2]];
-            return relation;
+          
+          // ... DKRelations
+          NSDictionary *relInfo = [dict objectForKey:kDKObjectRelationToken];
+          if ([relInfo isKindOfClass:[NSDictionary class]]) {
+            return [DKRelation relationWithEntityName:[relInfo objectForKey:kDKObjectRelationEntityNameKey]
+                                             entityId:[relInfo objectForKey:kDKObjectRelationEntityIDKey]];
           }
         }
         return objectToModify;
