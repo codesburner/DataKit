@@ -694,6 +694,32 @@
     }
   }
   
+  // Test randomized find one
+  q.limit = 5;
+  q.randomizeResults = YES;
+  
+  results = [NSMutableArray new];
+  for (int i=0; i<6; i++) {
+    NSError *error = nil;
+    DKEntity *e = [q findOne:&error];
+    
+    STAssertNil(error, error.localizedDescription);
+    STAssertNotNil(e, nil);
+    
+    [results addObject:e];
+  }
+  
+  NSUInteger numDifferent;
+  for (DKEntity *e in results) {
+    for (DKEntity *e2 in results) {
+      if (e != e2) {
+        numDifferent++;
+      }
+    }
+  }
+  
+  STAssertTrue(numDifferent > 3, nil);
+  
   // Test randomized results without limit
   q.limit = 0;
   q.randomizeResults = YES;
