@@ -29,9 +29,6 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
 @property (nonatomic, readonly) BOOL isNew;
 @property (nonatomic, readonly) BOOL isDirty;
 
-+ (id)new UNAVAILABLE_ATTRIBUTE;
-- (id)init UNAVAILABLE_ATTRIBUTE;
-
 /** @name Creating and Initializing Entities */
 
 /**
@@ -308,5 +305,8 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  Resets the entity to it's last saved state
  */
 - (void)reset;
+
++ (id)new UNAVAILABLE_ATTRIBUTE;
+- (id)init UNAVAILABLE_ATTRIBUTE;
 
 @end
