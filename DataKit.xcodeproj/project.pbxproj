@@ -21,6 +21,8 @@
 		DC162311150BBA4900F12198 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC162310150BBA4900F12198 /* CoreGraphics.framework */; };
 		DC162319150BBC7E00F12198 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC830522150513A200D6AB1C /* UIKit.framework */; };
 		DC16231A150BBC8A00F12198 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC162310150BBA4900F12198 /* CoreGraphics.framework */; };
+		DC3AB9FB150CAC7700BFD319 /* DKMapReduce.h in Headers */ = {isa = PBXBuildFile; fileRef = DC3AB9F9150CAC7700BFD319 /* DKMapReduce.h */; };
+		DC3AB9FC150CAC7700BFD319 /* DKMapReduce.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3AB9FA150CAC7700BFD319 /* DKMapReduce.m */; };
 		DC52508714FA4F2C00646185 /* DKEntity-Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DC52508514FA4F2C00646185 /* DKEntity-Private.h */; };
 		DC52509814FAE1DC00646185 /* NSData+DataKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DC52509614FAE1DC00646185 /* NSData+DataKit.h */; };
 		DC52509914FAE1DC00646185 /* NSData+DataKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DC52509714FAE1DC00646185 /* NSData+DataKit.m */; };
@@ -70,6 +72,8 @@
 		DC03848F14F69C72000DADD6 /* DKQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKQuery.h; sourceTree = "<group>"; };
 		DC03849014F69C72000DADD6 /* DKQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKQuery.m; sourceTree = "<group>"; };
 		DC162310150BBA4900F12198 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DC3AB9F9150CAC7700BFD319 /* DKMapReduce.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKMapReduce.h; sourceTree = "<group>"; };
+		DC3AB9FA150CAC7700BFD319 /* DKMapReduce.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKMapReduce.m; sourceTree = "<group>"; };
 		DC52508514FA4F2C00646185 /* DKEntity-Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DKEntity-Private.h"; sourceTree = "<group>"; };
 		DC52509614FAE1DC00646185 /* NSData+DataKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+DataKit.h"; sourceTree = "<group>"; };
 		DC52509714FAE1DC00646185 /* NSData+DataKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+DataKit.m"; sourceTree = "<group>"; };
@@ -167,6 +171,8 @@
 				DC03848C14F6955A000DADD6 /* DKRelation.m */,
 				DC03848F14F69C72000DADD6 /* DKQuery.h */,
 				DC03849014F69C72000DADD6 /* DKQuery.m */,
+				DC3AB9F9150CAC7700BFD319 /* DKMapReduce.h */,
+				DC3AB9FA150CAC7700BFD319 /* DKMapReduce.m */,
 				DC83051E1505127B00D6AB1C /* DKEntityTableViewController.h */,
 				DC83051F1505127B00D6AB1C /* DKEntityTableViewController.m */,
 			);
@@ -235,6 +241,7 @@
 				DC61AC7C14FCFE3B003A9057 /* NSString+DataKit.h in Headers */,
 				DC90FF9014FE4F9300F52435 /* DKQuery-Private.h in Headers */,
 				DC8305201505127B00D6AB1C /* DKEntityTableViewController.h in Headers */,
+				DC3AB9FB150CAC7700BFD319 /* DKMapReduce.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +352,7 @@
 				DC52509914FAE1DC00646185 /* NSData+DataKit.m in Sources */,
 				DC61AC7D14FCFE3B003A9057 /* NSString+DataKit.m in Sources */,
 				DC8305211505127B00D6AB1C /* DKEntityTableViewController.m in Sources */,
+				DC3AB9FC150CAC7700BFD319 /* DKMapReduce.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

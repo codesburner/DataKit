@@ -29,12 +29,6 @@ DKSynthesize(resultMap)
 #define kDKEntityIDField @"_id"
 #define kDKEntityUpdatedField @"_updated"
 
-static dispatch_queue_t kDKObjectQueue_;
-
-+ (void)initialize {
-  kDKObjectQueue_ = dispatch_queue_create("entity queue", DISPATCH_QUEUE_SERIAL);
-}
-
 + (DKEntity *)entityWithName:(NSString *)entityName {
   return [[self alloc] initWithName:entityName];
 }
@@ -155,7 +149,7 @@ static dispatch_queue_t kDKObjectQueue_;
 + (void)saveAllInBackground:(NSArray *)objects withBlock:(DKEntityResultsBlock)block {
   block = [block copy];
   dispatch_queue_t q = dispatch_get_current_queue();
-  dispatch_async(kDKObjectQueue_, ^{
+  dispatch_async([DKManager queue], ^{
     NSError *error = nil;
     [self saveAll:objects error:&error];
     if (block != NULL) {
@@ -271,7 +265,7 @@ static dispatch_queue_t kDKObjectQueue_;
 - (void)saveInBackgroundWithBlock:(DKEntityResultBlock)block {
   block = [block copy];
   dispatch_queue_t q = dispatch_get_current_queue();
-  dispatch_async(kDKObjectQueue_, ^{
+  dispatch_async([DKManager queue], ^{
     NSError *error = nil;
     [self save:&error];
     if (block != NULL) {
@@ -321,7 +315,7 @@ static dispatch_queue_t kDKObjectQueue_;
 - (void)refreshInBackgroundWithBlock:(DKEntityResultBlock)block {
   block = [block copy];
   dispatch_queue_t q = dispatch_get_current_queue();
-  dispatch_async(kDKObjectQueue_, ^{
+  dispatch_async([DKManager queue], ^{
     NSError *error = nil;
     [self refresh:&error];
     if (block != NULL) {
@@ -376,7 +370,7 @@ static dispatch_queue_t kDKObjectQueue_;
 - (void)deleteInBackgroundWithBlock:(DKEntityResultBlock)block {
   block = [block copy];
   dispatch_queue_t q = dispatch_get_current_queue();
-  dispatch_async(kDKObjectQueue_, ^{
+  dispatch_async([DKManager queue], ^{
     NSError *error = nil;
     [self delete:&error];
     if (block != NULL) {

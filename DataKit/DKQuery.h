@@ -15,6 +15,9 @@ typedef void (^DKQueryResultBlock)(DKEntity *entity, NSError *error);
 typedef void (^DKQueryResultsBlock)(NSArray *results, NSError *error);
 typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
 
+/**
+ Class for performing queries on entity collections.
+ */
 @interface DKQuery : NSObject
 @property (nonatomic, copy, readonly) NSString *entityName;
 

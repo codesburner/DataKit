@@ -12,6 +12,7 @@
 #import "DKRequest.h"
 #import "DKEntity.h"
 #import "DKEntity-Private.h"
+#import "DKManager.h"
 
 @interface DKQueryConditionProxy : NSProxy
 
@@ -29,12 +30,6 @@ DKSynthesize(queryMap)
 DKSynthesize(sort)
 DKSynthesize(ors)
 DKSynthesize(ands)
-
-static dispatch_queue_t kDKQueryQueue_;
-
-+ (void)initialize {
-  kDKQueryQueue_ = dispatch_queue_create("query queue", DISPATCH_QUEUE_SERIAL);
-}
 
 + (DKQuery *)queryWithEntityName:(NSString *)entityName {
   return [[self alloc] initWithEntityName:entityName];
@@ -247,7 +242,7 @@ static dispatch_queue_t kDKQueryQueue_;
 
 - (void)findAllInBackgroundWithBlock:(DKQueryResultsBlock)block {
   dispatch_queue_t q = dispatch_get_current_queue();
-  dispatch_async(kDKQueryQueue_, ^{
+  dispatch_async([DKManager queue], ^{
     NSError *error = nil;
     NSArray *entities = [self findAll:&error];
     if (block != NULL) {
@@ -268,7 +263,7 @@ static dispatch_queue_t kDKQueryQueue_;
 
 - (void)findOneInBackgroundWithBlock:(DKQueryResultBlock)block {
   dispatch_queue_t q = dispatch_get_current_queue();
-  dispatch_async(kDKQueryQueue_, ^{
+  dispatch_async([DKManager queue], ^{
     NSError *error = nil;
     DKEntity *entity = [self findOne:&error];
     if (block != NULL) {
@@ -291,7 +286,7 @@ static dispatch_queue_t kDKQueryQueue_;
 
 - (void)findById:(NSString *)entityId inBackgroundWithBlock:(DKQueryResultBlock)block {
   dispatch_queue_t q = dispatch_get_current_queue();
-  dispatch_async(kDKQueryQueue_, ^{
+  dispatch_async([DKManager queue], ^{
     NSError *error = nil;
     DKEntity *entity = [self findById:entityId error:&error];
     if (block != NULL) {
@@ -314,7 +309,7 @@ static dispatch_queue_t kDKQueryQueue_;
 
 - (void)countAllInBackgroundWithBlock:(DKQueryResultCountBlock)block {
   dispatch_queue_t q = dispatch_get_current_queue();
-  dispatch_async(kDKQueryQueue_, ^{
+  dispatch_async([DKManager queue], ^{
     NSError *error = nil;
     NSUInteger count = [self countAll:&error];
     if (block != NULL) {

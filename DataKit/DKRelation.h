@@ -15,14 +15,45 @@
  Defines a relation to another entity
  */
 @interface DKRelation : NSObject
+
+/** @name Creating and Initializing Relations */
+
+/**
+ Creates a new relation from an entity name and ID
+ @param entityName The entity name
+ @param entityId The entidy ID
+ @return The initialized relation
+ */
++ (DKRelation *)relationWithEntityName:(NSString *)entityName entityId:(NSString *)entityId;
+
+/**
+ Creates a new relation using an existing <DKEntity>
+ @param entity The entity to relate to
+ @return The initialized relation
+ */
++ (DKRelation *)relationWithEntity:(DKEntity *)entity;
+
+/**
+ Initializes a new relation from an entity name and ID
+ @param entityName The entity name
+ @param entityId The entity ID
+ @return The initialized relation
+ */
+- (id)initWithEntityName:(NSString *)entityName entityId:(NSString *)entityId;
+
+/** @name Properties */
+
+/**
+ The entity name
+ */
 @property (nonatomic, copy, readonly) NSString *entityName;
+
+/**
+ The entity ID
+ */
 @property (nonatomic, copy, readonly) NSString *entityId;
 
-+ (DKRelation *)relationWithEntityName:(NSString *)entityName entityId:(NSString *)entityId;
-+ (DKRelation *)relationWithEntity:(DKEntity *)entity;
 + (id)new UNAVAILABLE_ATTRIBUTE;
-
 - (id)init UNAVAILABLE_ATTRIBUTE;
-- (id)initWithEntityName:(NSString *)entityName entityId:(NSString *)entityId;
 
 @end

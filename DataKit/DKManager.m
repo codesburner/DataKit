@@ -32,13 +32,28 @@ static NSString *kDKManagerAPISecret;
 }
 
 + (NSString *)APIEndpoint {
-  assert(kDKManagerAPIEndpoint != nil && "[DKManager APIEndpoint] called, but no endpoint set");
+  if (kDKManagerAPIEndpoint.length == 0) {
+    [NSException raise:NSInternalInconsistencyException format:@"No API endpoint specified"];
+    return nil;
+  }
   return kDKManagerAPIEndpoint;
 }
 
 + (NSString *)APISecret {
-  assert(kDKManagerAPISecret != nil && "[DKManager APISecret] called, but no secret set");
+  if (kDKManagerAPISecret.length == 0) {
+    [NSException raise:NSInternalInconsistencyException format:@"No API secret specified"];
+    return nil;
+  }
   return kDKManagerAPISecret;
+}
+
++ (dispatch_queue_t)queue {
+  static dispatch_queue_t q;
+  static dispatch_once_t onceToken;
+  dispatch_once(&onceToken, ^{
+    q = dispatch_queue_create("datakit queue", DISPATCH_QUEUE_SERIAL);
+  });
+  return q;
 }
 
 @end
