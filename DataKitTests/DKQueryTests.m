@@ -658,6 +658,17 @@
   [e2 delete];
 }
 
+- (void)testQueryOnNonExistentCollection {
+  DKQuery *q = [DKQuery queryWithEntityName:@"NonExistentCollection"];
+  [q whereKeyExists:@"i"];
+  
+  NSError *error = nil;
+  NSArray *results = [q findAll:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertEquals(results.count, (NSUInteger)0, @"not nil: %@", results);
+}
+
 - (void)testFindRandom {
   NSString *name = @"Random";
   
