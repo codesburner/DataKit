@@ -48,9 +48,6 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  */
 + (DKQuery *)queryWithEntityName:(NSString *)entityName;
 
-+ (id)new UNAVAILABLE_ATTRIBUTE;
-- (id)init UNAVAILABLE_ATTRIBUTE;
-
 /*!
  @param entityName The name of the entity to fetch.
  @abstract Initializes a new query for the given entity name.
@@ -280,5 +277,8 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  @abstract Counts the entities matching the query in the background and returns the result to the block
  */
 - (void)countAllInBackgroundWithBlock:(DKQueryResultCountBlock)block;
+
++ (id)new UNAVAILABLE_ATTRIBUTE;
+- (id)init UNAVAILABLE_ATTRIBUTE;
 
 @end
