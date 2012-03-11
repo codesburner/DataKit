@@ -201,7 +201,7 @@ DKSynthesize(cachePolicy)
     if ([objectToModify isKindOfClass:[NSDictionary class]]) {
       NSDictionary *dict = (NSDictionary *)objectToModify;
       
-      // Check for embedded NSData ...
+      // NSData
       NSString *base64 = [dict objectForKey:kDKObjectDataToken];
       if ([base64 isKindOfClass:[NSString class]]) {
         if (base64.length > 0 && dict.count == 1) {
@@ -209,7 +209,7 @@ DKSynthesize(cachePolicy)
         }
       }
       
-      // ... DKRelations
+      // DKRelations
       NSDictionary *relInfo = [dict objectForKey:kDKObjectRelationToken];
       if ([relInfo isKindOfClass:[NSDictionary class]]) {
         return [DKRelation relationWithEntityName:[relInfo objectForKey:kDKObjectRelationEntityNameKey]
