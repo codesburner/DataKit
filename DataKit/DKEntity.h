@@ -34,273 +34,278 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
 
 /** @name Creating and Initializing Entities */
 
-/*!
- @param entityName The name of the entity
- @return Initialized object.
- @abstract Initialized an object with the given entity type.
+/**
+ Create entity with given name
+ @param entityName The entity name
+ @return The initialized entity
  */
 + (DKEntity *)entityWithName:(NSString *)entityName;
 
-/*!
- @param entityName The name of the entity
- @return Initialized entity.
- @abstract Initialize a new entity named |entityName|.
+/**
+ Initialize a new entity
+ @param entityName The entity name
+ @return The initialized entity
  */
 - (id)initWithName:(NSString *)entityName;
 
 /** @name Saving Entities */
 
-/*!
+/**
+ Batch save all entities.
  @param entities The entities to save
- @return Returns YES on success, NO on error
- @abstract Batch saves all entities.
- @discussion This is useful if you want to transmit all entities at once to the server and perform the save.
+ @return `YES` on success, `NO` on error.
+ @discussion Useful if you want to make sure everything is transmitted to the server before saving.
  */
 + (BOOL)saveAll:(NSArray *)entities;
 
-/*!
+/**
+ Batch save all entities.
  @param entities The entities to save
- @param error The error object, if any
- @return Returns YES on success, NO on error
- @abstract Batch saves all entities.
- @discussion This is useful if you want to transmit all entities at once to the server and perform the save.
+ @param error The error object to be set on error
+ @return `YES` on success, `NO` on error.
+ @discussion Useful if you want to make sure everything is transmitted to the server before saving.
  */
 + (BOOL)saveAll:(NSArray *)entities error:(NSError **)error;
 
-/*!
+/**
+ Batch save all entities in the background.
  @param entities The entities to save
- @abstract Batch saves all entities in the background
- @discussion This is useful if you want to transmit all entities at once to the server and perform the save.
+ @discussion Useful if you want to make sure everything is transmitted to the server before saving.
  */
 + (void)saveAllInBackground:(NSArray *)entities;
 
-/*!
+/**
+ Batch save all entities in the background.
  @param entities The entities to save
- @param block The result callback
- @abstract Batch saves all entities in the background
- @discussion This is useful if you want to transmit all entities at once to the server and perform the save.
+ @param block The save callback block
+ @discussion Useful if you want to make sure everything is transmitted to the server before saving.
  */
 + (void)saveAllInBackground:(NSArray *)entities withBlock:(DKEntityResultsBlock)block;
 
-/*!
- @return YES on success, NO if error occurred.
- @abstract Saves changes made to entity.
+/**
+ Saves the entity
+ @return `YES` on success, `NO` on error
  @exception NSInvalidArgumentException Raised if any key contains an `$` or `.` character.
  */
 - (BOOL)save;
 
-/*!
- @param error Is set to an error if error occurred.
- @return YES on success, NO if an error occurred.
- @abstract Saves changes made to entity.
+/**
+ Saves the entity
+ @param error The error object to be set on error
+ @return `YES` on success, `NO` on error
  @exception NSInvalidArgumentException Raised if any key contains an `$` or `.` character.
  */
 - (BOOL)save:(NSError **)error;
 
-/*!
- @abstract Saves changes made to entity in background.
+/**
+ Saves the entity in the background
  @exception NSInvalidArgumentException Raised if any key contains an `$` or `.` character.
  */
 - (void)saveInBackground;
 
-/*!
- @param block The callback block
- @abstract Saves changes made to entity in background and invokes callback on completion.
+/**
+ Saves the entity in the background and invokes callback on completion
+ @param block The save callback block
  @exception NSInvalidArgumentException Raised if any key contains an `$` or `.` character.
  */
 - (void)saveInBackgroundWithBlock:(DKEntityResultBlock)block;
 
 /** @name Refreshing Entities */
 
-/*!
- @return YES on success, NO if an error occurred.
- @abstract Refreshes entity with data stored on the server.
+/**
+ Refreshes the entity
+ @return `YES` on success, `NO` on error
+ @discussion Refreshes the entity with data stored on the server
  */
 - (BOOL)refresh;
 
-/*!
- @param error Is set to an error if error occurred.
- @return YES on success, NO if an error occurred.
- @abstract Refreshes entity with data stored on the server.
+/**
+ Refreshes the entity
+ @param error The error object to be set on error
+ @return `YES` on success, `NO` on error
+ @discussion Refreshes the entity with data stored on the server
  */
 - (BOOL)refresh:(NSError **)error;
 
-/*!
- @abstract Refreshes entity with data stored on the server in background.
+/**
+ Refreshes the entity in the background
+ @discussion Refreshes the entity with data stored on the server
  */
 - (void)refreshInBackground;
 
-/*!
+/**
+ Refreshes the entity in the background and invokes the callback on completion
  @param block The callback block
- @abstract Refreshes entity with data stored on the server in background and invokes callback on completion.
+ @discussion Refreshes the entity with data stored on the server
  */
 - (void)refreshInBackgroundWithBlock:(DKEntityResultBlock)block;
 
 /** @name Deleting Entities */
 
-/*!
- @return YES on success, NO if an error occurred.
- @abstract Deletes entity.
+/**
+ Deletes the entity
+ @return `YES` on success, `NO` on error
  */
 - (BOOL)delete;
 
-/*!
- @param error Is set to an error if error occurred.
- @return YES on success, NO if an error occurred.
- @abstract Deletes entity.
+/**
+ Deletes the entity
+ @param error The error object to be set on error
+ @return `YES` on success, `NO` on error
  */
 - (BOOL)delete:(NSError **)error;
 
-/*!
- @abstract Deletes entity in background.
+/**
+ Deletes the entity in the background
  */
 - (void)deleteInBackground;
 
-/*!
+/**
+ Deletes the entity in the background and invokes the callback block on completion
  @param block The callback block
- @abstract Deletes entity in background and invokes callback on completion.
  */
 - (void)deleteInBackgroundWithBlock:(DKEntityResultBlock)block;
 
 /** @name Getting Objects*/
 
-/*!
- @param key The key to get
- @return The object for the key or nil if not found.
- @abstract Gets the object set for a specific key. If the key does not exist in the saved object, tries to read the key from the unsaved changes.
+/**
+ Gets the object stored at `key`.
+ @param key The object key
+ @return The object or `nil` if no object is set for `key`
+ @discussion If the key does not exist in the saved object, tries to return a value from the unsaved changes
  */
 - (id)objectForKey:(NSString *)key;
 
 /** @name Modifying Objects*/
 
-/*!
- @param object The object to store.
- @param key The key for the object.
- @abstract Sets the object for the given key.
- @discussion The object must be of type NSString, NSNumber, NSArray, NSDictionary, NSNull, NSData or <DKRelation>.
- @warning The key must not include an `$` or `.` character.
+/**
+ Sets the object on a given `key`
+ @param object The object to store
+ @param key The object key
+ @discussion The object must be of type NSString, NSNumber, NSArray, NSDictionary, NSNull, NSData or <DKRelation>
+ @warning The key must not include an `$` or `.` character
  */
 - (void)setObject:(id)object forKey:(NSString *)key;
 
-/*!
+/**
+ Pushes (appends) the object to the list at `key`.
  @param object The object to push
- @param key The key for the object.
- @abstract Appends the object to the field with |key| if it is an existing array, otherwise sets field to a single element array containing the object if field is not present.
- @discussion If field is present but not an array, object save will fail. Object must be a JSON type.
- @warning The key must not include an `$` or `.` character.
+ @param key The list key
+ @discussion Appends the object if a list exists at `key`, otherwise sets a single elemenet list containing `object` on `key`. If the `key` exists, but is not a list, the entity save will fail. Object must be a *JSON* type.
+ @warning The key must not include an `$` or `.` character
  */
 - (void)pushObject:(id)object forKey:(NSString *)key;
 
-/*!
- @param objects The object array to push
- @param key The key for the objects.
- @abstract Appends each object to the field with |key| if it is an existing array, otherwise sets field to a new array containing the objects if field is not present.
- @discussion If field is present but not an array, object save will fail. Objects must be JSON types.
- @warning The key must not include an `$` or `.` character.
+/**
+ Pushes (appends) all objects to the list at `key`
+ @param objects The object list
+ @param key The list key
+ @discussion Appends the objects if a list exists at `key`, otherwise sets `key` to the `objects` list. If the `key` exists, but is not a list, the entity save will fail. List may only contain *JSON* types.
+ @warning The key must not include an `$` or `.` character
  */
 - (void)pushAllObjects:(NSArray *)objects forKey:(NSString *)key;
 
-/*!
- @param object The object to add.
- @param key The key for the object
- @abstract Adds the object to the array only if the object is not already present and if field |key| is an existing array, otherwise sets field |key| to a single object array containing |object| if field not present.
- @discussion If field is present but not an array, object save will fail. Object must be a JSON type.
- @warning The key must not include an `$` or `.` character.
+/**
+ Adds the object to the list at `key`, if it is not already in the list
+ @param object The object to add
+ @param key The list key
+ @discussion Appends the objects if a list exists at `key` and `object` is not already in that list, otherwise sets `key` to a single object array containing `object`. If the `key` exists, but is not a list, the entity save will fail. List may only contain *JSON* types.
+ @warning The key must not include an `$` or `.` character
  */
 - (void)addObjectToSet:(id)object forKey:(NSString *)key;
 
-/*!
- @param objects The objects to add.
- @param key The key for the objects
- @abstract Adds the objects to the array only if the objects are not already present and if field |key| is an existing array, otherwise sets field |key| to the object array containing |objects| if field not present.
- @discussion If field is present but not an array, object save will fail. All objects must be JSON types.
- @warning The key must not include an `$` or `.` character.
+/**
+ Adds all objects to the list at `key`, if object is not already in the list
+ @param objects The object list
+ @param key The list key
+ @discussion Adds the objects to the list only if the objects do not already exist in the list and if `key` is a list, otherwise sets `key` to a list containting `objects`. If the `key` is present, but not a list, entity save will fail. All objects in the list must be *JSON* types.
+ @warning The key must not include an `$` or `.` character
  */
 - (void)addAllObjectsToSet:(NSArray *)objects forKey:(NSString *)key;
 
-/*!
- @param key The object key
- @abstract Removes the last object from the array at |key|.
- @discussion Pop-last will override any pop-first action.
+/**
+ Removes the last object from the list at `key`
+ @param key The list key
+ @warning Pop-last will override any pop-first action
  */
 - (void)popLastObjectForKey:(NSString *)key;
 
-/*!
- @param key The object key
- @abstract Removes the first object from the array at |key|.
- @discussion Pop-first will override anny pop-last action.
+/**
+ Removes the first object from the list at `key`
+ @param key The list key
+ @warning Pop-first will override any pop-last action
  */
 - (void)popFirstObjectForKey:(NSString *)key;
 
-/*!
- @param object The object to pull
- @param key The object key
- @abstract Removes all occurrences of object from field |key|, if field is an array.
- @discussion If field is present, but not an array save will fail.
+/**
+ Removes all occurrences of object from the list at `key`
+ @param object The object to remove
+ @param key The list key
+ @discussion If the `key` exists, but is not a list, entity save will fail.
  */
 - (void)pullObject:(id)object forKey:(NSString *)key;
 
-/*!
- @param objects The objects to pull
- @param key The object key
- @abstract Removes all occurrences of |objects| from field |key|, if field is an array.
- @discussion If field is present, but not an array save will fail.
+/**
+ Removes all occurrences of objects from the list at `key`
+ @param objects The objects to remove
+ @param key The list key
+ @discussion If the `key` exists, but is not a list, entity save will fail.
  */
 - (void)pullAllObjects:(NSArray *)objects forKey:(NSString *)key;
 
-/*!
- @param key The key to remove
- @abstract Removes the object stored under key.
+/**
+ Removes the object at `key`
+ @param key The object key
  */
 - (void)removeObjectForKey:(NSString *)key;
 
-/*!
+/**
+ Increments the number at `key` by `1`
  @param key The key to increment
- @abstract Increments the key by 1.
  */
 - (void)incrementKey:(NSString *)key;
 
-/*!
- @param key The key to increment
- @param amount The increment amount
- @abstract Increments the key by amount. Amount can also be a negative value.
+/**
+ Increments the number at `key` by `amount`
+ @param key The key to increment 
+ @param amount The increment amount. Can also be negative
  */
 - (void)incrementKey:(NSString *)key byAmount:(NSNumber *)amount;
 
 /** @name Indexing */
 
-/*!
+/**
+ Ensures that the given `key` is indexed
  @param key The key to index
- @abstract Ensures that the key is indexed
- @discussion Indexes often enhance query performance dramatically.
+ @discussion Indexes often improve query perfomance dramatically.
  */
 - (BOOL)ensureIndexForKey:(NSString *)key;
 
-/*!
+/**
+ Ensures that the given `key` is indexed with options
  @param key The key to index
- @param unique Make sure the key is unique in this entity
- @param dropDups Automatically drop duplicates
- @param error The error object to be written on error
- @abstract Ensures that the key is indexed and optionally unique.
- @discussion Indexes often enhance query performance dramatically.
+ @param unique Make the `key` unique
+ @param dropDups Automatically drop any duplicates
+ @param error The error object to be set on error
+ @discussion Indexes often improve query perfomance dramatically.
  */
 - (BOOL)ensureIndexForKey:(NSString *)key unique:(BOOL)unique dropDuplicates:(BOOL)dropDups error:(NSError **)error;
 
 /** @name Public URLs */
 
-/*!
- @param fieldKeys An array with fields of the object to show. If set to nil returns all fields.
- @param error The error object.
- @return The public URL for the object/field combination.
- @abstract Generates a public URL on the server (latency) to access the stored objects data.
- @discussion If the fields array contains one element a request to this URL will return the fields raw data, if the array is nil (select all fields) or it's count is greater than one the request will return a JSON representation of the object.
+/**
+ Generates a public URL to access entity data directly
+ @param fieldKeys A list of keys to expose, pass `nil` to return all object keys
+ @param error The error object to be set on error
+ @return The public URL for the entity data
+ @discussion If the fields list contains one element, a request to the public URL will return the fields raw data. If the list has more than 1 element, a *JSON* representation of the entity will be returned.
  */
 - (NSURL *)generatePublicURLForFields:(NSArray *)fieldKeys error:(NSError **)error;
 
 /** @name Resetting State */
 
-/*!
- @abstract Resets the entity to it's last saved state.
+/**
+ Resets the entity to it's last saved state
  */
 - (void)reset;
 
