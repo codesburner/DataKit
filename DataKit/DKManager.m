@@ -16,7 +16,13 @@ static NSString *kDKManagerAPISecret;
 + (void)setAPIEndpoint:(NSString *)absoluteString {
   NSURL *ep = [NSURL URLWithString:absoluteString];
   if (![ep.scheme isEqualToString:@"https"]) {
-    NSLog(@"\n\nWARNING: DataKit API endpoint not secured! It's highly recommended to use SSL (current scheme is '%@')\n\n", ep.scheme);
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+      NSLog(@"\n\nWARNING: DataKit API endpoint not secured! "
+            "It's highly recommended to use SSL (current scheme is '%@')\n\n",
+            ep.scheme);
+    });
+    
   }
   kDKManagerAPIEndpoint = [absoluteString copy];
 }
