@@ -9,35 +9,45 @@
 #import "DKMapReduce.h"
 
 @interface DKMapReduce ()
-@property (nonatomic, copy, readwrite) NSString *entityName;
-@property (nonatomic, copy) NSString *mapFunc;
-@property (nonatomic, copy) NSString *reduceFunc;
-@property (nonatomic, copy) NSString *finalizeFunc;
+@property (nonatomic, copy, readwrite) NSString *mapFunction;
+@property (nonatomic, copy, readwrite) NSString *reduceFunction;
+@property (nonatomic, copy, readwrite) NSString *finalizeFunction;
 @end
 
 @implementation DKMapReduce
-DKSynthesize(entityName)
 DKSynthesize(context)
-DKSynthesize(mapFunc)
-DKSynthesize(reduceFunc)
-DKSynthesize(finalizeFunc)
+DKSynthesize(mapFunction)
+DKSynthesize(reduceFunction)
+DKSynthesize(finalizeFunction)
 
-static dispatch_queue_t kDKMapReduceQueue_;
-
-+ (void)initialize {
-  kDKMapReduceQueue_ = dispatch_queue_create("mapreduce queue", DISPATCH_QUEUE_SERIAL);
-}
-
-+ (DKMapReduce *)mapReduceWithEntityName:(NSString *)entityName {
-  return [[self alloc] initWithEntityName:entityName];
-}
-
-- (id)initWithEntityName:(NSString *)entityName {
-  self = [super init];
-  if (self) {
-    self.entityName = entityName;
-  }
-  return self;
++ (DKMapReduce *)randomizeResultsWithLimit:(NSUInteger)limit {
+  DKMapReduce *mr = [DKMapReduce new];
+  [mr map:@"function map() {"
+           "  emit(0, {k: this, v: Math.random()});"
+           "}"
+   reduce:@"function reduce(k, v) {"
+           "  var a, s;"
+           "  a = [];"
+           "  v.forEach(function (x) {"
+           "    a = a.concat(x.a || x);"
+           "  });"
+           "  s = a.sort(function (a, b) {"
+           "    return a.v - b.v;"
+           "  });"
+           "  if (limit > 0) {"
+           "    s = s.slice(0, limit);"
+           "  }"
+           "  return {a: s};"
+           "}"
+ finalize:@"function finalize(k, v) {"
+           "  return v.a ? v.a.map(function (x) {"
+           "    return x.k;"
+           "  }) : [v.k];"
+           "}"];
+  mr.context = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:limit]
+                                           forKey:@"limit"];
+  
+  return mr;
 }
 
 - (void)map:(NSString *)mapFunc reduce:(NSString *)reduceFunc {
@@ -53,8 +63,7 @@ static dispatch_queue_t kDKMapReduceQueue_;
   }
   
   // Define the trim set
-  NSMutableCharacterSet *trimSet = [[NSCharacterSet whitespaceCharacterSet] mutableCopy];
-  [trimSet formUnionWithCharacterSet:[NSCharacterSet newlineCharacterSet]];
+  NSCharacterSet *trimSet = [NSCharacterSet whitespaceAndNewlineCharacterSet];
   
   NSString *(^trim)(NSString *) = ^(NSString *func) {
     if (func.length > 0) {
@@ -71,32 +80,9 @@ static dispatch_queue_t kDKMapReduceQueue_;
     return nil;
   };
   
-  self.mapFunc = trim(mapFunc);
-  self.reduceFunc = trim(reduceFunc);
-  self.finalizeFunc = trim(finalizeFunc);
-}
-
-- (id)perform {
-  return [self perform:NULL];
-}
-
-- (id)perform:(NSError **)error {
-  // TODO: implement
-  
-  return nil;
-}
-
-- (void)performInBackgroundWithBlock:(DKMapReduceResultBlock)block {
-  dispatch_queue_t q = dispatch_get_current_queue();
-  dispatch_async(kDKMapReduceQueue_, ^{
-    NSError *error = nil;
-    id result = [self perform:&error];
-    if (block != NULL) {
-      dispatch_async(q, ^{
-        block(result, error);
-      });
-    }
-  });
+  self.mapFunction = trim(mapFunc);
+  self.reduceFunction = trim(reduceFunc);
+  self.finalizeFunction = trim(finalizeFunc);
 }
 
 @end

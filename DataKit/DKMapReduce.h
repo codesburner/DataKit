@@ -11,32 +11,19 @@
 typedef void (^DKMapReduceResultBlock)(id JSONObject, NSError *error);
 
 /**
- This class is used to perform a map-reduce operation on the specified entity.
+ Creates a map reduce operation to be used on a <DKQuery>
  */
 @interface DKMapReduce : NSObject
 
-/** @name Creating and Initializing MapReduce Operations */
+/** @name Templates */
 
 /**
- Creates a new map reduce operation
- @param entityName The entity name to operate on
- @return The map reduce operation
+ Returns an operation template to randomize query results
+ @param limit The maximum number of results to return. Should be equal or less than the query limit. Pass `0` if you don't want to limit the results.
  */
-+ (DKMapReduce *)mapReduceWithEntityName:(NSString *)entityName;
-
-/**
- Initializes a new map reduce operation
- @param entityName The entity name to operate on
- @return The initialized map reduce operation
- */
-- (id)initWithEntityName:(NSString *)entityName;
++ (DKMapReduce *)randomizeResultsWithLimit:(NSUInteger)limit;
 
 /** @name Configuration */
-
-/**
- The entity name
- */
-@property (nonatomic, copy, readonly) NSString *entityName;
 
 /**
  You can pass custom context parameters for use in the map, reduce and finalize function scope.
@@ -44,7 +31,22 @@ typedef void (^DKMapReduceResultBlock)(id JSONObject, NSError *error);
  */
 @property (nonatomic, strong) NSDictionary *context;
 
-/** @name Functions */
+/**
+ Returns the map Javascript function
+ */
+@property (nonatomic, copy, readonly) NSString *mapFunction;
+
+/**
+ Returns the reduce Javascript function
+ */
+@property (nonatomic, copy, readonly) NSString *reduceFunction;
+
+/**
+ Returns the finalize Javascript function
+ */
+@property (nonatomic, copy, readonly) NSString *finalizeFunction;
+
+/** @name Providing Functions */
 
 /**
  Set the map and reduce Javascript functions
@@ -64,26 +66,5 @@ typedef void (^DKMapReduceResultBlock)(id JSONObject, NSError *error);
  @warning If you want to use custom variables in your functions you can define them in the <context>
  */
 - (void)map:(NSString *)mapFunc reduce:(NSString *)reduceFunc finalize:(NSString *)finalizeFunc;
-
-/** @name Perform Operation */
-
-/**
- Performs the map reduce synchronously
- @return The map reduce JSON result object
- */
-- (id)perform;
-
-/**
- Performs the map reduce synchronously
- @param error The error object set on error
- @return The map reduce JSON result object
- */
-- (id)perform:(NSError **)error;
-
-/**
- Performs the map reduce in the background
- @param block The map reduce callback block
- */
-- (void)performInBackgroundWithBlock:(DKMapReduceResultBlock)block;
 
 @end

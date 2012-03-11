@@ -13,6 +13,7 @@
 #import "DKEntity.h"
 #import "DKEntity-Private.h"
 #import "DKManager.h"
+#import "DKMapReduce.h"
 
 @interface DKQueryConditionProxy : NSProxy
 
@@ -23,8 +24,8 @@
 @implementation DKQuery
 DKSynthesize(entityName)
 DKSynthesize(limit)
-DKSynthesize(randomizeResults)
 DKSynthesize(skip)
+DKSynthesize(mapReduce)
 DKSynthesize(cachePolicy)
 DKSynthesize(queryMap)
 DKSynthesize(sort)
@@ -159,6 +160,12 @@ DKSynthesize(ands)
 }
 
 - (NSArray *)find:(NSError **)error one:(BOOL)findOne count:(NSUInteger *)countOut {
+  // Check for consistency
+  if (findOne && self.mapReduce != nil) {
+    [NSException raise:NSInternalInconsistencyException format:@"Cannot find one using map reduce"];
+    return nil;
+  }
+  
   // Create request dict
   NSMutableDictionary *requestDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                       self.entityName, @"entity", nil];
@@ -177,8 +184,23 @@ DKSynthesize(ands)
   if (self.limit > 0) {
     [requestDict setObject:[NSNumber numberWithUnsignedInteger:self.limit] forKey:@"limit"];
   }
-  if (self.randomizeResults) {
-    [requestDict setObject:[NSNumber numberWithBool:YES] forKey:@"rand"];
+  if (self.mapReduce != nil) {
+    NSMutableDictionary *mr = [NSMutableDictionary new];
+    
+    if (self.mapReduce.mapFunction.length > 0) {
+      [mr setObject:self.mapReduce.mapFunction forKey:@"map"];
+    }
+    if (self.mapReduce.reduceFunction.length > 0) {
+      [mr setObject:self.mapReduce.reduceFunction forKey:@"reduce"];
+    }
+    if (self.mapReduce.finalizeFunction.length > 0) {
+      [mr setObject:self.mapReduce.finalizeFunction forKey:@"finalize"];
+    }
+    if (self.mapReduce.context.count > 0) {
+      [mr setObject:self.mapReduce.context forKey:@"context"];
+    }
+    
+    [requestDict setObject:mr forKey:@"mr"];
   }
   if (self.skip > 0) {
     [requestDict setObject:[NSNumber numberWithUnsignedInteger:self.skip] forKey:@"skip"];

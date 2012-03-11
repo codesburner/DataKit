@@ -13,6 +13,7 @@
 #import "DKQuery.h"
 #import "DKQuery-Private.h"
 #import "DKManager.h"
+#import "DKMapReduce.h"
 
 @implementation DKQueryTests
 
@@ -683,8 +684,8 @@
   
   // Test randomized results
   DKQuery *q = [DKQuery queryWithEntityName:name];
-  q.limit = 5;
-  q.randomizeResults = YES;
+  q.limit = 20;
+  q.mapReduce = [DKMapReduce randomizeResultsWithLimit:q.limit];
   
   NSMutableArray *results = [NSMutableArray new];
   for (int i=0; i<10; i++) {
@@ -692,7 +693,7 @@
     NSArray *r = [q findAll:&error];
     
     STAssertNil(error, error.localizedDescription);
-    STAssertEquals(r.count, (NSUInteger)5, nil);
+    STAssertEquals(r.count, (NSUInteger)q.limit, nil);
     
     [results addObject:r];
   }
@@ -706,34 +707,20 @@
   }
   
   // Test randomized find one
-  q.limit = 5;
-  q.randomizeResults = YES;
+  q.limit = 20;
+  q.mapReduce = [DKMapReduce randomizeResultsWithLimit:q.limit];
   
-  results = [NSMutableArray new];
-  for (int i=0; i<6; i++) {
-    NSError *error = nil;
-    DKEntity *e = [q findOne:&error];
-    
-    STAssertNil(error, error.localizedDescription);
-    STAssertNotNil(e, nil);
-    
-    [results addObject:e];
+  @try {
+    [q findOne];
+    STFail(@"NSInternalInconsistencyException should have been raised");
   }
-  
-  NSUInteger numDifferent;
-  for (DKEntity *e in results) {
-    for (DKEntity *e2 in results) {
-      if (e != e2) {
-        numDifferent++;
-      }
-    }
+  @catch (NSException *exception) {
+    STAssertNotNil(exception, nil);
   }
-  
-  STAssertTrue(numDifferent > 3, nil);
   
   // Test randomized results without limit
   q.limit = 0;
-  q.randomizeResults = YES;
+  q.mapReduce = [DKMapReduce randomizeResultsWithLimit:q.limit];
   
   results = [NSMutableArray new];
   for (int i=0; i<10; i++) {
@@ -755,13 +742,13 @@
   }
   
   // Test ordered results
-  q.limit = 5;
-  q.randomizeResults = NO;
+  q.limit = 20;
+  q.mapReduce = nil;
   
   NSError *error = nil;
   NSArray *r = [q findAll:&error];
   
-  NSArray *match = [entities subarrayWithRange:NSMakeRange(0, 5)];
+  NSArray *match = [entities subarrayWithRange:NSMakeRange(0, q.limit)];
   
   STAssertNil(error, error.localizedDescription);
   STAssertEqualObjects(match, r, nil);

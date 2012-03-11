@@ -10,6 +10,7 @@
 
 
 @class DKEntity;
+@class DKMapReduce;
 
 typedef void (^DKQueryResultBlock)(DKEntity *entity, NSError *error);
 typedef void (^DKQueryResultsBlock)(NSArray *results, NSError *error);
@@ -21,25 +22,24 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
 @interface DKQuery : NSObject
 @property (nonatomic, copy, readonly) NSString *entityName;
 
-/*!
- @property limit 
- @abstract Limit of query results.
+/**
+ Limit number of returned results
  */
 @property (nonatomic, assign) NSUInteger limit;
 
-/*!
- @property randomizeResults
- @abstract Randomizes the returned query results.
- @warning This may slow down the query operation.
- */
-@property (nonatomic, assign) BOOL randomizeResults;
-
-/*!
- @property skip
- @abstract Number of results to skip.
+/**
+ Number of results to skip. Will be ignored if map reduce is set.
  */
 @property (nonatomic, assign) NSUInteger skip;
 
+/**
+ The map reduce to perform on the query.
+ */
+@property (nonatomic, strong) DKMapReduce *mapReduce;
+
+/**
+ The cache policy to use for the query.
+ */
 @property (nonatomic, assign) DKCachePolicy cachePolicy;
 
 /*!
@@ -221,6 +221,7 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
 /*!
  @return Returns the matched entity
  @abstract Finds the first matching entity.
+ @exception NSInternalInconsistencyException Raises an exception if a map reduce is set
  */
 - (DKEntity *)findOne;
 
@@ -228,12 +229,14 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  @param error The error object written on error
  @return Returns the matched entity
  @abstract Finds the first matching entity.
+ @exception NSInternalInconsistencyException Raises an exception if a map reduce is set
  */
 - (DKEntity *)findOne:(NSError **)error;
 
 /*!
  @param block The result callback block
  @abstract Finds the first matching entity in the background and returns it to the callback block.
+ @exception NSInternalInconsistencyException Raises an exception if a map reduce is set
  */
 - (void)findOneInBackgroundWithBlock:(DKQueryResultBlock)block;
 
