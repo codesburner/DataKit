@@ -1,0 +1,1 @@
+appledoc -o ~/.appledoc/out -h -o ./appledoc --no-install-docset -p DataKit -c chocomoko.com --company-id com.chocomoko.DataKit --preprocess-headerdoc --explicit-crossref DataKit
