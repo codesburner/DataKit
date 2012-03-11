@@ -694,7 +694,31 @@
     }
   }
   
+  // Test randomized results without limit
+  q.limit = 0;
+  q.randomizeResults = YES;
+  
+  results = [NSMutableArray new];
+  for (int i=0; i<10; i++) {
+    NSError *error = nil;
+    NSArray *r = [q findAll:&error];
+    
+    STAssertNil(error, error.localizedDescription);
+    STAssertEquals(r.count, (NSUInteger)50, nil);
+    
+    [results addObject:r];
+  }
+  
+  for (NSArray *r in results) {
+    for (NSArray *r2 in results) {
+      if (r != r2) {
+        STAssertFalse([r isEqualToArray:r2], @"should not be equal %@ %@", r, r2);
+      }
+    }
+  }
+  
   // Test ordered results
+  q.limit = 5;
   q.randomizeResults = NO;
   
   NSError *error = nil;
