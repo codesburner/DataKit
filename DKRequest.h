@@ -28,3 +28,11 @@ typedef NSInteger DKResponseStatus;
 - (id)sendRequestWithObject:(id)JSONObject method:(NSString *)apiMethod error:(NSError **)error;
 
 @end
+
+@interface DKRequest (Wrapping)
+
+- (id)iterateJSON:(id)JSONObject modify:(id (^)(id obj))handler;
+- (id)wrapSpecialObjectsInJSON:(id)obj;
+- (id)unwrapSpecialObjectsInJSON:(id)obj;
+
+@end
