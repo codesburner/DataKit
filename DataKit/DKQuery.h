@@ -283,7 +283,7 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  */
 - (void)findById:(NSString *)entityId inBackgroundWithBlock:(DKQueryResultBlock)block;
 
-/** @name Using MapReduce */
+/** @name Performing a MapReduce */
 
 /**
  Performs the map reduce
