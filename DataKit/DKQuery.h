@@ -14,6 +14,7 @@
 
 typedef void (^DKQueryResultBlock)(DKEntity *entity, NSError *error);
 typedef void (^DKQueryResultsBlock)(NSArray *results, NSError *error);
+typedef void (^DKQueryMapReduceBlock)(id result, NSError *error);
 typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
 
 /**
@@ -37,11 +38,6 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  Number of results to skip. Will be ignored if map reduce is set.
  */
 @property (nonatomic, assign) NSUInteger skip;
-
-/**
- The map reduce to perform on the query.
- */
-@property (nonatomic, strong) DKMapReduce *mapReduce;
 
 /**
  The cache policy to use for the query.
@@ -235,7 +231,6 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
 /**
  Finds the first matching entity
  @return The matched entity
- @exception NSInternalInconsistencyException Raises an exception if a map reduce is set
  */
 - (DKEntity *)findOne;
 
@@ -243,14 +238,12 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  Finds the first matching entity
  @param error The error object written on error
  @return The matched entity
- @exception NSInternalInconsistencyException Raises an exception if a map reduce is set
  */
 - (DKEntity *)findOne:(NSError **)error;
 
 /**
  Finds the first matching entity in the background and returns it to the callback block
  @param block The result callback block
- @exception NSInternalInconsistencyException Raises an exception if a map reduce is set
  */
 - (void)findOneInBackgroundWithBlock:(DKQueryResultBlock)block;
 
@@ -272,9 +265,33 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
 /**
  Finds an entity by it's unique ID in the background and returns it to the callback block
  @param entityId The entity ID to find
- @param block The result callback block
+ @param block The result callback block.
  */
 - (void)findById:(NSString *)entityId inBackgroundWithBlock:(DKQueryResultBlock)block;
+
+/** @name Using MapReduce */
+
+/**
+ Performs the map reduce
+ @param mapReduce The map reduce operation
+ @return The map reduce result object
+ */
+- (id)performMapReduce:(DKMapReduce *)mapReduce;
+
+/**
+ Performs the map reduce
+ @param mapReduce The map reduce operation
+ @param error The error object to set on error
+ @return The map reduce result object
+ */
+- (id)performMapReduce:(DKMapReduce *)mapReduce error:(NSError **)error;
+
+/**
+ Performs the map reduce in the background and invokes the callback on finish
+ @param mapReduce The map reduce operation
+ @param block The result callback block
+ */
+- (void)performMapReduce:(DKMapReduce *)mapReduce inBackgroundWithBlock:(DKQueryMapReduceBlock)block;
 
 /** @name Aggregation */
 

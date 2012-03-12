@@ -16,6 +16,7 @@
 
 @implementation DKMapReduce
 DKSynthesize(context)
+DKSynthesize(resultProcessor)
 DKSynthesize(mapFunction)
 DKSynthesize(reduceFunction)
 DKSynthesize(finalizeFunction)
@@ -48,6 +49,14 @@ DKSynthesize(finalizeFunction)
                                            forKey:@"limit"];
   
   return mr;
+}
+
+- (id)init {
+  self = [super init];
+  if (self) {
+    self.resultProcessor = ^(id result) { return result; };
+  }
+  return self;
 }
 
 - (void)map:(NSString *)mapFunc reduce:(NSString *)reduceFunc {

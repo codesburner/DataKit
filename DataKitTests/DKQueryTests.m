@@ -685,12 +685,13 @@
   // Test randomized results
   DKQuery *q = [DKQuery queryWithEntityName:name];
   q.limit = 20;
-  q.mapReduce = [DKMapReduce randomizeResultsWithLimit:q.limit];
+
+  DKMapReduce *mapReduce = [DKMapReduce randomizeResultsWithLimit:q.limit];
   
   NSMutableArray *results = [NSMutableArray new];
   for (int i=0; i<10; i++) {
     NSError *error = nil;
-    NSArray *r = [q findAll:&error];
+    NSArray *r = [q performMapReduce:mapReduce error:&error];
     
     STAssertNil(error, error.localizedDescription);
     STAssertEquals(r.count, (NSUInteger)q.limit, nil);
@@ -706,26 +707,15 @@
     }
   }
   
-  // Test randomized find one
-  q.limit = 20;
-  q.mapReduce = [DKMapReduce randomizeResultsWithLimit:q.limit];
-  
-  @try {
-    [q findOne];
-    STFail(@"NSInternalInconsistencyException should have been raised");
-  }
-  @catch (NSException *exception) {
-    STAssertNotNil(exception, nil);
-  }
-  
   // Test randomized results without limit
   q.limit = 0;
-  q.mapReduce = [DKMapReduce randomizeResultsWithLimit:q.limit];
+  
+  mapReduce = [DKMapReduce randomizeResultsWithLimit:q.limit];
   
   results = [NSMutableArray new];
   for (int i=0; i<10; i++) {
     NSError *error = nil;
-    NSArray *r = [q findAll:&error];
+    NSArray *r = [q performMapReduce:mapReduce error:&error];
     
     STAssertNil(error, error.localizedDescription);
     STAssertEquals(r.count, (NSUInteger)50, nil);

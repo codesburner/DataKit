@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 typedef void (^DKMapReduceResultBlock)(id JSONObject, NSError *error);
+typedef id (^DKMapReduceResultProcessorBlock)(id result);
 
 /**
  Creates a map reduce operation to be used on a <DKQuery>
@@ -45,6 +46,14 @@ typedef void (^DKMapReduceResultBlock)(id JSONObject, NSError *error);
  Returns the finalize Javascript function
  */
 @property (nonatomic, copy, readonly) NSString *finalizeFunction;
+
+/** @name Processing Results */
+
+/**
+ The result processor block used to post-process the returned JSON results
+ @discussion The default processor passes the result through
+ */
+@property (nonatomic, copy) DKMapReduceResultProcessorBlock resultProcessor;
 
 /** @name Providing Functions */
 

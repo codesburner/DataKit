@@ -159,13 +159,7 @@ DKSynthesize(ands)
   // TODO: implement
 }
 
-- (NSArray *)find:(NSError **)error one:(BOOL)findOne count:(NSUInteger *)countOut {
-  // Check for consistency
-  if (findOne && self.mapReduce != nil) {
-    [NSException raise:NSInternalInconsistencyException format:@"Cannot find one using map reduce"];
-    return nil;
-  }
-  
+- (id)find:(NSError **)error one:(BOOL)findOne count:(NSUInteger *)countOut {  
   // Create request dict
   NSMutableDictionary *requestDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                       self.entityName, @"entity", nil];
@@ -226,8 +220,13 @@ DKSynthesize(ands)
     return nil;
   }
   
+  // Map reduce is uses, process result and return
+  if (self.mapReduce != nil) {
+    return self.mapReduce.resultProcessor(results);
+  }
+  
   // Query returned results
-  if ([results isKindOfClass:[NSArray class]]) {
+  else if ([results isKindOfClass:[NSArray class]]) {
     NSMutableArray *entities = [NSMutableArray new];
     for (NSDictionary *objDict in results) {
       if ([objDict isKindOfClass:[NSDictionary class]]) {
@@ -240,6 +239,7 @@ DKSynthesize(ands)
     
     return [NSArray arrayWithArray:entities];
   }
+  
   // Query returned object count
   else if ([results isKindOfClass:[NSNumber class]]) {
     if (countOut != NULL) {
@@ -259,6 +259,10 @@ DKSynthesize(ands)
 }
 
 - (NSArray *)findAll:(NSError **)error {
+  if (self.mapReduce != nil) {
+    [NSException raise:NSInternalInconsistencyException format:@"cannot use find-all with map reduce set"];
+    return nil;
+  }
   return [self find:error one:NO count:NULL];
 }
 
@@ -280,6 +284,10 @@ DKSynthesize(ands)
 }
 
 - (DKEntity *)findOne:(NSError **)error {
+  if (self.mapReduce != nil) {
+    [NSException raise:NSInternalInconsistencyException format:@"cannot use find-one with map reduce set"];
+    return nil;
+  }
   return [[self find:error one:YES count:NULL] lastObject];
 }
 
@@ -301,6 +309,10 @@ DKSynthesize(ands)
 }
 
 - (DKEntity *)findById:(NSString *)entityId error:(NSError **)error {
+  if (self.mapReduce != nil) {
+    [NSException raise:NSInternalInconsistencyException format:@"cannot use find-by-id with map reduce set"];
+    return nil;
+  }
   [self reset];
   [self whereKey:@"_id" equalTo:entityId];
   return [self findOne:error];
@@ -314,6 +326,31 @@ DKSynthesize(ands)
     if (block != NULL) {
       dispatch_async(q, ^{
         block(entity, error); 
+      });
+    }
+  });
+}
+
+- (id)performMapReduce:(DKMapReduce *)mapReduce {
+  return [self performMapReduce:NULL];
+}
+
+- (id)performMapReduce:(DKMapReduce *)mapReduce error:(NSError **)error {
+  self.mapReduce = mapReduce;
+  id result = [self find:error one:NO count:NULL];
+  self.mapReduce = nil;
+  
+  return result;
+}
+
+- (void)performMapReduce:(DKMapReduce *)mapReduce inBackgroundWithBlock:(DKQueryMapReduceBlock)block {
+  dispatch_queue_t q = dispatch_get_current_queue();
+  dispatch_async([DKManager queue], ^{
+    NSError *error = nil;
+    id result = [self performMapReduce:mapReduce error:&error];
+    if (block != NULL) {
+      dispatch_async(q, ^{
+        block(result, error); 
       });
     }
   });
