@@ -60,6 +60,29 @@ DKSynthesize(finalizeFunction)
   return mr;
 }
 
++ (DKMapReduce *)countForKeys:(NSArray *)keys {
+  DKMapReduce *mr = [DKMapReduce new];
+  mr.context = [NSDictionary dictionaryWithObject:keys forKey:@"keys"];
+  [mr map:@"function () { var m, k, i; m = {}; for (i in keys) { k = keys[i]; m[k] = this[k].length; } emit(this._id, m) }"
+   reduce:@"function () { return; }"];
+  mr.resultProcessor = ^(id results){
+    if ([results isKindOfClass:[NSArray class]]) {
+      NSMutableArray *ary = [NSMutableArray new];
+      
+      for (NSDictionary *dict in results) {
+        NSMutableDictionary *counts = [[dict objectForKey:@"value"] mutableCopy];
+        [counts setObject:[dict objectForKey:@"_id"] forKey:@"entityId"];
+        
+        [ary addObject:counts];
+      }
+      return ary;
+    }
+    return nil;
+  };
+  
+  return mr;
+}
+
 - (id)init {
   self = [super init];
   if (self) {
