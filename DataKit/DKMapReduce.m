@@ -63,8 +63,7 @@ DKSynthesize(finalizeFunction)
 + (DKMapReduce *)countForKeys:(NSArray *)keys {
   DKMapReduce *mr = [DKMapReduce new];
   mr.context = [NSDictionary dictionaryWithObject:keys forKey:@"keys"];
-  [mr map:@"function () { var m, k, i; m = {}; for (i in keys) { k = keys[i]; m[k] = this[k].length; } emit(this._id, m) }"
-   reduce:@"function () { return; }"];
+  [mr map:@"function () { var m, k, i; m = {}; for (i in keys) { k = keys[i]; m[k] = this[k].length; } emit(this._id, m) }"];
   mr.resultProcessor = ^(id results){
     if ([results isKindOfClass:[NSArray class]]) {
       NSMutableArray *ary = [NSMutableArray new];
@@ -89,6 +88,10 @@ DKSynthesize(finalizeFunction)
     self.resultProcessor = ^(id result) { return result; };
   }
   return self;
+}
+
+- (void)map:(NSString *)mapFunc {
+  [self map:mapFunc reduce:@"function () {}"];
 }
 
 - (void)map:(NSString *)mapFunc reduce:(NSString *)reduceFunc {
