@@ -71,7 +71,11 @@ typedef id (^DKMapReduceResultProcessorBlock)(id result);
 /**
  Set the map Javascript function
  
- This simply passes `function () {}` for the reduce function.
+ This simply passes
+ 
+    function () {}
+ 
+ for the reduce function.
  @param mapFunc The Javascript map function as string
  @exception NSInternalInconsistencyException Raised if a function is missing
  @warning If you want to use custom variables in your functions you can define them in the <context>
