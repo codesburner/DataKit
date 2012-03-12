@@ -332,7 +332,7 @@ DKSynthesize(ands)
 }
 
 - (id)performMapReduce:(DKMapReduce *)mapReduce {
-  return [self performMapReduce:NULL];
+  return [self performMapReduce:mapReduce error:NULL];
 }
 
 - (id)performMapReduce:(DKMapReduce *)mapReduce error:(NSError **)error {
