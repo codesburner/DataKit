@@ -60,20 +60,6 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  */
 - (id)initWithEntityName:(NSString *)entityName;
 
-/** @name Logical Operations */
-
-/**
- Add an OR condition to the query using the proxy object
- @return or The OR proxy object.
- */
-- (DKQuery *)or;
-
-/**
- Add an AND condition using the proxy object
- @return and The AND proxy object.
- */
-- (DKQuery *)and;
-
 /** @name Ordering */
 
 /**
@@ -87,6 +73,31 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  @param key The sort key
  */
 - (void)orderDescendingByKey:(NSString *)key;
+
+/** @name Logical Operators */
+
+/**
+ Add an **OR** condition to the query using the proxy object
+
+    [[query or] whereKey:@"key" equalTo:@"value"];
+    [[query or] whereKey:@"key2" equalTo:@"value2"];
+ 
+ Conditions performed on the **OR** proxy will be concatenated with **OR**.
+ 
+ @return or The OR proxy object.
+ */
+- (DKQuery *)or;
+
+/**
+ Add an **AND** condition using the proxy object
+ 
+    [[query and] whereKey:@"key" equalTo:@"value"];
+    [[query and] whereKey:@"key2" equalTo:@"value2"];
+ 
+ Conditions performed on the **AND** proxy will be concatenated with **AND**.
+ @return and The AND proxy object.
+ */
+- (DKQuery *)and;
 
 /** @name Conditions */
 
@@ -134,25 +145,28 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
 
 /**
  Adds an contained-in condition to the query
+ 
+ The key value must be contained in the given array.
  @param key The entity key
  @param array The objects to check
- @discussion The key value must be contained in the given array.
  */
 - (void)whereKey:(NSString *)key containedIn:(NSArray *)array;
 
 /**
  Adds an not-contained-in condition to the query
+ 
+ The key value must not be contained in the given array.
  @param key The entity key
  @param array The objects to check
- @discussion The key value must not be contained in the given array
  */
 - (void)whereKey:(NSString *)key notContainedIn:(NSArray *)array;
 
 /**
  Adds an contains-all condition to the query
+ 
+ The key value must contain all values in the given array.
  @param key The entity key
  @param array The objects to check
- @discussion The key value must contain all values in the given array
  */
 - (void)whereKey:(NSString *)key containsAllIn:(NSArray *)array;
 

@@ -51,7 +51,8 @@ typedef id (^DKMapReduceResultProcessorBlock)(id result);
 
 /**
  The result processor block used to post-process the returned JSON results
- @discussion The default processor passes the result through
+ 
+ The default processor passes the result through.
  */
 @property (nonatomic, copy) DKMapReduceResultProcessorBlock resultProcessor;
 
