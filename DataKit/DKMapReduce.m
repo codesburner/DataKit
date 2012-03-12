@@ -47,6 +47,15 @@ DKSynthesize(finalizeFunction)
            "}"];
   mr.context = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInteger:limit]
                                            forKey:@"limit"];
+  mr.resultProcessor = ^(id result){
+    if ([result isKindOfClass:[NSArray class]]) {
+      NSDictionary *dict = [result objectAtIndex:0];
+      if ([dict isKindOfClass:[NSDictionary class]]) {
+        return [dict objectForKey:@"value"];
+      }
+    }
+    return nil;
+  };
   
   return mr;
 }
