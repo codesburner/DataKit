@@ -30,7 +30,7 @@ typedef id (^DKMapReduceResultProcessorBlock)(id result);
 /**
  Counts the lists at the specified keys
  
- When performed in a query, will return an `NSDictionary` for each entity with an `entityId` key, and the specified keys with their count `NSNumber` objects.
+ When performed in a query, will return an `NSDictionary` for each entity with the specified list keys substituted by their count values.
  @param keys The key names
  @return The initialized Template
  */

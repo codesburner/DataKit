@@ -63,20 +63,23 @@ DKSynthesize(finalizeFunction)
 + (DKMapReduce *)countForKeys:(NSArray *)keys {
   DKMapReduce *mr = [DKMapReduce new];
   mr.context = [NSDictionary dictionaryWithObject:keys forKey:@"keys"];
-  [mr map:@"function () { var m, k, i; m = {}; for (i in keys) { k = keys[i]; m[k] = this[k].length; } emit(this._id, m) }"];
+  [mr map:@"function () {"
+           "  var m, k, i;"
+           "  m = {};"
+           "  for (p in this) {"
+           "    if (this.hasOwnProperty(p)) {"
+           "      if (keys.indexOf(p) < 0) {"
+           "        m[p] = this[p];"
+           "      } else {"
+           "        m[p] = this[p].length;"
+           "      }"
+           "    }"
+           "  }"
+           "  emit(0, m);"
+           "}"
+   reduce:@"function (k, v) { return {c: v}; }"];
   mr.resultProcessor = ^(id results){
-    if ([results isKindOfClass:[NSArray class]]) {
-      NSMutableArray *ary = [NSMutableArray new];
-      
-      for (NSDictionary *dict in results) {
-        NSMutableDictionary *counts = [[dict objectForKey:@"value"] mutableCopy];
-        [counts setObject:[dict objectForKey:@"_id"] forKey:@"entityId"];
-        
-        [ary addObject:counts];
-      }
-      return ary;
-    }
-    return nil;
+    return [[[results lastObject] objectForKey:@"value"] objectForKey:@"c"];
   };
   
   return mr;
