@@ -14,7 +14,7 @@ typedef id (^DKMapReduceResultProcessorBlock)(id result);
 /**
  Creates a map reduce operation to be used on a <DKQuery>
  
- @warning *Important* Use map reduce with caution. If you pass a Javascript function that fails to compile on the server, the server process may crash.
+ @warning *Important*: Use map reduce with caution. If you pass a Javascript function that fails to compile on the server, the server process may crash.
  */
 @interface DKMapReduce : NSObject
 
@@ -78,28 +78,31 @@ typedef id (^DKMapReduceResultProcessorBlock)(id result);
     function () {}
  
  for the reduce function.
+ 
+ If you want to use custom variables in your functions you can define them in the <context>
  @param mapFunc The Javascript map function as string
  @exception NSInternalInconsistencyException Raised if a function is missing
- @warning If you want to use custom variables in your functions you can define them in the <context>
  */
 - (void)map:(NSString *)mapFunc;
 
 /**
  Set the map and reduce Javascript functions
+ 
+ If you want to use custom variables in your functions you can define them in the <context>
  @param mapFunc The Javascript map function as string
  @param reduceFunc The Javascript reduce function as string
  @exception NSInternalInconsistencyException Raised if a function is missing
- @warning If you want to use custom variables in your functions you can define them in the <context>
  */
 - (void)map:(NSString *)mapFunc reduce:(NSString *)reduceFunc;
 
 /**
  Set the map and reduce Javascript functions
+ 
+ If you want to use custom variables in your functions you can define them in the <context>
  @param mapFunc The Javascript map function as string
  @param reduceFunc The Javascript reduce function as string
  @param finalizeFunc The Javascript finalize function as string
  @exception NSInternalInconsistencyException Raised if the map or reduce function is missing
- @warning If you want to use custom variables in your functions you can define them in the <context>
  */
 - (void)map:(NSString *)mapFunc reduce:(NSString *)reduceFunc finalize:(NSString *)finalizeFunc;
 
