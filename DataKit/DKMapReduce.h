@@ -13,6 +13,8 @@ typedef id (^DKMapReduceResultProcessorBlock)(id result);
 
 /**
  Creates a map reduce operation to be used on a <DKQuery>
+ 
+ @warning *Important* Use map reduce with caution. If you pass a Javascript function that fails to compile on the server, the server process may crash.
  */
 @interface DKMapReduce : NSObject
 
