@@ -61,8 +61,6 @@
   
   STAssertEquals(numTested, (NSUInteger)2, nil);
   
-  NSLog(@"mresult => %@", result);
-  
   [e delete];
   [e2 delete];
 }
