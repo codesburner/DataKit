@@ -33,11 +33,6 @@
 DKSynthesize(endpoint)
 DKSynthesize(cachePolicy)
 
-#define kDKObjectDataToken @"dk:data"
-#define kDKObjectRelationToken @"dk:rel"
-#define kDKObjectRelationEntityNameKey @"entity"
-#define kDKObjectRelationEntityIDKey @"id"
-
 + (DKRequest *)request {
   return [[self alloc] init];
 }
@@ -177,6 +172,10 @@ DKSynthesize(cachePolicy)
   return converted;
 }
 
+#define kDKObjectDataToken @"dk:data"
+#define kDKObjectRelationRefKey @"$ref"
+#define kDKObjectRelationIDKey @"$id"
+
 - (id)wrapSpecialObjectsInJSON:(id)obj {
   return [self iterateJSON:obj modify:^id(id objectToModify) {
     // NSData
@@ -187,10 +186,17 @@ DKSynthesize(cachePolicy)
     // DKRelations
     else if ([objectToModify isKindOfClass:[DKRelation class]]) {
       DKRelation *relation = (DKRelation *)objectToModify;
-      NSDictionary *info = [NSDictionary dictionaryWithObjectsAndKeys:
-                            relation.entityName, kDKObjectRelationEntityNameKey,
-                            relation.entityId, kDKObjectRelationEntityIDKey, nil];
-      return [NSDictionary dictionaryWithObject:info forKey:kDKObjectRelationToken];
+      
+      // We need to create a DBRef object looking like this
+      //
+      // { $ref : <collname>, $id : <idvalue>[, $db : <dbname>] }
+      //
+      // Docs: http://www.mongodb.org/display/DOCS/Database+References#DatabaseReferences-DBRef
+      //
+      NSDictionary *dbRef = [NSDictionary dictionaryWithObjectsAndKeys:
+                             relation.entityName, kDKObjectRelationRefKey,
+                             relation.entityId, kDKObjectRelationIDKey, nil];
+      return dbRef;
     }
     return objectToModify;
   }];
@@ -210,10 +216,10 @@ DKSynthesize(cachePolicy)
       }
       
       // DKRelations
-      NSDictionary *relInfo = [dict objectForKey:kDKObjectRelationToken];
-      if ([relInfo isKindOfClass:[NSDictionary class]]) {
-        return [DKRelation relationWithEntityName:[relInfo objectForKey:kDKObjectRelationEntityNameKey]
-                                         entityId:[relInfo objectForKey:kDKObjectRelationEntityIDKey]];
+      NSString *relId = [dict objectForKey:kDKObjectRelationIDKey];
+      NSString *relRef = [dict objectForKey:kDKObjectRelationRefKey];
+      if (relId.length > 0 && relRef.length > 0) {
+        return [DKRelation relationWithEntityName:relRef entityId:relId];
       }
     }
     return objectToModify;

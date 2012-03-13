@@ -21,18 +21,23 @@
 }
 
 - (void)testRelationStore {
-  DKEntity *e0 = [DKEntity entityWithName:@"Entity0"];
+  NSString *entityName = @"EntityOne";
+  NSString *entityName2 = @"EntityTwo";
+  
+  [DKEntity destroyAllEntitiesForName:entityName error:NULL];
+  [DKEntity destroyAllEntitiesForName:entityName2 error:NULL];
+  
+  DKEntity *e0 = [DKEntity entityWithName:entityName];
   [e0 setObject:@"randomData" forKey:@"data"];
   [e0 save];
   
-  DKEntity *e1 = [DKEntity entityWithName:@"Entity1"];
+  DKEntity *e1 = [DKEntity entityWithName:entityName2];
 
   DKRelation *rel = [DKRelation relationWithEntity:e0];
   [e1 setObject:rel forKey:@"relation"];
-  [e1 save];
+  [e1 save];  
   
-  
-  DKQuery *q = [DKQuery queryWithEntityName:@"Entity1"];
+  DKQuery *q = [DKQuery queryWithEntityName:entityName2];
   [q whereKey:@"_id" equalTo:e1.entityId];
   
   NSArray *results = [q findAll];
@@ -47,9 +52,6 @@
   
   STAssertEqualObjects(e0.entityId, rel2.entityId, nil);
   STAssertEqualObjects(e0.entityName, rel2.entityName, nil);
-  
-  [e0 delete];
-  [e1 delete];
 }
 
 @end

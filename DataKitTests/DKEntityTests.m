@@ -164,9 +164,7 @@
   STAssertEquals(e2.sequenceNumber, e.sequenceNumber + 1, nil);
   STAssertEquals(e3.sequenceNumber, e2.sequenceNumber + 1, nil);
   
-  [e delete];
-  [e2 delete];
-  [e3 delete];
+  [DKEntity destroyAllEntitiesForName:entityName error:NULL];
 }
 
 - (void)testRemoveWithoutPriorSave {
@@ -188,7 +186,7 @@
   STAssertEqualObjects([e objectForKey:@"y"], @"b", nil);
   STAssertNil([e objectForKey:@"x"], nil);
   
-  [e delete];  
+  [DKEntity destroyAllEntitiesForName:entityName error:NULL];
 }
 
 - (void)testObjectKeyIncrement {
@@ -215,7 +213,7 @@
   STAssertNil(error, error.description);
   STAssertEquals([[object objectForKey:@"amount"] integerValue], (NSInteger)5, nil);
   
-  [object delete];
+  [DKEntity destroyAllEntitiesForName:entityName error:NULL];
   
   // Test increment without prior save
   DKEntity *e = [DKEntity entityWithName:entityName];
@@ -233,7 +231,7 @@
   
   STAssertEqualObjects(count, comp, nil);
   
-  [e delete];
+  [DKEntity destroyAllEntitiesForName:entityName error:NULL];
 }
 
 - (void)testObjectPush {
