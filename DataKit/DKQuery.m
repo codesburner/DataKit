@@ -31,6 +31,7 @@ DKSynthesize(queryMap)
 DKSynthesize(sort)
 DKSynthesize(ors)
 DKSynthesize(ands)
+DKSynthesize(includes)
 
 + (DKQuery *)queryWithEntityName:(NSString *)entityName {
   return [[self alloc] initWithEntityName:entityName];
@@ -44,6 +45,7 @@ DKSynthesize(ands)
     self.sort = [NSMutableDictionary new];
     self.ors = [NSMutableArray new];
     self.ands = [NSMutableArray new];
+    self.includes = [NSMutableArray new];
     self.cachePolicy = DKCachePolicyIgnoreCache;
   }
   return self;
@@ -54,6 +56,7 @@ DKSynthesize(ands)
   [self.sort removeAllObjects];
   [self.ors removeAllObjects];
   [self.ands removeAllObjects];
+  [self.includes removeAllObjects];
 }
 
 - (DKQuery *)or {
@@ -156,7 +159,9 @@ DKSynthesize(ands)
 }
 
 - (void)includeKey:(NSString *)key {
-  // TODO: implement
+  if (![self.includes containsObject:key]) {
+    [self.includes addObject:key];
+  }
 }
 
 - (id)find:(NSError **)error one:(BOOL)findOne count:(NSUInteger *)countOut {  
@@ -171,6 +176,9 @@ DKSynthesize(ands)
   }
   if (self.ands.count > 0) {
     [requestDict setObject:self.ands forKey:@"and"];
+  }
+  if (self.includes.count > 0) {
+    [requestDict setObject:self.includes forKey:@"incl"];
   }
   if (self.sort.count > 0) {
     [requestDict setObject:self.sort forKey:@"sort"];

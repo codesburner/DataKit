@@ -27,8 +27,10 @@
   [DKEntity destroyAllEntitiesForName:entityName error:NULL];
   [DKEntity destroyAllEntitiesForName:entityName2 error:NULL];
   
+  NSDictionary *dataDict = [NSDictionary dictionaryWithObjectsAndKeys:@"a", @"x", @"b", @"y", nil];
+  
   DKEntity *e0 = [DKEntity entityWithName:entityName];
-  [e0 setObject:@"randomData" forKey:@"data"];
+  [e0 setObject:dataDict forKey:@"data"];
   [e0 save];
   
   DKEntity *e1 = [DKEntity entityWithName:entityName2];
@@ -37,6 +39,7 @@
   [e1 setObject:rel forKey:@"relation"];
   [e1 save];  
   
+  // Test stored relation decode
   DKQuery *q = [DKQuery queryWithEntityName:entityName2];
   [q whereKey:@"_id" equalTo:e1.entityId];
   
@@ -52,6 +55,23 @@
   
   STAssertEqualObjects(e0.entityId, rel2.entityId, nil);
   STAssertEqualObjects(e0.entityName, rel2.entityName, nil);
+  
+  // Test key inclusion
+  [q includeKey:@"relation"];
+  [q includeKey:@"nonexistent"];
+  
+  results = [q findAll];
+  
+  STAssertEquals(results.count, (NSUInteger)1, nil);
+  
+  e2 = [results lastObject];
+  
+  STAssertEqualObjects(e1.entityId, e2.entityId, nil);
+  
+  NSDictionary *dict = [e2 objectForKey:@"relation"];
+  
+  STAssertEqualObjects([dict objectForKey:@"data"], dataDict, nil);
+  STAssertEqualObjects([dict objectForKey:@"_id"], e0.entityId, nil);
 }
 
 @end

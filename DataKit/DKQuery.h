@@ -219,7 +219,16 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  */
 - (void)whereKeyDoesNotExist:(NSString *)key;
 
-- (void)includeKey:(NSString *)key UNAVAILABLE_ATTRIBUTE; // UNIMPLEMENTED
+/** @name Entity Referencing */
+
+/**
+ Include the <DKEntity> that has a stored <DKRelation> at `key`.
+ 
+ This is similar to a **JOIN** in a RDBMS.
+ @param key The key to include. The object stored at `key` must be a <DKRelation> object.
+ @warning ***Important***: This operation might impact the query performance quite significantly if the query result set is large!
+ */
+- (void)includeKey:(NSString *)key;
 
 /** @name Executing Queries */
 
