@@ -33,7 +33,7 @@
   [e2 save];
   
   DKMapReduce *mapReduce = [DKMapReduce new];
-  [mapReduce map:@"function () { emit(this._id, {k: this.k.length, k2: this.k2.length}); }"];
+  [mapReduce map:@"function () { emit(this._id, {k: this.k.length, k2: this.k2.length}); }" reduce:@"function () {}"];
   
   DKQuery *query = [DKQuery queryWithEntityName:entityName];
   

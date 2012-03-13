@@ -29,10 +29,6 @@ DKSynthesize(finalizeFunction)
   return self;
 }
 
-- (void)map:(NSString *)mapFunc {
-  [self map:mapFunc reduce:@"function () {}"];
-}
-
 - (void)map:(NSString *)mapFunc reduce:(NSString *)reduceFunc {
   [self map:mapFunc reduce:reduceFunc finalize:nil];
 }
