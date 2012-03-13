@@ -17,3 +17,5 @@ profile
 .DS_Store
 docset_installed.txt
 /appledoc
+/Node/node_modules
+/Node/ssl/
