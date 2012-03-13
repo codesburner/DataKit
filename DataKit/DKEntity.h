@@ -325,6 +325,22 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  */
 - (void)reset;
 
+/** @name Destroying */
+
+/**
+ Destroys the entity collection with the given name
+ 
+ This feature must be explicitly enabled in the server configuration to make accidental or malicious deletion attempts harder.
+ 
+    'allowDestroy': true
+
+ @param entityName The entity collection to destroy
+ @param error The error object set on error
+ @return `YES` on success, `NO` on error.
+ @warning ***Warning***: Use with extreme caution. This will permanently delete all entity records.
+ */
++ (BOOL)destroyAllEntitiesForName:(NSString *)entityName error:(NSError **)error;
+
 + (id)new UNAVAILABLE_ATTRIBUTE;
 - (id)init UNAVAILABLE_ATTRIBUTE;
 

@@ -160,6 +160,24 @@ DKSynthesize(resultMap)
   });
 }
 
++ (BOOL)destroyAllEntitiesForName:(NSString *)entityName error:(NSError **)error {
+  // Send request synchronously
+  DKRequest *request = [DKRequest request];
+  request.cachePolicy = DKCachePolicyIgnoreCache;
+  
+  NSError *requestError = nil;
+  [request sendRequestWithObject:[NSDictionary dictionaryWithObject:entityName forKey:@"entity"]
+                          method:@"destroy"
+                           error:&requestError];
+  if (requestError != nil) {
+    if (error != NULL) {
+      *error = requestError;
+    }
+    return NO;
+  }
+  return YES;
+}
+
 - (id)initWithName:(NSString *)entityName {
   self = [super init];
   if (self) {

@@ -20,8 +20,12 @@
 }
 
 - (void)testObjectInSerial {
+  NSString *entityName = @"User";
+  
+  [DKEntity destroyAllEntitiesForName:entityName error:NULL];
+  
   // Insert
-  DKEntity *object = [DKEntity entityWithName:@"User"];
+  DKEntity *object = [DKEntity entityWithName:entityName];
   [object setObject:@"Erik" forKey:@"name"];
   [object setObject:@"Aigner" forKey:@"surname"];
   
@@ -140,17 +144,19 @@
 }
 
 - (void)testSequenceNumbers {
-  NSString *en = @"Sequence";
+  NSString *entityName = @"Sequence";
   
-  DKEntity *e = [DKEntity entityWithName:en];
+  [DKEntity destroyAllEntitiesForName:entityName error:NULL];
+  
+  DKEntity *e = [DKEntity entityWithName:entityName];
   [e setObject:@"x" forKey:@"a"];
   [e save];
   
-  DKEntity *e2 = [DKEntity entityWithName:en];
+  DKEntity *e2 = [DKEntity entityWithName:entityName];
   [e2 setObject:@"x" forKey:@"a"];
   [e2 save];
   
-  DKEntity *e3 = [DKEntity entityWithName:en];
+  DKEntity *e3 = [DKEntity entityWithName:entityName];
   [e3 setObject:@"x" forKey:@"a"];
   [e3 save];
   
@@ -165,6 +171,8 @@
 
 - (void)testRemoveWithoutPriorSave {
   NSString *entityName = @"RemoveWithoutPriorSave";
+  
+  [DKEntity destroyAllEntitiesForName:entityName error:NULL];
   
   DKEntity *e = [DKEntity entityWithName:entityName];
   [e setObject:@"a" forKey:@"x"];
@@ -185,6 +193,8 @@
 
 - (void)testObjectKeyIncrement {
   NSString *entityName = @"IncrementValue";
+  
+  [DKEntity destroyAllEntitiesForName:entityName error:NULL];
   
   DKEntity *object = [DKEntity entityWithName:entityName];
   [object setObject:@"TestValue" forKey:@"key"];
@@ -228,6 +238,9 @@
 
 - (void)testObjectPush {
   NSString *entityName = @"PushValue";
+  
+  [DKEntity destroyAllEntitiesForName:entityName error:NULL];
+  
   DKEntity *object = [DKEntity entityWithName:entityName];
   [object setObject:[NSArray arrayWithObject:@"stefan"] forKey:@"nameList"];
   
@@ -299,6 +312,9 @@
 
 - (void)testObjectAddToSet {
   NSString *entityName = @"AddToSetValues";
+  
+  [DKEntity destroyAllEntitiesForName:entityName error:NULL];
+  
   DKEntity *object = [DKEntity entityWithName:entityName];
   [object setObject:[NSArray arrayWithObject:@"stefan"] forKey:@"names"];
   
@@ -347,6 +363,8 @@
 
 - (void)testObjectPop {
   NSString *entityName = @"PopValues";
+  
+  [DKEntity destroyAllEntitiesForName:entityName error:NULL];
   
   NSMutableArray *names = [NSMutableArray arrayWithObjects:@"stefan", @"erik", @"markus", nil];
   DKEntity *object = [DKEntity entityWithName:entityName];
@@ -404,6 +422,9 @@
 
 - (void)testObjectPull {
   NSString *entityName = @"PullValues";
+  
+  [DKEntity destroyAllEntitiesForName:entityName error:NULL];
+  
   NSString *key = @"values";
   NSMutableArray *values = [NSMutableArray arrayWithObjects:@"a", @"b", @"b", @"c", @"d", @"d", nil];
   
@@ -475,6 +496,9 @@
 
 - (void)testEnsureIndex {
   NSString *entityName = @"EnsureIndexes";
+  
+  [DKEntity destroyAllEntitiesForName:entityName error:NULL];
+  
   DKEntity *e = [DKEntity entityWithName:entityName];
   [e setObject:@"erik" forKey:@"names"];
   
@@ -510,6 +534,32 @@
   
   [e delete];
   [e2 delete];
+}
+
+- (void)testEntityDestroy {
+  NSString *entityName = @"DestroyMe";
+  
+  [DKEntity destroyAllEntitiesForName:entityName error:NULL];
+  
+  DKEntity *entity = [DKEntity entityWithName:entityName];
+  [entity setObject:@"a" forKey:@"b"];
+  [entity save];
+  
+  DKQuery *query = [DKQuery queryWithEntityName:entityName];
+  
+  NSUInteger count = [query countAll];
+  
+  STAssertTrue(count > 0, nil);
+  
+  NSError *error = nil;
+  BOOL success = [DKEntity destroyAllEntitiesForName:entityName error:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertTrue(success, nil);
+  
+  count = [query countAll];
+  
+  STAssertEquals(count, (NSUInteger)0, nil);
 }
 
 @end
