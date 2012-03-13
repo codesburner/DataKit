@@ -18,24 +18,6 @@ typedef id (^DKMapReduceResultProcessorBlock)(id result);
  */
 @interface DKMapReduce : NSObject
 
-/** @name Templates */
-
-/**
- Returns an operation template to randomize query results
- @param limit The maximum number of results to return. Should be equal or less than the query limit. Pass `0` if you don't want to limit the results.
- @return The initialized template.
- */
-+ (DKMapReduce *)randomizeResultsWithLimit:(NSUInteger)limit;
-
-/**
- Counts the lists at the specified keys
- 
- When performed in a query, will return an `NSDictionary` for each entity with the specified list keys substituted by their count values.
- @param keys The key names
- @return The initialized Template
- */
-+ (DKMapReduce *)countForKeys:(NSArray *)keys;
-
 /** @name Configuration */
 
 /**
