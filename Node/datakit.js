@@ -271,9 +271,11 @@ exports.publishObject = function (req, res) {
     }
 
     signature = _conf.secret + _conf.salt + query;
-    shasum = crypto.createHash('sha1');
+    shasum = crypto.createHash('sha512');
     shasum.update(signature);
-    key = shasum.digest('hex');
+    key = shasum.digest('base64');
+    key.replace(/\+/g, '-');
+    key.replace(/\//g, '_');
 
     try {
       col = _db.collection.sync(_db, 'DataKit:Public');
