@@ -670,7 +670,7 @@ exports.storeFile = function (req, res) {
       if (gs) {
         gs.close(function (e) {
           if (e) {
-            console.error('error closing grid store:', e);  
+            console.error('error closing grid store:', e);
           }
         });
       }
@@ -685,7 +685,7 @@ exports.storeFile = function (req, res) {
     writeHandle = function (err, result) {
       lastErr = err;
       if (err) {
-        console.error(err);  
+        console.error(err);
       }
     };
     appendHandle = function (buf) {
