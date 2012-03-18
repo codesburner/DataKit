@@ -21,7 +21,6 @@ typedef NSInteger DKResponseStatus;
 @property (nonatomic, assign) DKCachePolicy cachePolicy;
 
 + (DKRequest *)request;
-+ (DKRequest *)requestWithEndpoint:(NSString *)absoluteString;
 
 - (id)initWithEndpoint:(NSString *)absoluteString;
 

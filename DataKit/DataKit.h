@@ -11,4 +11,5 @@
 #import "DKRelation.h"
 #import "DKQuery.h"
 #import "DKMapReduce.h"
+#import "DKFile.h"
 #import "DKConstants.h"

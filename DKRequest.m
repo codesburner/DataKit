@@ -37,10 +37,6 @@ DKSynthesize(cachePolicy)
   return [[self alloc] init];
 }
 
-+ (DKRequest *)requestWithEndpoint:(NSString *)absoluteString {
-  return [[self alloc] initWithEndpoint:absoluteString];
-}
-
 - (id)init {
   return [self initWithEndpoint:[DKManager APIEndpoint]];
 }

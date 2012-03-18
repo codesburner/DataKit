@@ -8,6 +8,7 @@ var mongo = require('mongodb');
 var crypto = require('crypto');
 var fs = require('fs');
 var doSync = require('sync');
+var uuid = require('node-uuid');
 var app = {};
 
 // private functions
@@ -45,6 +46,7 @@ var _createRoutes = function (path) {
   app.post(m('query'), _secureMethod(exports.query));
   app.post(m('index'), _secureMethod(exports.index));
   app.post(m('destroy'), _secureMethod(exports.destroy));
+  app.post(m('storeFile'), _secureMethod(exports.storeFile));
 };
 var _parseMongoException = function (e) {
   if (!_exists(e)) {
@@ -93,7 +95,11 @@ var _ERR = {
   INDEX_FAILED: [600, 'Index failed'],
   PUBLISH_FAILED: [700, 'Publish failed'],
   DESTROY_FAILED: [800, 'Destroy failed'],
-  DESTROY_NOT_ALLOWED: [801, 'Destroy not allowed']
+  DESTROY_NOT_ALLOWED: [801, 'Destroy not allowed'],
+  FILE_STORE_FAILED: [900, 'File store failed'],
+  FILE_STORE_FILE_EXISTS: [901, 'File already exists'],
+  FILE_STORE_COULD_NOT_OPEN: [902, 'Could not open the file store'],
+  FILE_STORE_COULD_NOT_APPEND: [903, 'Could not append to file']
 };
 var _copyKeys = function (s, t) {
   var key;
@@ -154,7 +160,7 @@ String.prototype.repeat = function (num) {
 // exported functions
 exports.run = function (c) {
   doSync(function runSync() {
-    var pad, nl, buf, srv, db;
+    var pad, nl, buf, srv, db, parse;
     pad = '-'.repeat(80);
     nl = '\n';
     console.log(nl + pad + nl + 'DATAKIT' + nl + pad);
@@ -178,7 +184,16 @@ exports.run = function (c) {
     } else {
       app = express.createServer();
     }
-    app.use(express.bodyParser());
+
+    // Install the body parser, don't parse the storeFile route!
+    parse = express.bodyParser();
+    // app.use(function (req, res, next) {
+    //   if (0 === req.url.indexOf('/storeFile')) {
+    //     return next();
+    //   }
+    //   parse(req, res, next);
+    // });
+    app.use(parse);
 
     if (_conf.secret === null) {
       buf = crypto.randomBytes.sync(crypto, 32);
@@ -634,6 +649,105 @@ exports.destroy = function (req, res) {
       return res.send('', 200);
     } catch (e) {
       return _e(res, _ERR.DESTROY_FAILED, e);
+    }
+  });
+};
+exports.storeFile = function (req, res) {
+  doSync(function storeFileSync() {
+    // var f, gs, i, lastAppendErr, gsc, exists;
+    var f, gs, gsc, exists, isEnd, isOpen, bufs, cancelled, closeHandle, writeHandle, appendHandle, i, lastErr;
+
+    // Fetch data
+    isEnd = false;
+    isOpen = false;
+    bufs = [];
+    cancelled = false;
+    closeHandle = function () {
+      if (!(isOpen && isEnd)) {
+        return;
+      }
+      // Close grid store
+      if (gs) {
+        gs.close(function (e) {
+          if (e) {
+            console.error('error closing grid store:', e);  
+          }
+        });
+      }
+
+      // Check for errors thrown during append
+      if (lastErr !== null) {
+        return _e(res, _ERR.FILE_STORE_COULD_NOT_APPEND, lastErr);
+      }
+
+      return res.send('', 201);
+    };
+    writeHandle = function (err, result) {
+      lastErr = err;
+      if (err) {
+        console.error(err);  
+      }
+    };
+    appendHandle = function (buf) {
+      if (cancelled) {
+        return;
+      }
+      if (isOpen) {
+        for (i = 0; i < bufs.length; i += 1) {
+          gs.write(bufs[i], writeHandle);
+        }
+        if (buf) {
+          gs.write(buf, writeHandle);
+        }
+      } else {
+        bufs.push(buf);
+      }
+    };
+    req.on('data', function (buf) {
+      if (Buffer.isBuffer(buf)) {
+        appendHandle(buf);
+      }
+    });
+    req.on('end', function () {
+      isEnd = true;
+      closeHandle();
+    });
+
+    // Get filename and mode
+    f = req.header('x-datakit-filename', null);
+
+    // Generate filename if neccessary
+    if (f === null) {
+      f = uuid.v4();
+    }
+
+    // Check if the file already exists
+    gsc = mongo.GridStore;
+
+    try {
+      exists = gsc.exist.sync(gsc, _db, f);
+    } catch (e) {
+      console.error(e);
+      return _e(res, _ERR.FILE_STORE_FAILED, e);
+    }
+
+    if (exists) {
+      console.log('file"', f, '"already exists');
+      cancelled = true;
+      return _e(res, _ERR.FILE_STORE_FILE_EXISTS);
+    }
+
+    // Open a grid store
+    try {
+      gs = new mongo.GridStore(_db, f, 'w+');
+      gs = gs.open.sync(gs);
+      isOpen = true;
+      appendHandle(null);
+      closeHandle();
+    } catch (e2) {
+      console.error(e2);
+      cancelled = true;
+      return _e(res, _ERR.FILE_STORE_COULD_NOT_OPEN, e2);
     }
   });
 };

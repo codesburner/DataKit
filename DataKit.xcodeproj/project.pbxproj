@@ -47,6 +47,7 @@
 		DC90FF9414FE872700F52435 /* DKQueryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DC90FF9314FE872700F52435 /* DKQueryTests.m */; };
 		DCCC897714F804C600FA77A1 /* DKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = DC5B610E14F7B21E00CC5B42 /* DKConstants.h */; };
 		DCCC897814F804CA00FA77A1 /* DataKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DC03846514F68EA1000DADD6 /* DataKit.h */; };
+		DCFA7AF31515C43200D631F8 /* DKFileSaveTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFA7AF21515C43200D631F8 /* DKFileSaveTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -105,6 +106,8 @@
 		DC90FF8E14FE4F9200F52435 /* DKQuery-Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DKQuery-Private.h"; sourceTree = "<group>"; };
 		DC90FF9214FE872700F52435 /* DKQueryTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKQueryTests.h; sourceTree = "<group>"; };
 		DC90FF9314FE872700F52435 /* DKQueryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKQueryTests.m; sourceTree = "<group>"; };
+		DCFA7AF11515C43200D631F8 /* DKFileSaveTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKFileSaveTests.h; sourceTree = "<group>"; };
+		DCFA7AF21515C43200D631F8 /* DKFileSaveTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKFileSaveTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +205,8 @@
 				DC83051C1504D89300D6AB1C /* DKRelationTests.m */,
 				DC3045DE150E151B00B55702 /* DKMapReduceTests.h */,
 				DC3045DF150E151B00B55702 /* DKMapReduceTests.m */,
+				DCFA7AF11515C43200D631F8 /* DKFileSaveTests.h */,
+				DCFA7AF21515C43200D631F8 /* DKFileSaveTests.m */,
 			);
 			path = DataKitTests;
 			sourceTree = "<group>";
@@ -378,6 +383,7 @@
 				DC78ACA51503C3DA00CC6BCD /* DKEntityEncodeDecodeTests.m in Sources */,
 				DC83051D1504D89300D6AB1C /* DKRelationTests.m in Sources */,
 				DC3045E0150E151B00B55702 /* DKMapReduceTests.m in Sources */,
+				DCFA7AF31515C43200D631F8 /* DKFileSaveTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

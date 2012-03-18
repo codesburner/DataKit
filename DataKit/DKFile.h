@@ -11,14 +11,20 @@
 
 typedef void (^DKFileSaveResultBlock)(BOOL success, NSError *error);
 typedef void (^DKFileLoadResultBlock)(NSData *data, NSError *error);
-typedef void (^DKFileProgressBlock)(double progress);
 
 /**
- Represents a block of binary data. DKFile should be used for files greater 10MB. You can set file objects on keys in <DKEntity> instances.
+ Block to track download and upload progress
+ 
+ @param bytes Bytes received or written
+ @param totalBytes Total expected bytes
+ */
+typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
+
+/**
+ Represents a block of binary data. You can set file objects on keys in <DKEntity> instances.
  */
 @interface DKFile : NSObject
-@property (nonatomic, assign, readonly) BOOL isDirty;
-@property (nonatomic, assign, readonly) BOOL hasData;
+@property (nonatomic, assign, readonly) BOOL isVolatile;
 @property (nonatomic, copy, readonly) NSURL *URL;
 @property (nonatomic, copy, readonly) NSString *name;
 
@@ -26,6 +32,8 @@ typedef void (^DKFileProgressBlock)(double progress);
 
 + (DKFile *)fileWithData:(NSData *)data;
 + (DKFile *)fileWithData:(NSData *)data name:(NSString *)name;
+
+- (id)initWithData:(NSData *)data name:(NSString *)name;
 
 /** @name Saving Files */
 
