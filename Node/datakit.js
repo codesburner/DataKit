@@ -805,7 +805,6 @@ exports.exists = function (req, res) {
       gs = mongo.GridStore;
       try {
         exists = gs.exist.sync(gs, _db, fileName);
-        console.log("exists", exists);
         if (exists) {
           return res.send('', 200);
         }
