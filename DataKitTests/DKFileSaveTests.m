@@ -60,4 +60,38 @@
   STAssertTrue([data isEqualToData:data2], nil);
 }
 
+- (void)testAsyncSave {
+  NSString *fileName = @"asyncFile";
+  NSData *data = [self generateRandomDataWithLength:1024*100];
+  
+  [DKFile deleteFile:fileName error:NULL];
+  
+  DKFile *file = [DKFile fileWithData:data name:fileName];
+  
+  NSMutableArray *progress = [NSMutableArray new];
+  
+  __block BOOL asyncSuccess = NO;
+  __block NSError *asyncError = nil;
+  __block BOOL done = NO;
+  
+  NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+  
+  STAssertNotNil(runLoop, nil);
+  
+  [file saveInBackgroundWithBlock:^(BOOL success, NSError *error) {
+    asyncSuccess = success;
+    asyncError = error;
+    done = YES;
+  } progressBlock:^(NSUInteger bytes, NSUInteger totalBytes) {
+    [progress addObject:[NSNumber numberWithInt:bytes]];
+  }];
+  
+  while (!done && [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]) {
+  }
+  
+  STAssertNil(asyncError, asyncError.localizedDescription);
+  STAssertTrue(asyncSuccess, nil);
+  STAssertTrue(progress.count > 0, nil);
+}
+
 @end

@@ -16,6 +16,7 @@
 @property (nonatomic, copy, readwrite) NSURL *URL;
 @property (nonatomic, copy, readwrite) NSString *name;
 @property (nonatomic, strong) NSData *data;
+@property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, copy) DKFileSaveResultBlock saveResultBlock;
 @property (nonatomic, copy) DKFileLoadResultBlock loadResultBlock;
 @property (nonatomic, copy) DKFileProgressBlock uploadProgressBlock;
@@ -27,6 +28,7 @@ DKSynthesize(isVolatile)
 DKSynthesize(URL)
 DKSynthesize(name)
 DKSynthesize(data)
+DKSynthesize(connection)
 DKSynthesize(saveResultBlock)
 DKSynthesize(loadResultBlock)
 DKSynthesize(uploadProgressBlock)
@@ -152,7 +154,10 @@ DKSynthesize(downloadProgressBlock);
     self.downloadProgressBlock = nil;
     self.uploadProgressBlock = progressBlock;
     
-    [[NSURLConnection connectionWithRequest:req delegate:self] start];
+    self.connection = [NSURLConnection connectionWithRequest:req delegate:self];
+    [self.connection scheduleInRunLoop:[NSRunLoop currentRunLoop]
+                               forMode:NSRunLoopCommonModes];
+    [self.connection start];
   }
   
   return NO;
@@ -226,14 +231,14 @@ DKSynthesize(downloadProgressBlock);
     NSError *error = nil;
     NSHTTPURLResponse *httpResponse = (id)response;
     
-    if (httpResponse.statusCode == 201 /* HTTP: Created */) {
+    if (httpResponse.statusCode == 200 /* HTTP: Created */) {
       self.isVolatile = NO;
       
       if (self.saveResultBlock != nil) {
         self.saveResultBlock(YES, nil);
       }
     }
-    else if (httpResponse.statusCode == 409 /* HTTP: Conflict */) {
+    else if (httpResponse.statusCode == 400 /* HTTP: Conflict */) {
       NSDictionary *userInfo = [NSDictionary dictionaryWithObject:NSLocalizedString(@"File already exists", nil)
                                                            forKey:NSLocalizedDescriptionKey];
       error = [NSError errorWithDomain:NSCocoaErrorDomain code:409 userInfo:userInfo];
