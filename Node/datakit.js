@@ -685,7 +685,6 @@ exports.store = function (req, res) {
           console.error("error: could not write chunk (", err, ")");
         }
         pendingWrites -= 1;
-        console.log("pending writes:", pendingWrites);
         if (pendingWrites <= 0 && (onClose || onEnd || onCancel)) {
           store.close(function () {
             if (onClose) {
