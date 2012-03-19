@@ -82,7 +82,7 @@ DKSynthesize(cachePolicy)
   req.HTTPMethod = @"POST";
   req.HTTPBody = bodyData;
   [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-  [req setValue:[DKManager APISecret] forHTTPHeaderField:@"x-datakit-secret"];
+  [req setValue:[DKManager APISecret] forHTTPHeaderField:kDKRequestHeaderSecret];
   
   NSError *requestError = nil;
   NSHTTPURLResponse *response = nil;
@@ -153,8 +153,8 @@ DKSynthesize(cachePolicy)
       NSNumber *status = [resultObj objectForKey:@"status"];
       NSString *message = [resultObj objectForKey:@"message"];
       [NSError writeToError:error
-                       code:DKErrorOperationFailed
-                description:[NSString stringWithFormat:NSLocalizedString(@"Could not perform operation (%@: %@)", nil), status, message]
+                       code:status.integerValue
+                description:message
                    original:nil];
     }
   }

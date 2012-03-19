@@ -47,6 +47,42 @@ DKSynthesize(downloadProgressBlock);
   return self;
 }
 
++ (BOOL)fileExists:(NSString *)fileName {
+  return [self fileExists:fileName error:NULL];
+}
+
++ (BOOL)fileExists:(NSString *)fileName error:(NSError **)error {
+  // Send request synchronously
+  DKRequest *request = [DKRequest request];
+  request.cachePolicy = DKCachePolicyIgnoreCache;
+  
+  NSDictionary *dict = [NSDictionary dictionaryWithObject:fileName forKey:@"key"];
+  
+  NSError *requestError = nil;
+  [request sendRequestWithObject:dict method:@"exists" error:&requestError];
+  if (requestError != nil) {
+    if (requestError.code != 1100 && error != NULL) {
+      *error = requestError;
+    }
+    return NO;
+  }
+  return YES;
+}
+
++ (void)fileExists:(NSString *)fileName inBackgroundWithBlock:(DKFileExistsResultBlock)block {
+  block = [block copy];
+  dispatch_queue_t q = dispatch_get_current_queue();
+  dispatch_async([DKManager queue], ^{
+    NSError *error = nil;
+    BOOL exists = [self fileExists:fileName error:&error];
+    if (block != NULL) {
+      dispatch_async(q, ^{
+        block(exists, error); 
+      });
+    }
+  });
+}
+
 + (BOOL)deleteFile:(NSString *)fileName error:(NSError **)error {
   return [self deleteFiles:[NSArray arrayWithObject:fileName] error:error];
 }
@@ -110,9 +146,9 @@ DKSynthesize(downloadProgressBlock);
   
   [req setValue:contentLen forHTTPHeaderField:@"Content-Length"];
   [req setValue:@"application/octet-stream" forHTTPHeaderField:@"Content-Type"];
-  [req setValue:[DKManager APISecret] forHTTPHeaderField:@"x-datakit-secret"];
+  [req setValue:[DKManager APISecret] forHTTPHeaderField:kDKRequestHeaderSecret];
   if (name_.length > 0) {
-    [req setValue:name_ forHTTPHeaderField:@"x-datakit-filename"];
+    [req setValue:name_ forHTTPHeaderField:kDKRequestHeaderFileName];
   }
   
   // Save synchronous

@@ -37,3 +37,6 @@ enum {
   DKRegexOptionDotall = (1 << 2)
 };
 typedef NSInteger DKRegexOption;
+
+#define kDKRequestHeaderSecret @"x-datakit-secret"
+#define kDKRequestHeaderFileName @"x-datakit-filename"

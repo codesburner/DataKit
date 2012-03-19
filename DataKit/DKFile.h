@@ -12,6 +12,7 @@
 typedef void (^DKFileSaveResultBlock)(BOOL success, NSError *error);
 typedef void (^DKFileLoadResultBlock)(NSData *data, NSError *error);
 typedef void (^DKFileDeleteResultBlock)(BOOL success, NSError *error);
+typedef void (^DKFileExistsResultBlock)(BOOL exists, NSError *error);
 
 /**
  Block to track download and upload progress
@@ -34,6 +35,12 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
 + (DKFile *)fileWithData:(NSData *)data name:(NSString *)name;
 
 - (id)initWithData:(NSData *)data name:(NSString *)name;
+
+/** @name Checking for Existence */
+
++ (BOOL)fileExists:(NSString *)fileName;
++ (BOOL)fileExists:(NSString *)fileName error:(NSError **)error;
++ (void)fileExists:(NSString *)fileName inBackgroundWithBlock:(DKFileExistsResultBlock)block;
 
 /** @name Deleting Files */
 

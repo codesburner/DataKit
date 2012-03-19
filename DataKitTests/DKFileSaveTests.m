@@ -42,13 +42,25 @@
   
   [DKFile deleteFile:fileName error:NULL];
   
+  NSError *error = nil;
+  BOOL exists = [DKFile fileExists:fileName error:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertFalse(exists, nil);
+  
   DKFile *file = [DKFile fileWithData:data name:fileName];
   
-  NSError *error = nil;
+  error = nil;
   BOOL success = [file save:&error];
   
   STAssertTrue(success, nil);
   STAssertNil(error, error.localizedDescription);
+  
+  error = nil;
+  exists = [DKFile fileExists:fileName error:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertTrue(exists, nil);
   
   NSURL *ep = [DKManager endpointForMethod:@"stream"];
   NSString *absoluteString = [ep.absoluteString stringByAppendingPathComponent:fileName];

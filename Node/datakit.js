@@ -60,6 +60,7 @@ var _createRoutes = function (path) {
   app.post(m('store'), _secureMethod(exports.store));
   app.post(m('unlink'), _secureMethod(exports.unlink));
   app.get(m('stream/:key'), exports.stream);
+  app.post(m('exists'), _secureMethod(exports.exists));
 };
 var _parseMongoException = function (e) {
   if (!_exists(e)) {
@@ -113,7 +114,9 @@ var _ERR = {
   STORE_FILE_EXISTS: [901, 'File already exists'],
   STORE_COULD_NOT_OPEN: [902, 'Could not open the file store'],
   STORE_COULD_NOT_APPEND: [903, 'Could not append to file'],
-  UNLINK_FAILED: [1000, 'Unlink failed']
+  UNLINK_FAILED: [1000, 'Unlink failed'],
+  FILE_EXISTS: [1100, 'File exists'],
+  FILE_EXISTS_FAILED: [1101, 'File exists failed']
 };
 var _copyKeys = function (s, t) {
   var key;
@@ -792,6 +795,26 @@ exports.stream = function (req, res) {
     stream.on('close', function () {
       res.end();
     });
+  });
+};
+exports.exists = function (req, res) {
+  doSync(function existsSync() {
+    var fileName, gs, exists;
+    fileName = req.param('key', null);
+    if (fileName) {
+      gs = mongo.GridStore;
+      try {
+        exists = gs.exist.sync(gs, _db, fileName);
+        console.log("exists", exists);
+        if (exists) {
+          return res.send('', 200);
+        }
+      } catch (e) {
+        console.error(e);
+        return _e(res, _ERR.EXISTS_FAILED, e);
+      }
+    }
+    return _e(res, _ERR.FILE_EXISTS);
   });
 };
 
