@@ -32,12 +32,20 @@ DKSynthesize(loadResultBlock)
 DKSynthesize(uploadProgressBlock)
 DKSynthesize(downloadProgressBlock);
 
++ (DKFile *)fileWithName:(NSString *)name {
+  return [self fileWithData:nil name:name];
+}
+
 + (DKFile *)fileWithData:(NSData *)data {
   return [self fileWithData:data name:nil];
 }
 
 + (DKFile *)fileWithData:(NSData *)data name:(NSString *)name {
   return [[self alloc] initWithData:data name:name];
+}
+
+- (id)initWithName:(NSString *)name {
+  return [self initWithData:nil name:name];
 }
 
 - (id)initWithData:(NSData *)data name:(NSString *)name {
