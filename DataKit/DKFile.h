@@ -31,11 +31,8 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
 
 /** @name Creating Files */
 
-+ (DKFile *)fileWithName:(NSString *)name;
-+ (DKFile *)fileWithData:(NSData *)data;
 + (DKFile *)fileWithData:(NSData *)data name:(NSString *)name;
 
-- (id)initWithName:(NSString *)name;
 - (id)initWithData:(NSData *)data name:(NSString *)name;
 
 /** @name Deleting Files */
