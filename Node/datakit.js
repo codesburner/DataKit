@@ -664,7 +664,7 @@ exports.destroy = function (req, res) {
 exports.store = function (req, res) {
   doSync(function storeSync() {
     // Get filename and mode
-    var fileName, store, bufs, onEnd, onClose, onCancel, pendingWrites, writeData, tick, gs;
+    var fileName, store, bufs, onEnd, onClose, onCancel, pendingWrites, tick, gs;
     fileName = req.header('x-datakit-filename', null);
 
     // Generate filename if neccessary, else check for conflict
@@ -678,34 +678,31 @@ exports.store = function (req, res) {
     onClose = false;
     onCancel = false;
     pendingWrites = 0;
-    writeData = function (data) {
-      pendingWrites += 1;
-      store.write(data, function (err, success) {
-        if (err) {
-          console.error("error: could not write chunk (", err, ")");
-        }
-        pendingWrites -= 1;
-        if (pendingWrites <= 0 && (onClose || onEnd || onCancel)) {
-          store.close(function () {
+    tick = function (data) {
+      if (data) {
+        bufs.push(data);
+      }
+      if (pendingWrites <= 0 && bufs.length === 0 && (onClose || onEnd || onCancel)) {
+        store.close(function () {
+          try {
             if (onClose) {
               res.send('', 400);
             } else if (onEnd) {
               res.send('', 200);
             }
-          });
-        }
-      });
-    };
-    tick = function (data) {
-      if (store === null) {
-        bufs.push(data);
-      } else {
-        while (bufs.length > 0) {
-          writeData(bufs.shift());
-        }
-        if (data) {
-          writeData(data);
-        }
+          } catch (e) {}
+          store = null;
+        });
+      }
+      if (store !== null && bufs.length > 0 && pendingWrites <= 0) {
+        pendingWrites += 1;
+        store.write(bufs.shift(), function (err, success) {
+          if (err) {
+            console.error('error: could not write chunk (', err, ')');
+          }
+          pendingWrites -= 1;
+          tick();
+        });
       }
     };
 
@@ -723,7 +720,9 @@ exports.store = function (req, res) {
     });
 
     // Pipe to GridFS
-    gs = new mongo.GridStore(_db, fileName, "w+");
+    gs = new mongo.GridStore(_db, fileName, 'w+', {
+      'chunkSize': 1024 * 4
+    });
     gs.open(function (err, s) {
       if (err) {
         console.log(err);
@@ -775,7 +774,7 @@ exports.stream = function (req, res) {
 
     // Write head
     // HTTP: Partial Content
-    console.log("conent", gs.contentType, "len", gs.length);
+    console.log("content", gs.contentType, "len", gs.length);
     res.writeHead(200, {
       'Connection': 'close',
       'Content-Type': gs.contentType,

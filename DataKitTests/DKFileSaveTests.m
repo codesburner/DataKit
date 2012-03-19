@@ -36,7 +36,7 @@
   STAssertFalse([data isEqualToData:data2], nil);
 }
 
-- (void)testSave {
+- (void)testFileIntegrity {
   NSString *fileName = @"someFile";
   NSData *data = [self generateRandomDataWithLength:1024*1024];
   
@@ -49,6 +49,15 @@
   
   STAssertTrue(success, nil);
   STAssertNil(error, error.localizedDescription);
+  
+  NSURL *ep = [DKManager endpointForMethod:@"stream"];
+  NSString *absoluteString = [ep.absoluteString stringByAppendingPathComponent:fileName];
+  
+  NSLog(@"absoluteString: %@", absoluteString);
+  
+  NSData *data2 = [NSData dataWithContentsOfURL:[NSURL URLWithString:absoluteString]];
+  
+  STAssertTrue([data isEqualToData:data2], nil);
 }
 
 @end
