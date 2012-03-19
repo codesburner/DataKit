@@ -679,7 +679,7 @@ exports.store = function (req, res) {
     onCancel = false;
     pendingWrites = 0;
     tick = function (data) {
-      if (data) {
+      if (data && !(onClose || onCancel)) {
         bufs.push(data);
       }
       if (pendingWrites <= 0 && bufs.length === 0 && (onClose || onEnd || onCancel)) {
@@ -729,6 +729,7 @@ exports.store = function (req, res) {
     gs.open(function (err, s) {
       if (err) {
         console.log(err);
+        bufs = [];
         onCancel = true;
         return _e(res, _ERR.STORE_COULD_NOT_OPEN, err);
       }
