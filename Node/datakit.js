@@ -721,6 +721,9 @@ exports.store = function (req, res) {
 
     // Pipe to GridFS
     gs = new mongo.GridStore(_db, fileName, 'w+', {
+      // Generally the chunk size doesn't matter much,
+      // we just use a smaller chunk size to verify file
+      // integrity when testing.
       'chunkSize': 1024 * 50
     });
     gs.open(function (err, s) {
