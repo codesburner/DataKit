@@ -19,12 +19,16 @@
 
 - (NSData *)generateRandomDataWithLength:(NSUInteger)numBytes {
   NSMutableData *data = [NSMutableData new];
-  [data appendData:[@"DSTART!" dataUsingEncoding:NSUTF8StringEncoding]];
+  NSData *startData = [@"DSTART!" dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *endData = [@"DEND!" dataUsingEncoding:NSUTF8StringEncoding];
+  NSUInteger plus = (startData.length + endData.length);
+  numBytes = MAX(numBytes, plus) - plus;
+  [data appendData:startData];
   for (int i=0; i<numBytes; i++) {
     UInt8 c = (UInt8)(rand() % 255);
     CFDataAppendBytes((__bridge CFMutableDataRef)data, &c, 1);
   }
-  [data appendData:[@"DEND!" dataUsingEncoding:NSUTF8StringEncoding]];
+  [data appendData:endData];
   return [NSData dataWithData:data];
 }
 
