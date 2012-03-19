@@ -65,8 +65,6 @@
   NSURL *ep = [DKManager endpointForMethod:@"stream"];
   NSString *absoluteString = [ep.absoluteString stringByAppendingPathComponent:fileName];
   
-  NSLog(@"absoluteString: %@", absoluteString);
-  
   NSData *data2 = [NSData dataWithContentsOfURL:[NSURL URLWithString:absoluteString]];
   
   STAssertTrue([data isEqualToData:data2], nil);
