@@ -52,14 +52,7 @@ DKSynthesize(cachePolicy)
 
 - (id)sendRequestWithObject:(id)JSONObject method:(NSString *)apiMethod error:(NSError **)error {
   // Wrap special objects before encoding JSON
-  JSONObject = [self wrapSpecialObjectsInJSON:JSONObject];
-  
-  // Create url request
-  NSURL *URL = [NSURL URLWithString:[self.endpoint stringByAppendingPathComponent:apiMethod]];
-  NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:URL];
-  req.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
-  
-  // TODO: set cache policy correctly
+  JSONObject = [isa wrapSpecialObjectsInJSON:JSONObject];
   
   // Encode JSON
   NSError *JSONError = nil;
@@ -72,11 +65,22 @@ DKSynthesize(cachePolicy)
     return nil;
   }
   
+  return [self sendRequestWithData:JSONData method:apiMethod error:error];
+}
+
+- (id)sendRequestWithData:(NSData *)bodyData method:(NSString *)apiMethod error:(NSError **)error {
+  // TODO: set cache policy correctly
+  
+  // Create url request
+  NSURL *URL = [NSURL URLWithString:[self.endpoint stringByAppendingPathComponent:apiMethod]];
+  NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:URL];
+  req.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+  
   // DEVNOTE: Timeout interval is quirky
   // https://devforums.apple.com/thread/25282
   req.timeoutInterval = 20.0;
   req.HTTPMethod = @"POST";
-  req.HTTPBody = JSONData;
+  req.HTTPBody = bodyData;
   [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   [req setValue:[DKManager APISecret] forHTTPHeaderField:@"x-datakit-secret"];
   
@@ -100,12 +104,31 @@ DKSynthesize(cachePolicy)
               description:NSLocalizedString(@"Connection failed", nil)
                  original:requestError];
   }
+  
+  return [isa parseResponse:response withData:data error:error];
+}
+
++ (BOOL)canParseResponse:(NSHTTPURLResponse *)response {
+  NSInteger code = response.statusCode;
+  return (code == 200 || code == 400);
+}
+
++ (id)parseResponse:(NSHTTPURLResponse *)response withData:(NSData *)data error:(NSError **)error {
+  if (![self canParseResponse:response]) {
+    [NSError writeToError:error
+                     code:DKErrorOperationReturnedUnknownStatus
+              description:[NSString stringWithFormat:NSLocalizedString(@"Unknown response (%i)", nil), response.statusCode]
+                 original:nil];
+  }
   else if (response.statusCode == DKResponseStatusSuccess) {
     id resultObj = nil;
+    NSError *JSONError = nil;
     
     // A successful operation must not always return a JSON body
     if (data.length > 0) {      
-      resultObj = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&JSONError];
+      resultObj = [NSJSONSerialization JSONObjectWithData:data
+                                                  options:NSJSONReadingAllowFragments
+                                                    error:&JSONError];
     }
     if (JSONError != nil) {
       [NSError writeToError:error
@@ -118,6 +141,7 @@ DKSynthesize(cachePolicy)
     }
   }
   else if (response.statusCode == DKResponseStatusError) {
+    NSError *JSONError = nil;
     id resultObj = [NSJSONSerialization JSONObjectWithData:data options:0 error:&JSONError];
     if (JSONError != nil) {
       [NSError writeToError:error
@@ -134,12 +158,6 @@ DKSynthesize(cachePolicy)
                    original:nil];
     }
   }
-  else {
-    [NSError writeToError:error
-                     code:DKErrorOperationReturnedUnknownStatus
-              description:[NSString stringWithFormat:NSLocalizedString(@"Could not perform operation (%i)", nil), response.statusCode]
-                 original:nil];
-  }
   return nil;
 }
 
@@ -147,7 +165,7 @@ DKSynthesize(cachePolicy)
 
 @implementation DKRequest (Wrapping)
 
-- (id)iterateJSON:(id)JSONObject modify:(id (^)(id obj))handler {
++ (id)iterateJSON:(id)JSONObject modify:(id (^)(id obj))handler {
   id converted = handler(JSONObject);
   if ([converted isKindOfClass:[NSDictionary class]]) {
     NSMutableDictionary *dict = [NSMutableDictionary new];
@@ -172,7 +190,7 @@ DKSynthesize(cachePolicy)
 #define kDKObjectRelationRefKey @"$ref"
 #define kDKObjectRelationIDKey @"$id"
 
-- (id)wrapSpecialObjectsInJSON:(id)obj {
++ (id)wrapSpecialObjectsInJSON:(id)obj {
   return [self iterateJSON:obj modify:^id(id objectToModify) {
     // NSData
     if ([objectToModify isKindOfClass:[NSData class]]) {
@@ -198,7 +216,7 @@ DKSynthesize(cachePolicy)
   }];
 }
 
-- (id)unwrapSpecialObjectsInJSON:(id)obj {
++ (id)unwrapSpecialObjectsInJSON:(id)obj {
   return [self iterateJSON:obj modify:^id(id objectToModify) {
     if ([objectToModify isKindOfClass:[NSDictionary class]]) {
       NSDictionary *dict = (NSDictionary *)objectToModify;

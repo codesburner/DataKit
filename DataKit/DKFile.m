@@ -9,6 +9,7 @@
 #import "DKFile.h"
 
 #import "DKManager.h"
+#import "DKRequest.h"
 
 @interface DKFile ()
 @property (nonatomic, assign, readwrite) BOOL isVolatile;
@@ -48,12 +49,56 @@ DKSynthesize(downloadProgressBlock);
   return self;
 }
 
++ (BOOL)deleteFile:(NSString *)fileName error:(NSError **)error {
+  return [self deleteFiles:[NSArray arrayWithObject:fileName] error:error];
+}
+
++ (BOOL)deleteFiles:(NSArray *)fileNames error:(NSError **)error {
+  // Create the request  
+  DKRequest *request = [DKRequest request];
+  request.cachePolicy = DKCachePolicyIgnoreCache;
+  
+  NSDictionary *dict = [NSDictionary dictionaryWithObject:fileNames forKey:@"files"];
+  
+  NSError *requestError = nil;
+  [request sendRequestWithObject:dict method:@"unlink" error:&requestError];
+  if (requestError != nil) {
+    if (error != nil) {
+      *error = requestError;
+    }
+    return NO;
+  }
+  return YES;
+}
+
+- (BOOL)delete {
+  return [self delete:NULL];
+}
+
+- (BOOL)delete:(NSError **)error {
+  return [isa deleteFile:self.name error:error];
+}
+
+- (void)deleteInBackgroundWithBlock:(DKFileDeleteResultBlock)block {
+  block = [block copy];
+  dispatch_queue_t q = dispatch_get_current_queue();
+  dispatch_async([DKManager queue], ^{
+    NSError *error = nil;
+    BOOL success = [self delete:&error];
+    if (block != NULL) {
+      dispatch_async(q, ^{
+        block(success, error); 
+      });
+    }
+  });
+}
+
 - (BOOL)saveSynchronous:(BOOL)saveSync
             resultBlock:(DKFileSaveResultBlock)resultBlock
           progressBlock:(DKFileProgressBlock)progressBlock
                   error:(NSError **)error {  
   // Create url request
-  NSURL *URL = [NSURL URLWithString:[[DKManager APIEndpoint] stringByAppendingPathComponent:@"storeFile"]];
+  NSURL *URL = [DKManager endpointForMethod:@"store"];
   NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:URL];
   
   // DEVNOTE: Timeout interval is quirky
@@ -76,21 +121,19 @@ DKSynthesize(downloadProgressBlock);
   if (saveSync) {
     NSError *reqError = nil;
     NSHTTPURLResponse *response = nil;
-    [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&reqError];
+    NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&reqError];
     
-    if (response.statusCode == 201) {
+    NSError *parseErr = nil;
+    [DKRequest parseResponse:response withData:data error:&parseErr];
+    
+    if (parseErr == nil) {
       self.isVolatile = NO;
-      
       return YES;
     }
-    else if (response.statusCode == 409 /* HTTP: Conflict */) {
-      NSDictionary *userInfo = [NSDictionary dictionaryWithObject:NSLocalizedString(@"File already exists", nil)
-                                                           forKey:NSLocalizedDescriptionKey];
-      reqError = [NSError errorWithDomain:NSCocoaErrorDomain code:409 userInfo:userInfo];
-    }
-    
-    if (error != NULL) {
-      *error = reqError;
+    else {
+      if (error != NULL) {
+        *error = parseErr;
+      }
     }
   }
   

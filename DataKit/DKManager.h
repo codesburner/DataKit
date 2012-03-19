@@ -28,6 +28,13 @@
  */
 + (void)setAPIEndpoint:(NSString *)absoluteString;
 
+/**
+ Returns the URL for the specified API method
+ @param method The method name
+ @return The method endpoint URL
+ */
++ (NSURL *)endpointForMethod:(NSString *)method;
+
 /** @name API Secret */
 
 /**

@@ -17,9 +17,9 @@
   [DKManager setAPISecret:@"c821a09ebf01e090a46b6bbe8b21bcb36eb5b432265a51a76739c20472908989"];
 }
 
-- (NSData *)generateRandomData {
+- (NSData *)generateRandomDataWithLength:(NSUInteger)numBytes {
   NSMutableData *data = [NSMutableData new];
-  for (int i=0; i<1024*100; i++) {
+  for (int i=0; i<numBytes; i++) {
     UInt8 c = (UInt8)(rand() % 255);
     CFDataAppendBytes((__bridge CFMutableDataRef)data, &c, 1);
   }
@@ -27,16 +27,20 @@
 }
 
 - (void)testRandomData {
-  NSData *data = [self generateRandomData];
-  NSData *data2 = [self generateRandomData];
+  NSInteger len = 1024;
+  NSData *data = [self generateRandomDataWithLength:len];
+  NSData *data2 = [self generateRandomDataWithLength:len];
   
   STAssertFalse([data isEqualToData:data2], nil);
 }
 
 - (void)testSave {
-  NSData *data = [self generateRandomData];
+  NSString *fileName = @"someFile";
+  NSData *data = [self generateRandomDataWithLength:1024*1024];
   
-  DKFile *file = [DKFile fileWithData:data name:@"afile"];
+  [DKFile deleteFile:fileName error:NULL];
+  
+  DKFile *file = [DKFile fileWithData:data name:fileName];
   
   NSError *error = nil;
   BOOL success = [file save:&error];

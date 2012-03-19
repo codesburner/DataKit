@@ -39,6 +39,11 @@ static NSString *kDKManagerAPISecret;
   return kDKManagerAPIEndpoint;
 }
 
++ (NSURL *)endpointForMethod:(NSString *)method {
+  NSString *ep = [[self APIEndpoint] stringByAppendingPathComponent:method];
+  return [NSURL URLWithString:ep];
+}
+
 + (NSString *)APISecret {
   if (kDKManagerAPISecret.length == 0) {
     [NSException raise:NSInternalInconsistencyException format:@"No API secret specified"];

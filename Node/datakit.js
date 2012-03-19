@@ -46,7 +46,8 @@ var _createRoutes = function (path) {
   app.post(m('query'), _secureMethod(exports.query));
   app.post(m('index'), _secureMethod(exports.index));
   app.post(m('destroy'), _secureMethod(exports.destroy));
-  app.post(m('storeFile'), _secureMethod(exports.storeFile));
+  app.post(m('store'), _secureMethod(exports.store));
+  app.post(m('unlink'), _secureMethod(exports.unlink));
 };
 var _parseMongoException = function (e) {
   if (!_exists(e)) {
@@ -96,10 +97,11 @@ var _ERR = {
   PUBLISH_FAILED: [700, 'Publish failed'],
   DESTROY_FAILED: [800, 'Destroy failed'],
   DESTROY_NOT_ALLOWED: [801, 'Destroy not allowed'],
-  FILE_STORE_FAILED: [900, 'File store failed'],
-  FILE_STORE_FILE_EXISTS: [901, 'File already exists'],
-  FILE_STORE_COULD_NOT_OPEN: [902, 'Could not open the file store'],
-  FILE_STORE_COULD_NOT_APPEND: [903, 'Could not append to file']
+  STORE_FAILED: [900, 'File store failed'],
+  STORE_FILE_EXISTS: [901, 'File already exists'],
+  STORE_COULD_NOT_OPEN: [902, 'Could not open the file store'],
+  STORE_COULD_NOT_APPEND: [903, 'Could not append to file'],
+  UNLINK_FAILED: [1000, 'Unlink failed']
 };
 var _copyKeys = function (s, t) {
   var key;
@@ -185,14 +187,8 @@ exports.run = function (c) {
       app = express.createServer();
     }
 
-    // Install the body parser, don't parse the storeFile route!
+    // Install the body parser
     parse = express.bodyParser();
-    // app.use(function (req, res, next) {
-    //   if (0 === req.url.indexOf('/storeFile')) {
-    //     return next();
-    //   }
-    //   parse(req, res, next);
-    // });
     app.use(parse);
 
     if (_conf.secret === null) {
@@ -652,8 +648,8 @@ exports.destroy = function (req, res) {
     }
   });
 };
-exports.storeFile = function (req, res) {
-  doSync(function storeFileSync() {
+exports.store = function (req, res) {
+  doSync(function storeSync() {
     // var f, gs, i, lastAppendErr, gsc, exists;
     var f, gs, gsc, exists, isEnd, isOpen, bufs, cancelled, closeHandle, writeHandle, appendHandle, i, lastErr;
 
@@ -662,6 +658,7 @@ exports.storeFile = function (req, res) {
     isOpen = false;
     bufs = [];
     cancelled = false;
+    lastErr = null;
     closeHandle = function () {
       if (!(isOpen && isEnd)) {
         return;
@@ -677,10 +674,10 @@ exports.storeFile = function (req, res) {
 
       // Check for errors thrown during append
       if (lastErr !== null) {
-        return _e(res, _ERR.FILE_STORE_COULD_NOT_APPEND, lastErr);
+        return _e(res, _ERR.STORE_COULD_NOT_APPEND, lastErr);
       }
 
-      return res.send('', 201);
+      return res.send('', 200);
     };
     writeHandle = function (err, result) {
       lastErr = err;
@@ -689,7 +686,7 @@ exports.storeFile = function (req, res) {
       }
     };
     appendHandle = function (buf) {
-      if (cancelled) {
+      if (cancelled || !Buffer.isBuffer(buf)) {
         return;
       }
       if (isOpen) {
@@ -703,11 +700,7 @@ exports.storeFile = function (req, res) {
         bufs.push(buf);
       }
     };
-    req.on('data', function (buf) {
-      if (Buffer.isBuffer(buf)) {
-        appendHandle(buf);
-      }
-    });
+    req.on('data', appendHandle);
     req.on('end', function () {
       isEnd = true;
       closeHandle();
@@ -728,13 +721,13 @@ exports.storeFile = function (req, res) {
       exists = gsc.exist.sync(gsc, _db, f);
     } catch (e) {
       console.error(e);
-      return _e(res, _ERR.FILE_STORE_FAILED, e);
+      return _e(res, _ERR.STORE_FAILED, e);
     }
 
     if (exists) {
       console.log('file"', f, '"already exists');
       cancelled = true;
-      return _e(res, _ERR.FILE_STORE_FILE_EXISTS);
+      return _e(res, _ERR.STORE_FILE_EXISTS);
     }
 
     // Open a grid store
@@ -747,8 +740,27 @@ exports.storeFile = function (req, res) {
     } catch (e2) {
       console.error(e2);
       cancelled = true;
-      return _e(res, _ERR.FILE_STORE_COULD_NOT_OPEN, e2);
+      return _e(res, _ERR.STORE_COULD_NOT_OPEN, e2);
     }
+  });
+};
+exports.unlink = function (req, res) {
+  doSync(function unlinkSync() {
+    var files, i, gs, lastErr;
+    files = req.param('files', []);
+    gs = mongo.GridStore;
+    lastErr = null;
+    for (i = 0; i < files.length; i++) {
+      try {
+        gs.unlink.sync(gs, _db, files[i]);  
+      } catch (e) {
+        lastErr = e;
+      }
+    }
+    if (lastErr !== null) {
+      return _e(res, _ERR.UNLINK_FAILED, lastErr);
+    }
+    return res.send('', 200);
   });
 };
 

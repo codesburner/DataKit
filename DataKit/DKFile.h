@@ -11,6 +11,7 @@
 
 typedef void (^DKFileSaveResultBlock)(BOOL success, NSError *error);
 typedef void (^DKFileLoadResultBlock)(NSData *data, NSError *error);
+typedef void (^DKFileDeleteResultBlock)(BOOL success, NSError *error);
 
 /**
  Block to track download and upload progress
@@ -34,6 +35,15 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
 + (DKFile *)fileWithData:(NSData *)data name:(NSString *)name;
 
 - (id)initWithData:(NSData *)data name:(NSString *)name;
+
+/** @name Deleting Files */
+
++ (BOOL)deleteFile:(NSString *)fileName error:(NSError **)error;
++ (BOOL)deleteFiles:(NSArray *)fileNames error:(NSError **)error;
+
+- (BOOL)delete;
+- (BOOL)delete:(NSError **)error;
+- (void)deleteInBackgroundWithBlock:(DKFileDeleteResultBlock)block;
 
 /** @name Saving Files */
 
