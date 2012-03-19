@@ -9,6 +9,7 @@ var crypto = require('crypto');
 var fs = require('fs');
 var doSync = require('sync');
 var uuid = require('node-uuid');
+var mkdirp = require('mkdirp');
 var app = {};
 
 // private functions
@@ -33,6 +34,16 @@ var _secureMethod = function (m) {
     res.send(401);
   };
 };
+var _mkdirs = function (dirs, mode, cb) {
+  var f = function next(e) {
+    if (!e && dirs.length) {
+      fs.mkdir(dirs.shift(), mode, next);
+    } else {
+      cb(e);
+    }
+  };
+  f(null);
+};
 var _createRoutes = function (path) {
   var m = function (p) {
     return path + '/' + _safe(p, '');
@@ -48,6 +59,7 @@ var _createRoutes = function (path) {
   app.post(m('destroy'), _secureMethod(exports.destroy));
   app.post(m('store'), _secureMethod(exports.store));
   app.post(m('unlink'), _secureMethod(exports.unlink));
+  app.get(m('stream/:key'), exports.stream);
 };
 var _parseMongoException = function (e) {
   if (!_exists(e)) {
@@ -177,6 +189,7 @@ exports.run = function (c) {
     _conf.cert = _safe(c.cert, null);
     _conf.key = _safe(c.key, null);
     _conf.express = _safe(c.express, function (app) {});
+    _conf.tempDir = _safe(c.tempDir, __dirname + "/tmp");
 
     if (_exists(_conf.cert) && _exists(_conf.key)) {
       app = express.createServer({
@@ -650,98 +663,77 @@ exports.destroy = function (req, res) {
 };
 exports.store = function (req, res) {
   doSync(function storeSync() {
-    // var f, gs, i, lastAppendErr, gsc, exists;
-    var f, gs, gsc, exists, isEnd, isOpen, bufs, cancelled, closeHandle, writeHandle, appendHandle, i, lastErr;
+    // Get filename and mode
+    var fileName, store, bufs, onEnd, onClose, onCancel, pendingWrites, writeData, tick, gs;
+    fileName = req.header('x-datakit-filename', null);
 
-    // Fetch data
-    isEnd = false;
-    isOpen = false;
+    // Generate filename if neccessary, else check for conflict
+    if (fileName === null) {
+      fileName = uuid.v4();
+    }
+
+    store = null;
     bufs = [];
-    cancelled = false;
-    lastErr = null;
-    closeHandle = function () {
-      if (!(isOpen && isEnd)) {
-        return;
-      }
-      // Close grid store
-      if (gs) {
-        gs.close(function (e) {
-          if (e) {
-            console.error('error closing grid store:', e);
-          }
-        });
-      }
-
-      // Check for errors thrown during append
-      if (lastErr !== null) {
-        return _e(res, _ERR.STORE_COULD_NOT_APPEND, lastErr);
-      }
-
-      return res.send('', 200);
-    };
-    writeHandle = function (err, result) {
-      lastErr = err;
-      if (err) {
-        console.error(err);
-      }
-    };
-    appendHandle = function (buf) {
-      if (cancelled || !Buffer.isBuffer(buf)) {
-        return;
-      }
-      if (isOpen) {
-        for (i = 0; i < bufs.length; i += 1) {
-          gs.write(bufs[i], writeHandle);
+    onEnd = false;
+    onClose = false;
+    onCancel = false;
+    pendingWrites = 0;
+    writeData = function (data) {
+      pendingWrites += 1;
+      store.write(data, function (err, success) {
+        if (err) {
+          console.error("error: could not write chunk (", err, ")");
         }
-        if (buf) {
-          gs.write(buf, writeHandle);
+        pendingWrites -= 1;
+        console.log("pending writes:", pendingWrites);
+        if (pendingWrites <= 0 && (onClose || onEnd || onCancel)) {
+          store.close(function () {
+            if (onClose) {
+              res.send('', 400);
+            } else if (onEnd) {
+              res.send('', 200);
+            }
+          });
         }
+      });
+    };
+    tick = function (data) {
+      if (store === null) {
+        bufs.push(data);
       } else {
-        bufs.push(buf);
+        while (bufs.length > 0) {
+          writeData(bufs.shift());
+        }
+        if (data) {
+          writeData(data);
+        }
       }
     };
-    req.on('data', appendHandle);
+
+    // Register handlers
     req.on('end', function () {
-      isEnd = true;
-      closeHandle();
+      onEnd = true;
+      tick(null);
+    });
+    req.on('close', function () {
+      onClose = true;
+      tick(null);
+    });
+    req.on('data', function (data) {
+      tick(data);
     });
 
-    // Get filename and mode
-    f = req.header('x-datakit-filename', null);
-
-    // Generate filename if neccessary
-    if (f === null) {
-      f = uuid.v4();
-    }
-
-    // Check if the file already exists
-    gsc = mongo.GridStore;
-
-    try {
-      exists = gsc.exist.sync(gsc, _db, f);
-    } catch (e) {
-      console.error(e);
-      return _e(res, _ERR.STORE_FAILED, e);
-    }
-
-    if (exists) {
-      console.log('file"', f, '"already exists');
-      cancelled = true;
-      return _e(res, _ERR.STORE_FILE_EXISTS);
-    }
-
-    // Open a grid store
-    try {
-      gs = new mongo.GridStore(_db, f, 'w+');
-      gs = gs.open.sync(gs);
-      isOpen = true;
-      appendHandle(null);
-      closeHandle();
-    } catch (e2) {
-      console.error(e2);
-      cancelled = true;
-      return _e(res, _ERR.STORE_COULD_NOT_OPEN, e2);
-    }
+    // Pipe to GridFS
+    gs = new mongo.GridStore(_db, fileName, "w+");
+    gs.open(function (err, s) {
+      if (err) {
+        console.log(err);
+        onCancel = true;
+        return _e(res, _ERR.STORE_COULD_NOT_OPEN, err);
+      }
+      store = s;
+      tick();
+    });
   });
 };
 exports.unlink = function (req, res) {
@@ -750,9 +742,9 @@ exports.unlink = function (req, res) {
     files = req.param('files', []);
     gs = mongo.GridStore;
     lastErr = null;
-    for (i = 0; i < files.length; i++) {
+    for (i = 0; i < files.length; i += 1) {
       try {
-        gs.unlink.sync(gs, _db, files[i]);  
+        gs.unlink.sync(gs, _db, files[i]);
       } catch (e) {
         lastErr = e;
       }
@@ -761,6 +753,43 @@ exports.unlink = function (req, res) {
       return _e(res, _ERR.UNLINK_FAILED, lastErr);
     }
     return res.send('', 200);
+  });
+};
+exports.stream = function (req, res) {
+  doSync(function streamSync() {
+    var k, gs, stream;
+    k = req.param('key', null);
+    if (!k) {
+      // HTTP: Not Found
+      return res.send('', 404);
+    }
+
+    // Open grid store
+    gs = new mongo.GridStore(_db, k, 'r');
+    try {
+      gs = gs.open.sync(gs);
+    } catch (e) {
+      console.log(e);
+      // HTTP: Server Error
+      return res.send('', 500);
+    }
+
+    // Write head
+    // HTTP: Partial Content
+    console.log("conent", gs.contentType, "len", gs.length);
+    res.writeHead(200, {
+      'Connection': 'close',
+      'Content-Type': gs.contentType,
+      'Content-Length': gs.length
+    });
+
+    stream = gs.stream(true);
+    stream.on('data', function (data) {
+      res.write(data);
+    });
+    stream.on('close', function () {
+      res.end();
+    });
   });
 };
 
