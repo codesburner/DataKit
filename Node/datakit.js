@@ -721,7 +721,7 @@ exports.store = function (req, res) {
 
     // Pipe to GridFS
     gs = new mongo.GridStore(_db, fileName, 'w+', {
-      'chunkSize': 1024 * 4
+      'chunkSize': 1024 * 50
     });
     gs.open(function (err, s) {
       if (err) {
