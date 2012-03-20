@@ -79,7 +79,6 @@
   STAssertTrue([data isEqualToData:data2], nil);
   
   // Load async
-  NSLog(@"LOAD ASYNC");
   DKFile *file3 = [DKFile fileWithData:nil name:fileName];
   
   NSMutableArray *progress = [NSMutableArray new];
@@ -96,15 +95,13 @@
     asyncData = data;
     asyncError = error;
     done = YES;
-    NSLog(@"DONE!");
   } progressBlock:^(NSUInteger bytes, NSUInteger totalBytes) {
     [progress addObject:[NSNumber numberWithInt:bytes]];
+    NSLog(@"LOAD PROGRESS: %i/%i", bytes, totalBytes);
   }];
   
-  NSLog(@"WAIT...");
   while (!done && [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]) {
   }
-  NSLog(@"RESUME");
   
   STAssertNil(asyncError, asyncError.localizedDescription);
   STAssertNotNil(asyncData, nil);
@@ -137,6 +134,7 @@
     done = YES;
   } progressBlock:^(NSUInteger bytes, NSUInteger totalBytes) {
     [progress addObject:[NSNumber numberWithInt:bytes]];
+    NSLog(@"SAVE PROGRESS: %i/%i", bytes, totalBytes);
   }];
   
   while (!done && [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]) {
