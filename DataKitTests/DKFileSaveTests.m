@@ -100,8 +100,7 @@
     NSLog(@"LOAD PROGRESS: %i/%i", bytes, totalBytes);
   }];
   
-  while (!done && [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]) {
-  }
+  while (!done && [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
   
   STAssertNil(asyncError, asyncError.localizedDescription);
   STAssertNotNil(asyncData, nil);
@@ -137,8 +136,7 @@
     NSLog(@"SAVE PROGRESS: %i/%i", bytes, totalBytes);
   }];
   
-  while (!done && [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]) {
-  }
+  while (!done && [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
   
   STAssertNil(asyncError, asyncError.localizedDescription);
   STAssertTrue(asyncSuccess, nil);
