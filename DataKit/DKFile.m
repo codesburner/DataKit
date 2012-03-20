@@ -56,7 +56,7 @@ DKSynthesize(downloadProgressBlock);
   DKRequest *request = [DKRequest request];
   request.cachePolicy = DKCachePolicyIgnoreCache;
   
-  NSDictionary *dict = [NSDictionary dictionaryWithObject:fileName forKey:@"key"];
+  NSDictionary *dict = [NSDictionary dictionaryWithObject:fileName forKey:@"fileName"];
   
   NSError *requestError = nil;
   [request sendRequestWithObject:dict method:@"exists" error:&requestError];
@@ -203,12 +203,67 @@ DKSynthesize(downloadProgressBlock);
   [self saveSynchronous:NO resultBlock:block progressBlock:progressBlock error:NULL];
 }
 
+- (NSData *)loadSynchronous:(BOOL)loadSync
+                resultBlock:(DKFileLoadResultBlock)resultBlock
+              progressBlock:(DKFileProgressBlock)progressBlock
+                      error:(NSError **)error {
+  // Check for file name
+  if (self.name.length == 0) {
+    if (error != NULL) {
+      NSDictionary *info = [NSDictionary dictionaryWithObject:NSLocalizedString(@"Invalid filename", nil)
+                                                     forKey:NSLocalizedDescriptionKey];
+      *error = [NSError errorWithDomain:NSCocoaErrorDomain code:0x100 userInfo:info];
+      return nil;
+    }
+  }
+  
+  // Create url request
+  NSURL *URL = [DKManager endpointForMethod:@"stream"];
+  
+  NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:URL];
+  
+  // DEVNOTE: Timeout interval is quirky
+  // https://devforums.apple.com/thread/25282
+  req.timeoutInterval = 20.0;
+  req.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
+  [req setValue:[DKManager APISecret] forHTTPHeaderField:kDKRequestHeaderSecret];
+  [req setValue:self.name forHTTPHeaderField:kDKRequestHeaderFileName];
+  
+  // Load sync
+  if (loadSync) {
+    NSError *reqError = nil;
+    NSHTTPURLResponse *response = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&reqError];
+    
+    NSLog(@"data: %i", data.length);
+    NSLog(@"error: %@", reqError);
+    NSLog(@"status: %i", response.statusCode);
+    
+    if (response.statusCode == 200) {
+      self.isVolatile = NO;
+      return data;
+    }
+    else {
+      if (error != NULL) {
+        *error = reqError;
+      }
+    }
+  }
+  
+  // Load async
+  else {
+    // TODO: impl
+  }
+  
+  return nil;
+}
+
 - (NSData *)loadData {
   return [self loadData:NULL];
 }
 
 - (NSData *)loadData:(NSError **)error {
-  return nil;
+  return [self loadSynchronous:YES resultBlock:NULL progressBlock:NULL error:error];
 }
 
 - (void)loadDataInBackgroundWithBlock:(DKFileLoadResultBlock)block {

@@ -59,7 +59,7 @@ var _createRoutes = function (path) {
   app.post(m('destroy'), _secureMethod(exports.destroy));
   app.post(m('store'), _secureMethod(exports.store));
   app.post(m('unlink'), _secureMethod(exports.unlink));
-  app.get(m('stream/:key'), exports.stream);
+  app.get(m('stream'), _secureMethod(exports.stream));
   app.post(m('exists'), _secureMethod(exports.exists));
 };
 var _parseMongoException = function (e) {
@@ -763,7 +763,7 @@ exports.unlink = function (req, res) {
 exports.stream = function (req, res) {
   doSync(function streamSync() {
     var k, gs, stream;
-    k = req.param('key', null);
+    k = req.header('x-datakit-filename', null);
     if (!k) {
       // HTTP: Not Found
       return res.send('', 404);
@@ -781,7 +781,7 @@ exports.stream = function (req, res) {
 
     // Write head
     // HTTP: Partial Content
-    console.log("content", gs.contentType, "len", gs.length);
+    console.log(k, "=>", "content", gs.contentType, "len", gs.length);
     res.writeHead(200, {
       'Connection': 'close',
       'Content-Type': gs.contentType,
@@ -800,7 +800,7 @@ exports.stream = function (req, res) {
 exports.exists = function (req, res) {
   doSync(function existsSync() {
     var fileName, gs, exists;
-    fileName = req.param('key', null);
+    fileName = req.param('fileName', null);
     if (fileName) {
       gs = mongo.GridStore;
       try {

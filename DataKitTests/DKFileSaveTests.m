@@ -66,11 +66,11 @@
   STAssertNil(error, error.localizedDescription);
   STAssertTrue(exists, nil);
   
-  NSURL *ep = [DKManager endpointForMethod:@"stream"];
-  NSString *absoluteString = [ep.absoluteString stringByAppendingPathComponent:fileName];
+  error = nil;
+  DKFile *file2 = [DKFile fileWithData:nil name:fileName];
+  NSData *data2 = [file2 loadData:&error];
   
-  NSData *data2 = [NSData dataWithContentsOfURL:[NSURL URLWithString:absoluteString]];
-  
+  STAssertNil(error, error.localizedDescription);
   STAssertTrue([data isEqualToData:data2], nil);
 }
 
