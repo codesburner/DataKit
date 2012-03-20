@@ -40,18 +40,21 @@
   STAssertFalse([data isEqualToData:data2], nil);
 }
 
-- (void)testFileIntegrity {
+- (void)testFileIntegrityAndLoad {
   NSString *fileName = @"someFile";
   NSData *data = [self generateRandomDataWithLength:1024*1024];
   
+  // Delete old file
   [DKFile deleteFile:fileName error:NULL];
   
+  // Check exists (NO)
   NSError *error = nil;
   BOOL exists = [DKFile fileExists:fileName error:&error];
   
   STAssertNil(error, error.localizedDescription);
   STAssertFalse(exists, nil);
   
+  // Save
   DKFile *file = [DKFile fileWithData:data name:fileName];
   
   error = nil;
@@ -60,18 +63,54 @@
   STAssertTrue(success, nil);
   STAssertNil(error, error.localizedDescription);
   
+  // Check exists (YES)
   error = nil;
   exists = [DKFile fileExists:fileName error:&error];
   
   STAssertNil(error, error.localizedDescription);
   STAssertTrue(exists, nil);
   
+  // Load sync
   error = nil;
   DKFile *file2 = [DKFile fileWithData:nil name:fileName];
   NSData *data2 = [file2 loadData:&error];
   
   STAssertNil(error, error.localizedDescription);
   STAssertTrue([data isEqualToData:data2], nil);
+  
+  // Load async
+  NSLog(@"LOAD ASYNC");
+  DKFile *file3 = [DKFile fileWithData:nil name:fileName];
+  
+  NSMutableArray *progress = [NSMutableArray new];
+  
+  __block NSData *asyncData = nil;
+  __block NSError *asyncError = nil;
+  __block BOOL done = NO;
+  
+  NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+  
+  STAssertNotNil(runLoop, nil);
+  
+  [file3 loadDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+    asyncData = data;
+    asyncError = error;
+    done = YES;
+    NSLog(@"DONE!");
+  } progressBlock:^(NSUInteger bytes, NSUInteger totalBytes) {
+    [progress addObject:[NSNumber numberWithInt:bytes]];
+  }];
+  
+  NSLog(@"WAIT...");
+  while (!done && [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]) {
+  }
+  NSLog(@"RESUME");
+  
+  STAssertNil(asyncError, asyncError.localizedDescription);
+  STAssertNotNil(asyncData, nil);
+  STAssertTrue(asyncData.length > 0, nil);
+  STAssertTrue([data isEqualToData:asyncData], nil);
+  STAssertTrue(progress.count > 0, nil);
 }
 
 - (void)testAsyncSave {

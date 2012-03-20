@@ -21,6 +21,10 @@
 @property (nonatomic, copy) DKFileLoadResultBlock loadResultBlock;
 @property (nonatomic, copy) DKFileProgressBlock uploadProgressBlock;
 @property (nonatomic, copy) DKFileProgressBlock downloadProgressBlock;
+@property (nonatomic, strong) NSOutputStream *fileStream;
+@property (nonatomic, copy) NSURL *fileURL;
+@property (nonatomic, assign) NSUInteger bytesWritten;
+@property (nonatomic, assign) NSUInteger bytesExpected;
 @end
 
 @implementation DKFile
@@ -32,7 +36,11 @@ DKSynthesize(connection)
 DKSynthesize(saveResultBlock)
 DKSynthesize(loadResultBlock)
 DKSynthesize(uploadProgressBlock)
-DKSynthesize(downloadProgressBlock);
+DKSynthesize(downloadProgressBlock)
+DKSynthesize(fileStream)
+DKSynthesize(fileURL)
+DKSynthesize(bytesWritten)
+DKSynthesize(bytesExpected)
 
 + (DKFile *)fileWithData:(NSData *)data name:(NSString *)name {
   return [[self alloc] initWithData:data name:name];
@@ -235,10 +243,6 @@ DKSynthesize(downloadProgressBlock);
     NSHTTPURLResponse *response = nil;
     NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&reqError];
     
-    NSLog(@"data: %i", data.length);
-    NSLog(@"error: %@", reqError);
-    NSLog(@"status: %i", response.statusCode);
-    
     if (response.statusCode == 200) {
       self.isVolatile = NO;
       return data;
@@ -252,7 +256,28 @@ DKSynthesize(downloadProgressBlock);
   
   // Load async
   else {
-    // TODO: impl
+    self.saveResultBlock = nil;
+    self.loadResultBlock = resultBlock;
+    self.downloadProgressBlock = progressBlock;
+    self.uploadProgressBlock = nil;
+    self.bytesWritten = 0;
+    self.bytesExpected = 0;
+    
+    [self.fileStream close];
+    
+    CFUUIDRef uuidRef = CFUUIDCreate(NULL);
+    NSString *uuid = CFBridgingRelease(CFUUIDCreateString(NULL, uuidRef));
+    CFRelease(uuidRef);
+    
+    self.fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:uuid]];
+    self.fileStream = [NSOutputStream outputStreamWithURL:self.fileURL append:NO];
+    
+    [self.fileStream open];
+    
+    self.connection = [NSURLConnection connectionWithRequest:req delegate:self];
+    [self.connection scheduleInRunLoop:[NSRunLoop currentRunLoop]
+                               forMode:NSRunLoopCommonModes];
+    [self.connection start];
   }
   
   return nil;
@@ -267,55 +292,72 @@ DKSynthesize(downloadProgressBlock);
 }
 
 - (void)loadDataInBackgroundWithBlock:(DKFileLoadResultBlock)block {
-  
+  [self loadDataInBackgroundWithBlock:block progressBlock:NULL];
 }
 
 - (void)loadDataInBackgroundWithBlock:(DKFileLoadResultBlock)block progressBlock:(DKFileProgressBlock)progressBlock {
-  
+  [self loadSynchronous:NO resultBlock:block progressBlock:progressBlock error:NULL];
 }
 
 - (void)abort {
+  [self.connection cancel];
+}
+
+- (void)cleanUpTempFiles {
+  // Close file stream
+  [self.fileStream close];
+  self.fileStream = nil;
   
+  // Remove temp file
+  NSError *error = nil;
+  if (![[NSFileManager defaultManager] removeItemAtURL:self.fileURL error:&error]) {
+    NSLog(@"error: could not remove temp file (reason: '%@')", error.localizedDescription);
+  }
 }
 
 #pragma mark - NSURLConnectionDelegate
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-  [connection cancel];
   if (self.saveResultBlock != nil) {
     self.saveResultBlock(NO, error);
   }
-}
-
-#pragma mark - NSURLConnectionDownloadDelegate
-
-- (void)connection:(NSURLConnection *)connection didWriteData:(long long)bytesWritten totalBytesWritten:(long long)totalBytesWritten expectedTotalBytes:(long long)expectedTotalBytes {
-  if (self.downloadProgressBlock != nil) {
-    self.downloadProgressBlock(totalBytesWritten, expectedTotalBytes);
+  else if (self.loadResultBlock != nil) {
+    self.loadResultBlock(nil, error);
   }
-}
-
-- (void)connectionDidFinishDownloading:(NSURLConnection *)connection destinationURL:(NSURL *)destinationURL {
-  self.data = [NSData dataWithContentsOfURL:destinationURL];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-  // implement?
+  [self cleanUpTempFiles];
+  [connection cancel];
 }
 
 #pragma mark - NSURLConnectionDataDelegate
 
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+  if ([self.fileStream hasSpaceAvailable]) {
+    [self.fileStream write:data.bytes maxLength:data.length];
+    self.bytesWritten += data.length;
+    if (self.downloadProgressBlock != nil) {
+      self.downloadProgressBlock(self.bytesWritten, self.bytesExpected);
+    }
+  }
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+  if (self.loadResultBlock != nil) {
+    self.loadResultBlock([NSData dataWithContentsOfURL:self.fileURL], nil);
+  }
+  [self cleanUpTempFiles];
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-  if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
-    NSError *error = nil;
-    NSHTTPURLResponse *httpResponse = (id)response;
-    
+  if (![response isKindOfClass:[NSHTTPURLResponse class]]) {
+    return;
+  }
+  NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+  
+  if (self.saveResultBlock != nil) {
+    NSError *error = nil;    
     if (httpResponse.statusCode == 200 /* HTTP: Created */) {
       self.isVolatile = NO;
-      
-      if (self.saveResultBlock != nil) {
-        self.saveResultBlock(YES, nil);
-      }
+      self.saveResultBlock(YES, nil);
     }
     else if (httpResponse.statusCode == 400 /* HTTP: Conflict */) {
       NSDictionary *userInfo = [NSDictionary dictionaryWithObject:NSLocalizedString(@"File already exists", nil)
@@ -331,9 +373,16 @@ DKSynthesize(downloadProgressBlock);
     // Abort and pass error
     if (error != NULL) {
       [connection cancel];
-      
-      if (self.saveResultBlock != nil) {
-        self.saveResultBlock(NO, error);
+      self.saveResultBlock(NO, error);
+    }
+  }
+  else if (self.loadResultBlock != nil) {
+    NSDictionary *headers = [httpResponse allHeaderFields];
+    for (NSString *key in headers) {
+      if ([key caseInsensitiveCompare:@"Content-Length"] == NSOrderedSame) {
+        NSString *len = [headers objectForKey:key];
+        self.bytesExpected = [len integerValue];
+        break;
       }
     }
   }
