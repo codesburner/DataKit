@@ -790,7 +790,6 @@ exports.stream = function (req, res) {
 
     stream = gs.stream(true);
     stream.on('data', function (data) {
-      console.log("wroteData");
       res.write(data);
     });
     stream.on('close', function () {
