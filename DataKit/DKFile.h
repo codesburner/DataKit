@@ -143,13 +143,39 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
 
 /** @name Loading Data */
 
+/**
+ Loads data for the specified filename
+ @return The file data
+ */
 - (NSData *)loadData;
+
+/**
+ Loads data for the specified filename
+ @param error The error object set on error
+ @return The file data
+ */
 - (NSData *)loadData:(NSError **)error;
+
+/**
+ Loads data for the specified filename in the background
+ @param block The result callback block
+ */
 - (void)loadDataInBackgroundWithBlock:(DKFileLoadResultBlock)block;
+
+/**
+ Loads data for the specified filename in the background
+ @param block The result callback block
+ @param progressBlock The download progress callback block
+ */
 - (void)loadDataInBackgroundWithBlock:(DKFileLoadResultBlock)block progressBlock:(DKFileProgressBlock)progressBlock;
 
 /** @name Aborting */
 
+/**
+ Aborts the current asynchronous save or load
+ 
+ The callback blocks will return `NO` on the `success` flag
+ */
 - (void)abort;
 
 @end
