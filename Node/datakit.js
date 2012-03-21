@@ -697,7 +697,10 @@ exports.store = function (req, res) {
                 res.send('', 400);
               });
             } else if (onEnd) {
-              res.send('', 200);
+              res.writeHead(200, {
+                'x-datakit-assigned-filename': fileName
+              });
+              res.end();
             }
             store = null;
           });

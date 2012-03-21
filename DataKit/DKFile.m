@@ -135,6 +135,12 @@ DKSynthesize(bytesExpected)
   });
 }
 
+- (NSString *)readAssignedFileName:(NSHTTPURLResponse *)response {
+  NSString *name = [[response allHeaderFields] objectForKey:@"x-datakit-assigned-filename"];
+  NSLog(@"assigned name: '%@'", name);
+  return name;
+}
+
 - (BOOL)saveSynchronous:(BOOL)saveSync
             resultBlock:(DKFileSaveResultBlock)resultBlock
           progressBlock:(DKFileProgressBlock)progressBlock
@@ -169,6 +175,7 @@ DKSynthesize(bytesExpected)
     [DKRequest parseResponse:response withData:data error:&parseErr];
     
     if (parseErr == nil) {
+      self.name = [self readAssignedFileName:response];
       self.isVolatile = NO;
       return YES;
     }
@@ -217,12 +224,9 @@ DKSynthesize(bytesExpected)
                       error:(NSError **)error {
   // Check for file name
   if (self.name.length == 0) {
-    if (error != NULL) {
-      NSDictionary *info = [NSDictionary dictionaryWithObject:NSLocalizedString(@"Invalid filename", nil)
-                                                     forKey:NSLocalizedDescriptionKey];
-      *error = [NSError errorWithDomain:NSCocoaErrorDomain code:0x100 userInfo:info];
-      return nil;
-    }
+    [NSException raise:NSInternalInconsistencyException
+                format:NSLocalizedString(@"Invalid filename", nil)];
+    return nil;
   }
   
   // Create url request
@@ -235,7 +239,9 @@ DKSynthesize(bytesExpected)
   req.timeoutInterval = 20.0;
   req.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
   [req setValue:[DKManager APISecret] forHTTPHeaderField:kDKRequestHeaderSecret];
-  [req setValue:self.name forHTTPHeaderField:kDKRequestHeaderFileName];
+  if (self.name.length > 0) {
+    [req setValue:self.name forHTTPHeaderField:kDKRequestHeaderFileName];
+  }
   
   // Load sync
   if (loadSync) {
@@ -367,6 +373,7 @@ DKSynthesize(bytesExpected)
   if (self.saveResultBlock != nil) {
     NSError *error = nil;    
     if (httpResponse.statusCode == 200 /* HTTP: Created */) {
+      self.name = [self readAssignedFileName:httpResponse];
       self.isVolatile = NO;
       self.saveResultBlock(YES, nil);
     }

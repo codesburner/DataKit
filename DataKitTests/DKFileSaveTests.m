@@ -191,4 +191,20 @@
   STAssertNil(error, error.localizedDescription);
 }
 
+- (void)testFileNameAssign {
+  NSData *data = [self generateRandomDataWithLength:1024];
+  DKFile *file = [[DKFile alloc] initWithData:data name:nil];
+  
+  STAssertNil(file.name, nil);
+  
+  NSError *error = nil;
+  BOOL success = [file save:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertTrue(success, nil);
+  STAssertTrue(file.name.length > 0, file.name);
+  
+  [DKFile deleteFile:file.name error:NULL];
+}
+
 @end
