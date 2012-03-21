@@ -24,11 +24,15 @@ var _exists = function (v) {
 var _safe = function (v, d) {
   return _def(v) ? v : d;
 };
+var _m = function (m) {
+  // console.log("invoking", m);
+  return exports[m];
+};
 var _secureMethod = function (m) {
   return function (req, res) {
     var s = req.header('x-datakit-secret', null);
     if (_exists(s) && s === _conf.secret) {
-      return m(req, res);
+      return _m(m)(req, res);
     }
     res.header('WWW-Authenticate', 'datakit-secret');
     res.send(401);
@@ -48,20 +52,20 @@ var _createRoutes = function (path) {
   var m = function (p) {
     return path + '/' + _safe(p, '');
   };
-  app.get(m(), exports.info);
-  app.get(m('public/:key'), exports.getPublishedObject);
-  app.post(m('publish'), _secureMethod(exports.publishObject));
-  app.post(m('save'), _secureMethod(exports.saveObject));
-  app.post(m('delete'), _secureMethod(exports.deleteObject));
-  app.post(m('refresh'), _secureMethod(exports.refreshObject));
-  app.post(m('query'), _secureMethod(exports.query));
-  app.post(m('index'), _secureMethod(exports.index));
-  app.post(m('destroy'), _secureMethod(exports.destroy));
-  app.post(m('drop'), _secureMethod(exports.drop));
-  app.post(m('store'), _secureMethod(exports.store));
-  app.post(m('unlink'), _secureMethod(exports.unlink));
-  app.get(m('stream'), _secureMethod(exports.stream));
-  app.post(m('exists'), _secureMethod(exports.exists));
+  app.get(m(), _m('info'));
+  app.get(m('public/:key'), _m('getPublishedObject'));
+  app.post(m('publish'), _secureMethod('publishObject'));
+  app.post(m('save'), _secureMethod('saveObject'));
+  app.post(m('delete'), _secureMethod('deleteObject'));
+  app.post(m('refresh'), _secureMethod('refreshObject'));
+  app.post(m('query'), _secureMethod('query'));
+  app.post(m('index'), _secureMethod('index'));
+  app.post(m('destroy'), _secureMethod('destroy'));
+  app.post(m('drop'), _secureMethod('drop'));
+  app.post(m('store'), _secureMethod('store'));
+  app.post(m('unlink'), _secureMethod('unlink'));
+  app.get(m('stream'), _secureMethod('stream'));
+  app.post(m('exists'), _secureMethod('exists'));
 };
 var _parseMongoException = function (e) {
   if (!_exists(e)) {
@@ -420,7 +424,6 @@ exports.saveObject = function (req, res) {
 
           results.push(doc);
         } catch (e) {
-          console.error(e);
           errors.push(e);
         }
       }
@@ -601,8 +604,7 @@ exports.query = function (req, res) {
                       result[field] = resolved;
                     }
                   } catch (refErr) {
-                    console.error('error: could not resolve reference for key "' + field + '"');
-                    console.error(refErr);
+                    // stub, could not resolve reference
                   }
                 }
               }
