@@ -55,7 +55,7 @@
   STAssertFalse(exists, nil);
   
   // Save
-  DKFile *file = [DKFile fileWithData:data name:fileName];
+  DKFile *file = [[DKFile alloc] initWithData:data name:fileName];
   
   error = nil;
   BOOL success = [file save:&error];
@@ -72,14 +72,14 @@
   
   // Load sync
   error = nil;
-  DKFile *file2 = [DKFile fileWithData:nil name:fileName];
+  DKFile *file2 = [DKFile fileWithName:fileName];
   NSData *data2 = [file2 loadData:&error];
   
   STAssertNil(error, error.localizedDescription);
   STAssertTrue([data isEqualToData:data2], nil);
   
   // Load async
-  DKFile *file3 = [DKFile fileWithData:nil name:fileName];
+  DKFile *file3 = [DKFile fileWithName:fileName];
   
   NSMutableArray *progress = [NSMutableArray new];
   
@@ -118,7 +118,7 @@
   
   [DKFile deleteFile:fileName error:NULL];
   
-  DKFile *file = [DKFile fileWithData:data name:fileName];
+  DKFile *file = [[DKFile alloc] initWithData:data name:fileName];
   
   NSMutableArray *progress = [NSMutableArray new];
   
@@ -154,7 +154,7 @@
   [DKFile deleteFile:fileName error:NULL];
   
   // Save file and abort
-  DKFile *file = [DKFile fileWithData:data name:fileName];
+  DKFile *file = [[DKFile alloc] initWithData:data name:fileName];
   
   NSMutableArray *progress = [NSMutableArray new];
   

@@ -42,8 +42,12 @@ DKSynthesize(fileURL)
 DKSynthesize(bytesWritten)
 DKSynthesize(bytesExpected)
 
-+ (DKFile *)fileWithData:(NSData *)data name:(NSString *)name {
-  return [[self alloc] initWithData:data name:name];
++ (DKFile *)fileWithData:(NSData *)data {
+  return [[self alloc] initWithData:data name:nil];
+}
+
++ (DKFile *)fileWithName:(NSString *)name {
+  return [[self alloc] initWithData:nil name:name];
 }
 
 - (id)initWithData:(NSData *)data name:(NSString *)name {

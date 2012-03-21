@@ -33,14 +33,22 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
 /** @name Creating Files */
 
 /**
- Creates a new file with the given data and name.
+ Creates a new file with the given data.
  
- The file name must be unique, otherwise save will return an error.
+ The server will asign a random name for the file on save.
  @param data The file data
- @param name The file name, if `nil` the server will assign a random name.
  @return The initialized file
  */
-+ (DKFile *)fileWithData:(NSData *)data name:(NSString *)name;
++ (DKFile *)fileWithData:(NSData *)data;
+
+/**
+ Creates a new file with the given name.
+ 
+ You can then load the data using one of the load methods.
+ @param name The filename
+ @return The empty initialized file
+ */
++ (DKFile *)fileWithName:(NSString *)name;
 
 /**
  Initializes a new file with the given data and name.
