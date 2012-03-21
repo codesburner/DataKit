@@ -10,7 +10,7 @@
 
 
 typedef void (^DKFileSaveResultBlock)(BOOL success, NSError *error);
-typedef void (^DKFileLoadResultBlock)(NSData *data, NSError *error);
+typedef void (^DKFileLoadResultBlock)(BOOL success, NSData *data, NSError *error);
 typedef void (^DKFileDeleteResultBlock)(BOOL success, NSError *error);
 typedef void (^DKFileExistsResultBlock)(BOOL exists, NSError *error);
 

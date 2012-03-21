@@ -83,6 +83,7 @@
   
   NSMutableArray *progress = [NSMutableArray new];
   
+  __block BOOL asyncSuccess = NO;
   __block NSData *asyncData = nil;
   __block NSError *asyncError = nil;
   __block BOOL done = NO;
@@ -91,7 +92,8 @@
   
   STAssertNotNil(runLoop, nil);
   
-  [file3 loadDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
+  [file3 loadDataInBackgroundWithBlock:^(BOOL success, NSData *data, NSError *error) {
+    asyncSuccess = success;
     asyncData = data;
     asyncError = error;
     done = YES;
@@ -102,6 +104,7 @@
   
   while (!done && [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
   
+  STAssertTrue(asyncSuccess, nil);
   STAssertNil(asyncError, asyncError.localizedDescription);
   STAssertNotNil(asyncData, nil);
   STAssertTrue(asyncData.length > 0, nil);
@@ -141,6 +144,51 @@
   STAssertNil(asyncError, asyncError.localizedDescription);
   STAssertTrue(asyncSuccess, nil);
   STAssertTrue(progress.count > 0, nil);
+}
+
+- (void)testAsyncSaveAndAbort {
+  NSString *fileName = @"asyncFileAbort";
+  NSData *data = [self generateRandomDataWithLength:1024*100];
+  
+  // Delete old file
+  [DKFile deleteFile:fileName error:NULL];
+  
+  // Save file and abort
+  DKFile *file = [DKFile fileWithData:data name:fileName];
+  
+  NSMutableArray *progress = [NSMutableArray new];
+  
+  __block BOOL asyncSuccess = NO;
+  __block NSError *asyncError = nil;
+  __block BOOL done = NO;
+  
+  NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+  
+  STAssertNotNil(runLoop, nil);
+  
+  [file saveInBackgroundWithBlock:^(BOOL success, NSError *error) {
+    asyncSuccess = success;
+    asyncError = error;
+    done = YES;
+    NSLog(@"DONE!");
+  } progressBlock:^(NSUInteger bytes, NSUInteger totalBytes) {
+    [progress addObject:[NSNumber numberWithInt:bytes]];
+    NSLog(@"SAVE ABORT PROGRESS: %i/%i", bytes, totalBytes);
+    [file abort];
+  }];
+  
+  while (!done && [runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]);
+  
+  STAssertNil(asyncError, asyncError.localizedDescription);
+  STAssertFalse(asyncSuccess, nil);
+  STAssertTrue(progress.count == 1, nil);
+  
+  // Check if file exists
+  NSError *error = nil;
+  BOOL exists = [DKFile fileExists:fileName error:&error];
+  
+  STAssertFalse(exists, nil);
+  STAssertNil(error, error.localizedDescription);
 }
 
 @end

@@ -667,7 +667,7 @@ exports.destroy = function (req, res) {
 exports.store = function (req, res) {
   doSync(function storeSync() {
     // Get filename and mode
-    var fileName, store, bufs, onEnd, onClose, onCancel, pendingWrites, tick, gs;
+    var fileName, store, bufs, onEnd, onClose, onCancel, isClosing, pendingWrites, tick, gs;
     fileName = req.header('x-datakit-filename', null);
 
     // Generate filename if neccessary, else check for conflict
@@ -680,22 +680,28 @@ exports.store = function (req, res) {
     onEnd = false;
     onClose = false;
     onCancel = false;
+    isClosing = false;
     pendingWrites = 0;
     tick = function (data) {
       if (data && !(onClose || onCancel)) {
         bufs.push(data);
       }
       if (pendingWrites <= 0 && bufs.length === 0 && (onClose || onEnd || onCancel)) {
-        store.close(function () {
-          try {
+        if (!isClosing) {
+          isClosing = true;
+          store.close(function () {
             if (onClose) {
-              res.send('', 400);
+              console.log("connection closed, unlink file");
+              // Remove the file if stream was closed prematurely
+              mongo.GridStore.unlink(_db, fileName, function (err) {
+                res.send('', 400);
+              });
             } else if (onEnd) {
               res.send('', 200);
             }
-          } catch (e) {}
-          store = null;
-        });
+            store = null;
+          });
+        }
       }
       if (store !== null && bufs.length > 0 && pendingWrites <= 0) {
         pendingWrites += 1;

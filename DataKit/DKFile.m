@@ -263,16 +263,7 @@ DKSynthesize(bytesExpected)
     self.bytesWritten = 0;
     self.bytesExpected = 0;
     
-    [self.fileStream close];
-    
-    CFUUIDRef uuidRef = CFUUIDCreate(NULL);
-    NSString *uuid = CFBridgingRelease(CFUUIDCreateString(NULL, uuidRef));
-    CFRelease(uuidRef);
-    
-    self.fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:uuid]];
-    self.fileStream = [NSOutputStream outputStreamWithURL:self.fileURL append:NO];
-    
-    [self.fileStream open];
+    [self openTempFileStream];
     
     self.connection = [NSURLConnection connectionWithRequest:req delegate:self];
     [self.connection scheduleInRunLoop:[NSRunLoop currentRunLoop]
@@ -301,9 +292,29 @@ DKSynthesize(bytesExpected)
 
 - (void)abort {
   [self.connection cancel];
+  [self closeStreamAndCleanUpTempFiles];
+  if (self.saveResultBlock != nil) {
+    self.saveResultBlock(NO, nil);
+  }
+  else if (self.loadResultBlock != nil) {
+    self.loadResultBlock(NO, nil, nil);
+  }
 }
 
-- (void)cleanUpTempFiles {
+- (void)openTempFileStream {
+  [self closeStreamAndCleanUpTempFiles];
+  
+  CFUUIDRef uuidRef = CFUUIDCreate(NULL);
+  NSString *uuid = CFBridgingRelease(CFUUIDCreateString(NULL, uuidRef));
+  CFRelease(uuidRef);
+  
+  self.fileURL = [NSURL fileURLWithPath:[NSTemporaryDirectory() stringByAppendingPathComponent:uuid]];
+  self.fileStream = [NSOutputStream outputStreamWithURL:self.fileURL append:NO];
+  
+  [self.fileStream open];
+}
+
+- (void)closeStreamAndCleanUpTempFiles {
   // Close file stream
   [self.fileStream close];
   self.fileStream = nil;
@@ -322,9 +333,9 @@ DKSynthesize(bytesExpected)
     self.saveResultBlock(NO, error);
   }
   else if (self.loadResultBlock != nil) {
-    self.loadResultBlock(nil, error);
+    self.loadResultBlock(NO, nil, error);
   }
-  [self cleanUpTempFiles];
+  [self closeStreamAndCleanUpTempFiles];
   [connection cancel];
 }
 
@@ -342,9 +353,9 @@ DKSynthesize(bytesExpected)
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
   if (self.loadResultBlock != nil) {
-    self.loadResultBlock([NSData dataWithContentsOfURL:self.fileURL], nil);
+    self.loadResultBlock(YES, [NSData dataWithContentsOfURL:self.fileURL], nil);
   }
-  [self cleanUpTempFiles];
+  [self closeStreamAndCleanUpTempFiles];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
