@@ -1,5 +1,4 @@
 /*jslint node: true, es5: true, nomen: true, regexp: true, indent: 2*/
-/*global emit*/
 "use strict";
 
 var express = require('express');
