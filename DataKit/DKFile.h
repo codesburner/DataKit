@@ -30,7 +30,7 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
 @property (nonatomic, copy, readonly) NSURL *URL;
 @property (nonatomic, copy, readonly) NSString *name;
 
-/** @name Creating Files */
+/** @name Creating and Initializing Files */
 
 /**
  Creates a new file with the given data.
