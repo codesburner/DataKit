@@ -118,6 +118,7 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
 /**
  Saves the current file
  @return `YES` if the file was saved, otherwise `NO`.
+ @exception NSInternalInconsistencyException Raised if data is not set
  */
 - (BOOL)save;
 
@@ -125,12 +126,14 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
  Saves the current file
  @param error The error object set on error
  @return `YES` if the file was saved, otherwise `NO`.
+ @exception NSInternalInconsistencyException Raised if data is not set
  */
 - (BOOL)save:(NSError **)error;
 
 /**
  Saves the current file in the background
  @param block The result block
+ @exception NSInternalInconsistencyException Raised if data is not set
  */
 - (void)saveInBackgroundWithBlock:(DKFileSaveResultBlock)block;
 
@@ -138,6 +141,7 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
  Saves the current file in the background and tracks upload progress
  @param block The result callback
  @param progressBlock The progress callback for tracking upload progress
+ @exception NSInternalInconsistencyException Raised if data is not set
  */
 - (void)saveInBackgroundWithBlock:(DKFileSaveResultBlock)block progressBlock:(DKFileProgressBlock)progressBlock;
 
@@ -146,6 +150,7 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
 /**
  Loads data for the specified filename
  @return The file data
+ @exception NSInternalInconsistencyException Raised if name is not set
  */
 - (NSData *)loadData;
 
@@ -153,12 +158,14 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
  Loads data for the specified filename
  @param error The error object set on error
  @return The file data
+ @exception NSInternalInconsistencyException Raised if name is not set
  */
 - (NSData *)loadData:(NSError **)error;
 
 /**
  Loads data for the specified filename in the background
  @param block The result callback block
+ @exception NSInternalInconsistencyException Raised if name is not set
  */
 - (void)loadDataInBackgroundWithBlock:(DKFileLoadResultBlock)block;
 
@@ -166,6 +173,7 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
  Loads data for the specified filename in the background
  @param block The result callback block
  @param progressBlock The download progress callback block
+ @exception NSInternalInconsistencyException Raised if name is not set
  */
 - (void)loadDataInBackgroundWithBlock:(DKFileLoadResultBlock)block progressBlock:(DKFileProgressBlock)progressBlock;
 

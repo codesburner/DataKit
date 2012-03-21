@@ -144,7 +144,13 @@ DKSynthesize(bytesExpected)
 - (BOOL)saveSynchronous:(BOOL)saveSync
             resultBlock:(DKFileSaveResultBlock)resultBlock
           progressBlock:(DKFileProgressBlock)progressBlock
-                  error:(NSError **)error {  
+                  error:(NSError **)error {
+  // Check if data is set
+  if (self.data.length == 0) {
+    [NSException raise:NSInternalInconsistencyException format:NSLocalizedString(@"Cannot save file with no data set", nil)];
+    return NO;
+  }
+  
   // Create url request
   NSURL *URL = [DKManager endpointForMethod:@"store"];
   NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:URL];
