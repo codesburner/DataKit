@@ -57,6 +57,7 @@ var _createRoutes = function (path) {
   app.post(m('query'), _secureMethod(exports.query));
   app.post(m('index'), _secureMethod(exports.index));
   app.post(m('destroy'), _secureMethod(exports.destroy));
+  app.post(m('drop'), _secureMethod(exports.drop));
   app.post(m('store'), _secureMethod(exports.store));
   app.post(m('unlink'), _secureMethod(exports.unlink));
   app.get(m('stream'), _secureMethod(exports.stream));
@@ -116,7 +117,9 @@ var _ERR = {
   STORE_COULD_NOT_APPEND: [903, 'Could not append to file'],
   UNLINK_FAILED: [1000, 'Unlink failed'],
   FILE_EXISTS: [1100, 'File exists'],
-  FILE_EXISTS_FAILED: [1101, 'File exists failed']
+  FILE_EXISTS_FAILED: [1101, 'File exists failed'],
+  DROP_FAILED: [1200, 'Drop failed'],
+  DROP_NOT_ALLOWED: [1201, 'Drop not allowed']
 };
 var _copyKeys = function (s, t) {
   var key;
@@ -189,6 +192,7 @@ exports.run = function (c) {
     _conf.secret = _safe(c.secret, null);
     _conf.salt = _safe(c.salt, "datakit");
     _conf.allowDestroy = _safe(c.allowDestroy, false);
+    _conf.allowDrop = _safe(c.allowDrop, false);
     _conf.cert = _safe(c.cert, null);
     _conf.key = _safe(c.key, null);
     _conf.express = _safe(c.express, function (app) {});
@@ -661,6 +665,22 @@ exports.destroy = function (req, res) {
       return res.send('', 200);
     } catch (e) {
       return _e(res, _ERR.DESTROY_FAILED, e);
+    }
+  });
+};
+exports.drop = function (req, res) {
+  doSync(function dropSync() {
+    if (_conf.allowDrop) {
+      try {
+        _db.dropDatabase.sync(_db);
+        console.log("dropped database", _db.databaseName);
+        res.send('', 200);
+      } catch (e) {
+        console.error(e);
+        _e(res, _ERR.DROP_FAILED, e);
+      }
+    } else {
+      _e(res, _ERR.DROP_NOT_ALLOWED);
     }
   });
 };

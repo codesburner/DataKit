@@ -8,6 +8,8 @@
 
 #import "DKManager.h"
 
+#import "DKRequest.h"
+
 @implementation DKManager
 
 static NSString *kDKManagerAPIEndpoint;
@@ -59,6 +61,18 @@ static NSString *kDKManagerAPISecret;
     q = dispatch_queue_create("datakit queue", DISPATCH_QUEUE_SERIAL);
   });
   return q;
+}
+
++ (BOOL)dropDatabase:(NSString *)dbName error:(NSError **)error {
+  NSError *reqError = nil;
+  [[DKRequest request] sendRequestWithMethod:@"drop" error:&reqError];
+  if (reqError != nil) {
+    if (error != NULL) {
+      *error = reqError;
+    }
+    return NO;
+  }
+  return YES;
 }
 
 @end

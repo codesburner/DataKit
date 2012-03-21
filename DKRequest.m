@@ -50,6 +50,10 @@ DKSynthesize(cachePolicy)
   return self;
 }
 
+- (id)sendRequestWithMethod:(NSString *)apiMethod error:(NSError **)error {
+  return [self sendRequestWithData:nil method:apiMethod error:error];
+}
+
 - (id)sendRequestWithObject:(id)JSONObject method:(NSString *)apiMethod error:(NSError **)error {
   // Wrap special objects before encoding JSON
   JSONObject = [isa wrapSpecialObjectsInJSON:JSONObject];
@@ -80,7 +84,9 @@ DKSynthesize(cachePolicy)
   // https://devforums.apple.com/thread/25282
   req.timeoutInterval = 20.0;
   req.HTTPMethod = @"POST";
-  req.HTTPBody = bodyData;
+  if (bodyData.length > 0) {
+    req.HTTPBody = bodyData;
+  }
   [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
   [req setValue:[DKManager APISecret] forHTTPHeaderField:kDKRequestHeaderSecret];
   

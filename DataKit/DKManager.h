@@ -58,4 +58,20 @@
  */
 + (dispatch_queue_t)queue;
 
+/** @name Dropping Databases */
+
+/**
+ Drops the specified database synchronously
+ 
+ This feature must be explicitly enabled in the server configuration to make accidental or malicious deletion attempts harder.
+ 
+    'allowDrop': true
+ 
+ @param dbName The name of the database to drop
+ @param error The error object set on error
+ @return `YES` on success, otherwise `NO`
+ @warning ***Warning***: Use with extreme caution. This will permanently drop the specified database and all entity records.
+ */
++ (BOOL)dropDatabase:(NSString *)dbName error:(NSError **)error;
+
 @end

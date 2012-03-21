@@ -27,6 +27,7 @@ typedef NSInteger DKResponseStatus;
 
 - (id)initWithEndpoint:(NSString *)absoluteString;
 
+- (id)sendRequestWithMethod:(NSString *)apiMethod error:(NSError **)error;
 - (id)sendRequestWithObject:(id)JSONObject method:(NSString *)apiMethod error:(NSError **)error;
 - (id)sendRequestWithData:(NSData *)data method:(NSString *)apiMethod error:(NSError **)error;
 

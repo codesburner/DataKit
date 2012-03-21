@@ -9,8 +9,14 @@
 #import "DKMapReduceTests.h"
 
 #import "DataKit.h"
+#import "DKTests.h"
 
 @implementation DKMapReduceTests
+
+- (void)setUp {
+  [DKManager setAPIEndpoint:kDKEndpoint];
+  [DKManager setAPISecret:kDKSecret];
+}
 
 - (void)testEmbeddedFieldCount {
   NSString *entityName = @"EmbeddedFieldMapReduce";

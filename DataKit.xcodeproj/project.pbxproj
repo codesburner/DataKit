@@ -94,6 +94,7 @@
 		DC5B611414F7E6CD00CC5B42 /* NSError+DataKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+DataKit.m"; sourceTree = "<group>"; };
 		DC5B611714F7F81200CC5B42 /* DKEntityTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKEntityTests.h; sourceTree = "<group>"; };
 		DC5B611814F7F81200CC5B42 /* DKEntityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKEntityTests.m; sourceTree = "<group>"; };
+		DC6105A0151A482D00F7ECF5 /* DKTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKTests.h; sourceTree = "<group>"; };
 		DC61AC7A14FCFE3B003A9057 /* NSString+DataKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DataKit.h"; sourceTree = "<group>"; };
 		DC61AC7B14FCFE3B003A9057 /* NSString+DataKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+DataKit.m"; sourceTree = "<group>"; };
 		DC78ACA31503C3DA00CC6BCD /* DKEntityEncodeDecodeTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKEntityEncodeDecodeTests.h; sourceTree = "<group>"; };
@@ -216,6 +217,7 @@
 			children = (
 				DC03847814F68EA1000DADD6 /* DataKitTests-Info.plist */,
 				DC03847914F68EA1000DADD6 /* InfoPlist.strings */,
+				DC6105A0151A482D00F7ECF5 /* DKTests.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
