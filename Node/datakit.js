@@ -490,7 +490,7 @@ exports.refreshObject = function (req, res) {
 };
 exports.query = function (req, res) {
   doSync(function querySync() {
-    var entity, doFindOne, doCount, query, opts, or, and, incl, sort, skip, limit, mr, mrOpts, sortValues, order, results, cursor, collection, result, key, resultCount, i, j, field, dbRef, resolved;
+    var entity, doFindOne, doCount, query, opts, or, and, refIncl, sort, skip, limit, mr, mrOpts, sortValues, order, results, cursor, collection, result, key, resultCount, i, j, field, dbRef, resolved;
     entity = req.param('entity', null);
     if (!_exists(entity)) {
       return _e(res, _ERR.ENTITY_NOT_SET);
@@ -501,7 +501,7 @@ exports.query = function (req, res) {
     opts = {};
     or = req.param('or', null);
     and = req.param('and', null);
-    incl = req.param('incl', []);
+    refIncl = req.param('refIncl', []);
     sort = req.param('sort', null);
     skip = req.param('skip', null);
     limit = req.param('limit', null);
@@ -591,10 +591,10 @@ exports.query = function (req, res) {
 
           for (i in results) {
             if (results.hasOwnProperty(i)) {
-              for (j in incl) {
-                if (incl.hasOwnProperty(j)) {
+              for (j in refIncl) {
+                if (refIncl.hasOwnProperty(j)) {
                   result = results[i];
-                  field = incl[j];
+                  field = refIncl[j];
                   dbRef = result[field];
                   try {
                     resolved = _db.dereference.sync(_db, dbRef);

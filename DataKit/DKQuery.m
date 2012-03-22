@@ -31,7 +31,7 @@ DKSynthesize(queryMap)
 DKSynthesize(sort)
 DKSynthesize(ors)
 DKSynthesize(ands)
-DKSynthesize(includes)
+DKSynthesize(referenceIncludes)
 
 + (DKQuery *)queryWithEntityName:(NSString *)entityName {
   return [[self alloc] initWithEntityName:entityName];
@@ -45,7 +45,7 @@ DKSynthesize(includes)
     self.sort = [NSMutableDictionary new];
     self.ors = [NSMutableArray new];
     self.ands = [NSMutableArray new];
-    self.includes = [NSMutableArray new];
+    self.referenceIncludes = [NSMutableArray new];
     self.cachePolicy = DKCachePolicyIgnoreCache;
   }
   return self;
@@ -56,7 +56,7 @@ DKSynthesize(includes)
   [self.sort removeAllObjects];
   [self.ors removeAllObjects];
   [self.ands removeAllObjects];
-  [self.includes removeAllObjects];
+  [self.referenceIncludes removeAllObjects];
 }
 
 - (DKQuery *)or {
@@ -166,10 +166,18 @@ DKSynthesize(includes)
   [self whereKey:@"_seq" equalTo:[NSNumber numberWithUnsignedInteger:sequenceNum]];
 }
 
-- (void)includeKey:(NSString *)key {
-  if (![self.includes containsObject:key]) {
-    [self.includes addObject:key];
+- (void)includeReferenceAtKey:(NSString *)key {
+  if (![self.referenceIncludes containsObject:key]) {
+    [self.referenceIncludes addObject:key];
   }
+}
+
+- (void)excludeKeys:(NSArray *)keys {
+  
+}
+
+- (void)includeKeys:(NSArray *)keys {
+
 }
 
 - (id)find:(NSError **)error one:(BOOL)findOne count:(NSUInteger *)countOut {  
@@ -185,8 +193,8 @@ DKSynthesize(includes)
   if (self.ands.count > 0) {
     [requestDict setObject:self.ands forKey:@"and"];
   }
-  if (self.includes.count > 0) {
-    [requestDict setObject:self.includes forKey:@"incl"];
+  if (self.referenceIncludes.count > 0) {
+    [requestDict setObject:self.referenceIncludes forKey:@"refIncl"];
   }
   if (self.sort.count > 0) {
     [requestDict setObject:self.sort forKey:@"sort"];

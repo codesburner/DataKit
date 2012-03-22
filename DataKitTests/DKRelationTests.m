@@ -58,8 +58,8 @@
   STAssertEqualObjects(e0.entityName, rel2.entityName, nil);
   
   // Test key inclusion
-  [q includeKey:@"relation"];
-  [q includeKey:@"nonexistent"];
+  [q includeReferenceAtKey:@"relation"];
+  [q includeReferenceAtKey:@"nonexistent"];
   
   results = [q findAll];
   

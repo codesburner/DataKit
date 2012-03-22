@@ -244,7 +244,12 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  @param key The key to include. The object stored at `key` must be a <DKRelation> object.
  @warning ***Important***: This operation might impact the query performance quite significantly if the query result set is large!
  */
-- (void)includeKey:(NSString *)key;
+- (void)includeReferenceAtKey:(NSString *)key;
+
+/** @name Getting Entity Key Subsets */
+
+- (void)excludeKeys:(NSArray *)keys;
+- (void)includeKeys:(NSArray *)keys;
 
 /** @name Executing Queries */
 
