@@ -548,7 +548,7 @@ exports.query = function (req, res) {
           'query': query,
           'out': {'inline': 1}
         };
-        if (_exists(opts.sort)) {
+        if (false && _exists(opts.sort)) {
           mrOpts.sort = opts.sort;
         }
         if (_exists(opts.limit)) {
