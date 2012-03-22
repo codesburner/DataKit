@@ -158,6 +158,14 @@ DKSynthesize(includes)
   [[self queryDictForKey:key] setObject:[NSNumber numberWithBool:NO] forKey:@"$exists"];
 }
 
+- (void)whereEntityIdMatches:(NSString *)entityId {
+  [self whereKey:@"_id" equalTo:entityId];
+}
+
+- (void)whereSequenceNumberMatches:(NSUInteger)sequenceNum {
+  [self whereKey:@"_seq" equalTo:[NSNumber numberWithUnsignedInteger:sequenceNum]];
+}
+
 - (void)includeKey:(NSString *)key {
   if (![self.includes containsObject:key]) {
     [self.includes addObject:key];
@@ -304,33 +312,6 @@ DKSynthesize(includes)
   dispatch_async([DKManager queue], ^{
     NSError *error = nil;
     DKEntity *entity = [self findOne:&error];
-    if (block != NULL) {
-      dispatch_async(q, ^{
-        block(entity, error); 
-      });
-    }
-  });
-}
-
-- (DKEntity *)findById:(NSString *)entityId {
-  return [self findById:entityId error:NULL];
-}
-
-- (DKEntity *)findById:(NSString *)entityId error:(NSError **)error {
-  if (self.mapReduce != nil) {
-    [NSException raise:NSInternalInconsistencyException format:@"cannot use find-by-id with map reduce set"];
-    return nil;
-  }
-  [self reset];
-  [self whereKey:@"_id" equalTo:entityId];
-  return [self findOne:error];
-}
-
-- (void)findById:(NSString *)entityId inBackgroundWithBlock:(DKQueryResultBlock)block {
-  dispatch_queue_t q = dispatch_get_current_queue();
-  dispatch_async([DKManager queue], ^{
-    NSError *error = nil;
-    DKEntity *entity = [self findById:entityId error:&error];
     if (block != NULL) {
       dispatch_async(q, ^{
         block(entity, error); 

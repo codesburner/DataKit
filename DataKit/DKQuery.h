@@ -223,6 +223,18 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  */
 - (void)whereKeyDoesNotExist:(NSString *)key;
 
+/**
+ Checks if the entity ID key matches
+ @param entityId The entity ID to match
+ */
+- (void)whereEntityIdMatches:(NSString *)entityId;
+
+/**
+ Checks if the entity sequence number matches
+ @param sequenceNum The sequence number to match
+ */
+- (void)whereSequenceNumberMatches:(NSUInteger)sequenceNum;
+
 /** @name Entity Referencing */
 
 /**
@@ -273,28 +285,6 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  @param block The result callback block
  */
 - (void)findOneInBackgroundWithBlock:(DKQueryResultBlock)block;
-
-/**
- Finds an entity by it's unique ID
- @param entityId The entity ID to find
- @return Returns the entity with the matching ID
- */
-- (DKEntity *)findById:(NSString *)entityId;
-
-/**
- Finds an entity by it's unique ID
- @param entityId The entity ID to find
- @param error The error object that is written on error
- @return The entity with the matching ID
- */
-- (DKEntity *)findById:(NSString *)entityId error:(NSError **)error;
-
-/**
- Finds an entity by it's unique ID in the background and returns it to the callback block
- @param entityId The entity ID to find
- @param block The result callback block.
- */
-- (void)findById:(NSString *)entityId inBackgroundWithBlock:(DKQueryResultBlock)block;
 
 /** @name Performing a MapReduce */
 

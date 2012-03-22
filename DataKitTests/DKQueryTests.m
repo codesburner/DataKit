@@ -649,9 +649,10 @@
   
   // Test find by id
   DKQuery *q4 = [DKQuery queryWithEntityName:en];
+  [q4 whereEntityIdMatches:e2.entityId];
   
   error = nil;
-  DKEntity *er2 = [q4 findById:e2.entityId error:&error];
+  DKEntity *er2 = [q4 findOne:&error];
   
   STAssertNil(error, error.localizedDescription);
   STAssertEqualObjects(e2.entityId, er2.entityId, nil);
