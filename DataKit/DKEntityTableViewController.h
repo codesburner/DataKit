@@ -61,9 +61,11 @@
 @property (nonatomic, assign, readonly) BOOL isLoading;
 
 /**
- The currently loaded entities
+ The currently loaded objects
+ 
+ Objects can be either of type <DKEntity> or <NSDictionary>
  */
-@property (nonatomic, strong, readonly) NSMutableArray *entities;
+@property (nonatomic, strong, readonly) NSMutableArray *objects;
 
 /** @name Reloading */
 
@@ -85,6 +87,14 @@
  @return The query to use for the tables objects
  */
 - (DKQuery *)tableQuery;
+
+/**
+ Specify a map reduce operation for the query by overriding this method
+ 
+ Make sure the map reduce returns an array of NSDictionaries so the entity table can interprete the results as entities. You can do so by setting an appropriate result processor block on the map reduce. If <tableQuery> returns `nil` this method won't be called.
+ @return The map reduce to use to display the table objects
+ */
+- (DKMapReduce *)queryMapReduce;
 
 /**
  Determines if the cell at the index path is a next-page cell
@@ -112,7 +122,8 @@
  Called when a table row is selected
  @param tableView The calling table view
  @param indexPath The index path of the selected row
+ @param object The selected object. Can be of type <DKEntity> or <NSDictionary>.
  */
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath object:(id)object;
 
 @end

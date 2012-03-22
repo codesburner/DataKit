@@ -14,7 +14,7 @@
 @property (nonatomic, assign) BOOL hasMore;
 @property (nonatomic, assign, readwrite) BOOL isLoading;
 @property (nonatomic, assign) NSUInteger currentOffset;
-@property (nonatomic, strong, readwrite) NSMutableArray *entities;
+@property (nonatomic, strong, readwrite) NSMutableArray *objects;
 @end
 
 @interface DKEntityTableNextPageCell : UITableViewCell
@@ -27,7 +27,7 @@ DKSynthesize(displayedTitleKey)
 DKSynthesize(displayedImageKey)
 DKSynthesize(objectsPerPage)
 DKSynthesize(isLoading)
-DKSynthesize(entities)
+DKSynthesize(objects)
 DKSynthesize(hasMore)
 DKSynthesize(currentOffset)
 
@@ -42,12 +42,53 @@ DKSynthesize(currentOffset)
     self.objectsPerPage = 25;
     self.currentOffset = 0;
     self.entityName = entityName;
-    self.entities = [NSMutableArray new];
+    self.objects = [NSMutableArray new];
   }
   return self;
 }
 
+- (void)processQueryResults:(NSArray *)results error:(NSError *)error callback:(void (^)(NSError *error))callback {
+  if (results != nil && ![results isKindOfClass:[NSArray class]]) {
+    [NSException raise:NSInternalInconsistencyException
+                format:NSLocalizedString(@"Query did not return a result NSArray or nil", nil)];
+    return;
+  } else if ([results isKindOfClass:[NSArray class]]) {
+    for (id object in results) {
+      if (!([object isKindOfClass:[DKEntity class]] || [object isKindOfClass:[NSDictionary class]])) {
+        [NSException raise:NSInternalInconsistencyException
+                    format:NSLocalizedString(@"Query results contained invalid objects", nil)];
+        return;
+      }
+    }
+  }
+  
+  if (results.count > 0) {
+    [self.objects addObjectsFromArray:results];  
+  }
+  
+  self.currentOffset += results.count;
+  self.hasMore = (results.count == self.objectsPerPage);
+  self.isLoading = NO;
+  self.tableView.userInteractionEnabled = YES;
+  
+  if (error != nil) {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
+                                                    message:error.localizedDescription
+                                                   delegate:nil
+                                          cancelButtonTitle:nil
+                                          otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
+    [alert show];
+  }
+  
+  [self.tableView reloadData];
+  
+  if (callback != NULL) {
+    callback(error);
+  }
+}
+
 - (void)appendNextPageWithFinishCallback:(void (^)(NSError *error))callback {
+  callback = [callback copy];
   DKQuery *q = [self tableQuery];
   q.skip = self.currentOffset;
   q.limit = self.objectsPerPage;
@@ -55,31 +96,17 @@ DKSynthesize(currentOffset)
   self.isLoading = YES;
   self.tableView.userInteractionEnabled = NO;
   
-  [q findAllInBackgroundWithBlock:^(NSArray *results, NSError *error) {
-    if (results.count > 0) {
-      [self.entities addObjectsFromArray:results];  
-    }
-    
-    self.currentOffset += results.count;
-    self.hasMore = (results.count == self.objectsPerPage);
-    self.isLoading = NO;
-    self.tableView.userInteractionEnabled = YES;
-    
-    if (error != nil) {
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
-                                                      message:error.localizedDescription
-                                                     delegate:nil
-                                            cancelButtonTitle:nil
-                                            otherButtonTitles:NSLocalizedString(@"OK", nil), nil];
-      [alert show];
-    }
-    
-    [self.tableView reloadData];
-    
-    if (callback != NULL) {
-      callback(error);
-    }
-  }];
+  DKMapReduce *mr = [self queryMapReduce];
+  if (mr != nil) {
+    [q performMapReduce:mr inBackgroundWithBlock:^(id result, NSError *error) {
+      [self processQueryResults:result error:error callback:callback];
+    }];
+  }
+  else {
+    [q findAllInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+      [self processQueryResults:results error:error callback:callback];
+    }];
+  }
 }
 
 - (void)reloadInBackground {
@@ -89,7 +116,7 @@ DKSynthesize(currentOffset)
 - (void)reloadInBackgroundWithBlock:(void (^)(NSError *))block {
   self.hasMore = YES;
   self.currentOffset = 0;
-  [self.entities removeAllObjects];
+  [self.objects removeAllObjects];
   [self appendNextPageWithFinishCallback:block];
 }
 
@@ -98,6 +125,10 @@ DKSynthesize(currentOffset)
   [q orderDescendingByKey:@"_id"];
   
   return q;
+}
+
+- (DKMapReduce *)queryMapReduce {
+  return nil;
 }
 
 - (void)loadNextPageWithNextPageCell:(DKEntityTableNextPageCell *)cell {
@@ -114,11 +145,11 @@ DKSynthesize(currentOffset)
 }
 
 - (BOOL)tableViewCellIsNextPageCellAtIndexPath:(NSIndexPath *)indexPath {
-  return (self.hasMore && (indexPath.row == self.entities.count));
+  return (self.hasMore && (indexPath.row == self.objects.count));
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return self.entities.count + (self.hasMore ? 1 : 0);
+  return self.objects.count + (self.hasMore ? 1 : 0);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -126,7 +157,7 @@ DKSynthesize(currentOffset)
     return [self tableViewNextPageCell:tableView];
   }
   
-  DKEntity *entity = [self.entities objectAtIndex:indexPath.row];
+  id object = [self.objects objectAtIndex:indexPath.row];
   
   static NSString *identifier = @"DKEntityTableCell";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
@@ -136,10 +167,12 @@ DKSynthesize(currentOffset)
   }
   
   if (self.displayedTitleKey.length > 0) {
-    cell.textLabel.text = [entity objectForKey:self.displayedTitleKey];
+    // DKEntity and NSDictionary both implement objectForKey
+    cell.textLabel.text = [object objectForKey:self.displayedTitleKey];
   }
   if (self.displayedImageKey.length > 0) {
-    cell.imageView.image = [UIImage imageWithData:[entity objectForKey:self.displayedImageKey]];
+    // DKEntity and NSDictionary both implement objectForKey
+    cell.imageView.image = [UIImage imageWithData:[object objectForKey:self.displayedImageKey]];
   }
   
   return cell;
@@ -164,11 +197,11 @@ DKSynthesize(currentOffset)
     [self loadNextPageWithNextPageCell:cell];
   }
   else {
-    [self tableView:tableView didSelectRowAtIndexPath:indexPath entity:[self.entities objectAtIndex:indexPath.row]];
+    [self tableView:tableView didSelectRowAtIndexPath:indexPath object:[self.objects objectAtIndex:indexPath.row]];
   }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath entity:(DKEntity *)entity {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath object:(id)object {
   // stub
 }
 

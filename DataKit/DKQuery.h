@@ -64,12 +64,16 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
 
 /**
  Sorts the query in ascending order by key
+ 
+ This key will be ignored when a map reduce is performed.
  @param key The sort key
  */
 - (void)orderAscendingByKey:(NSString *)key;
 
 /**
  Sorts the query in descending order by key
+ 
+ This key will be ignored when a map reduce is performed.
  @param key The sort key
  */
 - (void)orderDescendingByKey:(NSString *)key;

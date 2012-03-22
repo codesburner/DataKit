@@ -83,11 +83,11 @@ var _e = function (res, snm, err) {
     eo.err = me.message;
   } else if (_exists(err)) {
     eo.err = String(err.message);
-    stackLines = err.stack.split(/\n/g);
-    stackLines[1].replace(/at\s+\S*?([^\/]+):(\d+):(\d+)/g, function (a, f, l, c) {
-      l = [f, l, c].join(":");
-      console.error("error returned at", l);
-    });
+    // stackLines = err.stack.split(/\n/g);
+    // stackLines[1].replace(/at\s+\S*?([^\/]+):(\d+):(\d+)/g, function (a, f, l, c) {
+    //   l = [f, l, c].join(":");
+    //   console.error("error returned at", l);
+    // });
   }
   return res.json(eo, 400);
 };
