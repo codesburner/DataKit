@@ -8,7 +8,6 @@ var crypto = require('crypto');
 var fs = require('fs');
 var doSync = require('sync');
 var uuid = require('node-uuid');
-var mkdirp = require('mkdirp');
 var app = {};
 
 // private functions
