@@ -63,7 +63,7 @@
 /**
  The currently loaded objects
  
- Objects can be either of type <DKEntity> or <NSDictionary>
+ Objects can be either of type <DKEntity> or NSDictionary
  */
 @property (nonatomic, strong, readonly) NSMutableArray *objects;
 
@@ -122,7 +122,7 @@
  Called when a table row is selected
  @param tableView The calling table view
  @param indexPath The index path of the selected row
- @param object The selected object. Can be of type <DKEntity> or <NSDictionary>.
+ @param object The selected object. Can be of type <DKEntity> or NSDictionary.
  */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath object:(id)object;
 
