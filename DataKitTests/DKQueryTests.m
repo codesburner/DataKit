@@ -661,6 +661,55 @@
   [e2 delete];
 }
 
+- (void)testFieldIncludeExclude {
+  NSString *name = @"FieldInclExcl";
+  
+  DKEntity *e = [DKEntity entityWithName:name];
+  [e setObject:@"a" forKey:@"x"];
+  [e setObject:@"b" forKey:@"y"];
+  [e setObject:@"c" forKey:@"z"];
+  
+  NSError *error = nil;
+  BOOL success = [e save:&error];
+  
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.localizedDescription);
+  
+  // Test exclude
+  DKQuery *q = [DKQuery queryWithEntityName:name];
+  [q whereEntityIdMatches:e.entityId];
+  [q excludeKeys:[NSArray arrayWithObjects:@"x", @"y", nil]];
+  
+  error = nil;
+  DKEntity *e2 = [q findOne:&error];
+  
+  NSLog(@"entity => %@", e2);
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertNotNil(e2, nil);
+  
+  STAssertNil([e2 objectForKey:@"x"], nil);
+  STAssertNil([e2 objectForKey:@"y"], nil);
+  STAssertEqualObjects([e2 objectForKey:@"z"], @"c", nil);
+  
+  // Test include
+  [q includeKeys:[NSArray arrayWithObjects:@"x", @"y", nil]];
+  
+  error = nil;
+  DKEntity *e3 = [q findOne:&error];
+  
+  NSLog(@"entity => %@", e3);
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertNotNil(e3, nil);
+  
+  STAssertEqualObjects([e3 objectForKey:@"x"], @"a", nil);
+  STAssertEqualObjects([e3 objectForKey:@"y"], @"b", nil);
+  STAssertNil([e3 objectForKey:@"z"], nil);
+  
+  [e delete];
+}
+
 - (void)testQueryOnNonExistentCollection {
   DKQuery *q = [DKQuery queryWithEntityName:@"NonExistentCollection"];
   [q whereKeyExists:@"i"];

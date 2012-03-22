@@ -32,6 +32,7 @@ DKSynthesize(sort)
 DKSynthesize(ors)
 DKSynthesize(ands)
 DKSynthesize(referenceIncludes)
+DKSynthesize(fieldInclExcl)
 
 + (DKQuery *)queryWithEntityName:(NSString *)entityName {
   return [[self alloc] initWithEntityName:entityName];
@@ -46,6 +47,7 @@ DKSynthesize(referenceIncludes)
     self.ors = [NSMutableArray new];
     self.ands = [NSMutableArray new];
     self.referenceIncludes = [NSMutableArray new];
+    self.fieldInclExcl = [NSMutableDictionary new];
     self.cachePolicy = DKCachePolicyIgnoreCache;
   }
   return self;
@@ -57,6 +59,7 @@ DKSynthesize(referenceIncludes)
   [self.ors removeAllObjects];
   [self.ands removeAllObjects];
   [self.referenceIncludes removeAllObjects];
+  [self.fieldInclExcl removeAllObjects];
 }
 
 - (DKQuery *)or {
@@ -173,11 +176,17 @@ DKSynthesize(referenceIncludes)
 }
 
 - (void)excludeKeys:(NSArray *)keys {
-  
+  [self.fieldInclExcl removeAllObjects];
+  for (NSString *key in keys) {
+    [self.fieldInclExcl setObject:[NSNumber numberWithInt:0] forKey:key];
+  }
 }
 
 - (void)includeKeys:(NSArray *)keys {
-
+  [self.fieldInclExcl removeAllObjects];
+  for (NSString *key in keys) {
+    [self.fieldInclExcl setObject:[NSNumber numberWithInt:1] forKey:key];
+  }
 }
 
 - (id)find:(NSError **)error one:(BOOL)findOne count:(NSUInteger *)countOut {  
@@ -195,6 +204,9 @@ DKSynthesize(referenceIncludes)
   }
   if (self.referenceIncludes.count > 0) {
     [requestDict setObject:self.referenceIncludes forKey:@"refIncl"];
+  }
+  if (self.fieldInclExcl.count > 0) {
+    [requestDict setObject:self.fieldInclExcl forKey:@"fieldInEx"];
   }
   if (self.sort.count > 0) {
     [requestDict setObject:self.sort forKey:@"sort"];

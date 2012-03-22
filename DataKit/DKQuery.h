@@ -246,9 +246,22 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  */
 - (void)includeReferenceAtKey:(NSString *)key;
 
-/** @name Getting Entity Key Subsets */
+/** @name Entity Key Subsets */
 
+/**
+ Excludes the specified keys from the result entities
+ 
+ This method is mutually exclusive to <includeKeys:>
+ @param keys The keys to exclude
+ */
 - (void)excludeKeys:(NSArray *)keys;
+
+/**
+ Includes only the specified keys in the result entities
+ 
+ This method is mutually exclusive to <excludeKeys:>
+ @param keys The keys to include
+ */
 - (void)includeKeys:(NSArray *)keys;
 
 /** @name Executing Queries */

@@ -538,7 +538,7 @@ DKSynthesize(resultMap)
 }
 
 - (NSString *)description {
-  return [NSString stringWithFormat:@"<%@: %p %@>", NSStringFromClass(isa), self, self.entityId];
+  return [NSString stringWithFormat:@"<%@: %p %@> %@", NSStringFromClass(isa), self, self.entityId, self.resultMap];
 }
 
 @end

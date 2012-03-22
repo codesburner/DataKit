@@ -490,7 +490,7 @@ exports.refreshObject = function (req, res) {
 };
 exports.query = function (req, res) {
   doSync(function querySync() {
-    var entity, doFindOne, doCount, query, opts, or, and, refIncl, sort, skip, limit, mr, mrOpts, sortValues, order, results, cursor, collection, result, key, resultCount, i, j, field, dbRef, resolved;
+    var entity, doFindOne, doCount, query, opts, or, and, refIncl, fieldInclExcl, sort, skip, limit, mr, mrOpts, sortValues, order, results, cursor, collection, result, key, resultCount, i, j, field, dbRef, resolved;
     entity = req.param('entity', null);
     if (!_exists(entity)) {
       return _e(res, _ERR.ENTITY_NOT_SET);
@@ -502,6 +502,7 @@ exports.query = function (req, res) {
     or = req.param('or', null);
     and = req.param('and', null);
     refIncl = req.param('refIncl', []);
+    fieldInclExcl = req.param('fieldInEx', null);
     sort = req.param('sort', null);
     skip = req.param('skip', null);
     limit = req.param('limit', null);
@@ -538,8 +539,10 @@ exports.query = function (req, res) {
     });
 
     try {
-      // TODO: remove debug query log
-      console.log('query', entity, '=>', JSON.stringify(query), JSON.stringify(opts));
+      // console.log('query', entity, '=>',
+      //             JSON.stringify(query),
+      //             JSON.stringify(fieldInclExcl),
+      //             JSON.stringify(opts));
 
       collection = _db.collection.sync(_db, entity);
 
@@ -548,9 +551,9 @@ exports.query = function (req, res) {
           'query': query,
           'out': {'inline': 1}
         };
-        if (false && _exists(opts.sort)) {
-          mrOpts.sort = opts.sort;
-        }
+        // if (_exists(opts.sort)) {
+        //   mrOpts.sort = opts.sort;
+        // }
         if (_exists(opts.limit)) {
           mrOpts.limit = opts.limit;
         }
@@ -570,7 +573,11 @@ exports.query = function (req, res) {
         if (doFindOne) {
           opts.limit = 1;
         }
-        cursor = collection.find.sync(collection, query, opts);
+        if (fieldInclExcl !== null) {
+          cursor = collection.find.sync(collection, query, fieldInclExcl, opts);
+        } else {
+          cursor = collection.find.sync(collection, query, opts);
+        }
 
         if (doCount) {
           results = cursor.count.sync(cursor);

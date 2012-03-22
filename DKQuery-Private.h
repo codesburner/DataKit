@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSMutableArray *ors;
 @property (nonatomic, strong) NSMutableArray *ands;
 @property (nonatomic, strong) NSMutableArray *referenceIncludes;
+@property (nonatomic, strong) NSMutableDictionary *fieldInclExcl;
 @property (nonatomic, strong) DKMapReduce *mapReduce;
 
 - (id)find:(NSError **)error one:(BOOL)findOne count:(NSUInteger *)countOut;
