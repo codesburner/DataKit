@@ -694,7 +694,7 @@ exports.drop = function (req, res) {
 exports.store = function (req, res) {
   doSync(function storeSync() {
     // Get filename and mode
-    var fileName, store, bufs, onEnd, onClose, onCancel, isClosing, pendingWrites, tick, gs;
+    var fileName, store, bufs, onEnd, onClose, onCancel, isClosing, pendingWrites, tick, gs, exists;
     fileName = req.header('x-datakit-filename', null);
 
     // Generate filename if neccessary, else check for conflict
@@ -757,6 +757,17 @@ exports.store = function (req, res) {
     req.on('data', function (data) {
       tick(data);
     });
+
+    // Check if file exists
+    try {
+      exists = mongo.GridStore.exist.sync(mongo.GridStore, _db, fileName);
+      if (exists) {
+        return _e(res, _ERR.STORE_FILE_EXISTS);
+      }
+    } catch (e) {
+      console.error(e);
+      return _e(res, _ERR.EXISTS_FAILED, e);
+    }
 
     // Pipe to GridFS
     gs = new mongo.GridStore(_db, fileName, 'w+', {

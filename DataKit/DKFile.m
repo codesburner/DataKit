@@ -13,9 +13,8 @@
 
 @interface DKFile ()
 @property (nonatomic, assign, readwrite) BOOL isVolatile;
-@property (nonatomic, copy, readwrite) NSURL *URL;
 @property (nonatomic, copy, readwrite) NSString *name;
-@property (nonatomic, strong) NSData *data;
+@property (nonatomic, strong, readwrite) NSData *data;
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, copy) DKFileSaveResultBlock saveResultBlock;
 @property (nonatomic, copy) DKFileLoadResultBlock loadResultBlock;
@@ -29,7 +28,6 @@
 
 @implementation DKFile
 DKSynthesize(isVolatile)
-DKSynthesize(URL)
 DKSynthesize(name)
 DKSynthesize(data)
 DKSynthesize(connection)
@@ -55,6 +53,7 @@ DKSynthesize(bytesExpected)
   if (self) {
     self.data = data;
     self.name = name;
+    self.isVolatile = YES;
   }
   return self;
 }

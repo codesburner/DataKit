@@ -27,8 +27,8 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
  */
 @interface DKFile : NSObject
 @property (nonatomic, assign, readonly) BOOL isVolatile;
-@property (nonatomic, copy, readonly) NSURL *URL;
 @property (nonatomic, copy, readonly) NSString *name;
+@property (nonatomic, strong, readonly) NSData *data;
 
 /** @name Creating and Initializing Files */
 

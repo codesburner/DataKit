@@ -8,6 +8,6 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
-@interface DKFileSaveTests : SenTestCase
+@interface DKFileTests : SenTestCase
 
 @end

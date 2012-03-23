@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 chocomoko.com. All rights reserved.
 //
 
-#import "DKFileSaveTests.h"
+#import "DKFileTests.h"
 
 #import "DataKit.h"
 #import "DKTests.h"
 
-@implementation DKFileSaveTests
+@implementation DKFileTests
 
 - (void)setUp {
   [DKManager setAPIEndpoint:kDKEndpoint];
@@ -58,11 +58,25 @@
   // Save
   DKFile *file = [[DKFile alloc] initWithData:data name:fileName];
   
+  STAssertTrue(file.isVolatile, nil);
+  STAssertEqualObjects(data, file.data, nil);
+  STAssertEqualObjects(fileName, file.name, nil);
+  
   error = nil;
   BOOL success = [file save:&error];
   
   STAssertTrue(success, nil);
   STAssertNil(error, error.localizedDescription);
+  STAssertFalse(file.isVolatile, nil);
+  STAssertEqualObjects(data, file.data, nil);
+  STAssertEqualObjects(fileName, file.name, nil);
+  
+  // Save again, produce error
+  error = nil;
+  success = [file save:&error];
+  
+  STAssertNotNil(error, error.localizedDescription);
+  STAssertFalse(success, nil);
   
   // Check exists (YES)
   error = nil;
