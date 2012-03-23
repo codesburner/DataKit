@@ -150,7 +150,7 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
 /**
  Adds an contained-in condition to the query
  
- The key value must be contained in the given array.
+ The key value must be contained in the given array. The value for `key` can also be an array.
  @param key The entity key
  @param array The objects to check
  */
@@ -159,7 +159,7 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
 /**
  Adds an not-contained-in condition to the query
  
- The key value must not be contained in the given array.
+ The key value must not be contained in the given array. The value for `key` can also be an array.
  @param key The entity key
  @param array The objects to check
  */
@@ -168,7 +168,7 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
 /**
  Adds an contains-all condition to the query
  
- The key value must contain all values in the given array.
+ The key value must contain all values in the given array. The value for `key` can also be an array.
  @param key The entity key
  @param array The objects to check
  */
@@ -192,6 +192,8 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
 
 /**
  Checks if the object for key contains the string
+ 
+ Does not work on array fields
  @param key The entity key
  @param string The string to match
  */
