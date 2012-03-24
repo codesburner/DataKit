@@ -766,7 +766,7 @@ exports.store = function (req, res) {
       }
     } catch (e) {
       console.error(e);
-      return _e(res, _ERR.EXISTS_FAILED, e);
+      return _e(res, _ERR.STORE_FAILED, e);
     }
 
     // Pipe to GridFS
@@ -857,7 +857,7 @@ exports.exists = function (req, res) {
         }
       } catch (e) {
         console.error(e);
-        return _e(res, _ERR.EXISTS_FAILED, e);
+        return _e(res, _ERR.FILE_EXISTS_FAILED, e);
       }
     }
     return _e(res, _ERR.FILE_EXISTS);

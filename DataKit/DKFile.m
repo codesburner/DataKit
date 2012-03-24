@@ -72,7 +72,7 @@ DKSynthesize(bytesExpected)
   NSError *requestError = nil;
   [request sendRequestWithObject:dict method:@"exists" error:&requestError];
   if (requestError != nil) {
-    if (requestError.code != 1100 && error != NULL) {
+    if (requestError.code != DKErrorFileExists && error != NULL) {
       *error = requestError;
     }
     return NO;

@@ -25,9 +25,30 @@ enum {
   DKErrorInvalidEntityName = 100,
   DKErrorInvalidEntityID,
   DKErrorInvalidJSON,
-  DKErrorConnectionFailed = 200,
-  DKErrorOperationFailed = 300,
-  DKErrorOperationReturnedUnknownStatus
+  DKErrorConnectionFailed,
+  DKErrorOperationReturnedUnknownStatus,
+  DKErrorEntityNotSet = 100,
+  DKErrorEntityKeyNotSet = 101,
+  DKErrorObjectIDNotSet = 102,
+  DKErrorObjectIDInvalid = 103,
+  DKErrorSaveFailed = 200,
+  DKErrorSaveFailedDuplicateKey = 201,
+  DKErrorDeleteFailed = 300,
+  DKErrorRefreshFailed = 400,
+  DKErrorQueryFailed = 500,
+  DKErrorIndexFailed = 600,
+  DKErrorPublishFailed = 700,
+  DKErrorDestroyFailed = 800,
+  DKErrorDestroyNotAllowed = 801,
+  DKErrorStoreFailed = 900,
+  DKErrorStoreFileExists = 901,
+  DKErrorStoreCouldNotOpenGridFS = 902,
+  DKErrorStoreCouldNotAppendToFile = 903,
+  DKErrorUnlinkFailed = 1000,
+  DKErrorFileExists = 1100,
+  DKErrorFileExistsFailed = 1101,
+  DKErrorDropFailed = 1200,
+  DKErrorDropNotAllowed = 1201
 };
 typedef NSInteger DKError;
 
