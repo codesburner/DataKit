@@ -96,7 +96,7 @@ DKSynthesize(currentOffset)
   self.isLoading = YES;
   self.tableView.userInteractionEnabled = NO;
   
-  DKMapReduce *mr = [self queryMapReduce];
+  DKMapReduce *mr = [self tableQueryMapReduce];
   if (mr != nil) {
     [q performMapReduce:mr inBackgroundWithBlock:^(id result, NSError *error) {
       [self processQueryResults:result error:error callback:callback];
@@ -127,7 +127,7 @@ DKSynthesize(currentOffset)
   return q;
 }
 
-- (DKMapReduce *)queryMapReduce {
+- (DKMapReduce *)tableQueryMapReduce {
   return nil;
 }
 

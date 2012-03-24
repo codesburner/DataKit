@@ -94,7 +94,7 @@
  Make sure the map reduce returns an array of NSDictionaries so the entity table can interprete the results as entities. You can do so by setting an appropriate result processor block on the map reduce. If <tableQuery> returns `nil` this method won't be called.
  @return The map reduce to use to display the table objects
  */
-- (DKMapReduce *)queryMapReduce;
+- (DKMapReduce *)tableQueryMapReduce;
 
 /**
  Determines if the cell at the index path is a next-page cell
