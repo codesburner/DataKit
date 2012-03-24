@@ -10,19 +10,23 @@
 
 
 /**
- Block to track download and upload progress
- 
- @param bytes Bytes received or written
- @param totalBytes Total expected bytes
- */
-typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
-
-/**
  Represents a block of binary data. You should use this class for larger data objects (>10MB).
  */
 @interface DKFile : NSObject
+
+/**
+ If `YES` the file is not stored on the server, `NO` otherwise.
+ */
 @property (nonatomic, assign, readonly) BOOL isVolatile;
+
+/**
+ The file name (must be unique)
+ */
 @property (nonatomic, copy, readonly) NSString *name;
+
+/**
+ The file data
+ */
 @property (nonatomic, strong, readonly) NSData *data;
 
 /** @name Creating and Initializing Files */
@@ -146,7 +150,7 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
  @param progressBlock The progress callback for tracking upload progress
  @exception NSInternalInconsistencyException Raised if data is not set
  */
-- (void)saveInBackgroundWithBlock:(void (^)(BOOL success, NSError *error))block progressBlock:(DKFileProgressBlock)progressBlock;
+- (void)saveInBackgroundWithBlock:(void (^)(BOOL success, NSError *error))block progressBlock:(void (^)(NSUInteger bytes, NSUInteger totalBytes))progressBlock;
 
 /** @name Loading Data */
 
@@ -178,7 +182,7 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
  @param progressBlock The download progress callback block
  @exception NSInternalInconsistencyException Raised if name is not set
  */
-- (void)loadDataInBackgroundWithBlock:(void (^)(BOOL success, NSData *data, NSError *error))block progressBlock:(DKFileProgressBlock)progressBlock;
+- (void)loadDataInBackgroundWithBlock:(void (^)(BOOL success, NSData *data, NSError *error))block progressBlock:(void (^)(NSUInteger bytes, NSUInteger totalBytes))progressBlock;
 
 /** @name Aborting */
 

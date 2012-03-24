@@ -18,8 +18,8 @@
 @property (nonatomic, strong) NSURLConnection *connection;
 @property (nonatomic, copy) void (^saveResultBlock)(BOOL success, NSError *error);
 @property (nonatomic, copy) void (^loadResultBlock)(BOOL success, NSData *data, NSError *error);
-@property (nonatomic, copy) DKFileProgressBlock uploadProgressBlock;
-@property (nonatomic, copy) DKFileProgressBlock downloadProgressBlock;
+@property (nonatomic, copy) void (^uploadProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
+@property (nonatomic, copy) void (^downloadProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
 @property (nonatomic, strong) NSOutputStream *fileStream;
 @property (nonatomic, copy) NSURL *fileURL;
 @property (nonatomic, assign) NSUInteger bytesWritten;
@@ -144,7 +144,7 @@ DKSynthesize(bytesExpected)
 
 - (BOOL)saveSynchronous:(BOOL)saveSync
             resultBlock:(void (^)(BOOL success, NSError *error))resultBlock
-          progressBlock:(DKFileProgressBlock)progressBlock
+          progressBlock:(void (^)(NSUInteger bytes, NSUInteger totalBytes))progressBlock
                   error:(NSError **)error {
   // Check if data is set
   if (self.data.length == 0) {
@@ -221,13 +221,13 @@ DKSynthesize(bytesExpected)
   [self saveSynchronous:NO resultBlock:block progressBlock:NULL error:NULL];
 }
 
-- (void)saveInBackgroundWithBlock:(void (^)(BOOL success, NSError *error))block progressBlock:(DKFileProgressBlock)progressBlock {
+- (void)saveInBackgroundWithBlock:(void (^)(BOOL success, NSError *error))block progressBlock:(void (^)(NSUInteger bytes, NSUInteger totalBytes))progressBlock {
   [self saveSynchronous:NO resultBlock:block progressBlock:progressBlock error:NULL];
 }
 
 - (NSData *)loadSynchronous:(BOOL)loadSync
                 resultBlock:(void (^)(BOOL success, NSData *data, NSError *error))resultBlock
-              progressBlock:(DKFileProgressBlock)progressBlock
+              progressBlock:(void (^)(NSUInteger bytes, NSUInteger totalBytes))progressBlock
                       error:(NSError **)error {
   // Check for file name
   if (self.name.length == 0) {
@@ -299,7 +299,7 @@ DKSynthesize(bytesExpected)
   [self loadDataInBackgroundWithBlock:block progressBlock:NULL];
 }
 
-- (void)loadDataInBackgroundWithBlock:(void (^)(BOOL success, NSData *data, NSError *error))block progressBlock:(DKFileProgressBlock)progressBlock {
+- (void)loadDataInBackgroundWithBlock:(void (^)(BOOL success, NSData *data, NSError *error))block progressBlock:(void (^)(NSUInteger bytes, NSUInteger totalBytes))progressBlock {
   [self loadSynchronous:NO resultBlock:block progressBlock:progressBlock error:NULL];
 }
 
