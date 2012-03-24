@@ -326,7 +326,7 @@ DKSynthesize(fieldInclExcl)
   return [self find:error one:NO count:NULL];
 }
 
-- (void)findAllInBackgroundWithBlock:(DKQueryResultsBlock)block {
+- (void)findAllInBackgroundWithBlock:(void (^)(NSArray *results, NSError *error))block {
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async([DKManager queue], ^{
     NSError *error = nil;
@@ -351,7 +351,7 @@ DKSynthesize(fieldInclExcl)
   return [[self find:error one:YES count:NULL] lastObject];
 }
 
-- (void)findOneInBackgroundWithBlock:(DKQueryResultBlock)block {
+- (void)findOneInBackgroundWithBlock:(void (^)(DKEntity *entity, NSError *error))block {
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async([DKManager queue], ^{
     NSError *error = nil;
@@ -376,7 +376,7 @@ DKSynthesize(fieldInclExcl)
   return result;
 }
 
-- (void)performMapReduce:(DKMapReduce *)mapReduce inBackgroundWithBlock:(DKQueryMapReduceBlock)block {
+- (void)performMapReduce:(DKMapReduce *)mapReduce inBackgroundWithBlock:(void (^)(id result, NSError *error))block {
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async([DKManager queue], ^{
     NSError *error = nil;
@@ -399,7 +399,7 @@ DKSynthesize(fieldInclExcl)
   return count;
 }
 
-- (void)countAllInBackgroundWithBlock:(DKQueryResultCountBlock)block {
+- (void)countAllInBackgroundWithBlock:(void (^)(NSUInteger count, NSError *error))block {
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async([DKManager queue], ^{
     NSError *error = nil;

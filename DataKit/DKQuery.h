@@ -12,11 +12,6 @@
 @class DKEntity;
 @class DKMapReduce;
 
-typedef void (^DKQueryResultBlock)(DKEntity *entity, NSError *error);
-typedef void (^DKQueryResultsBlock)(NSArray *results, NSError *error);
-typedef void (^DKQueryMapReduceBlock)(id result, NSError *error);
-typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
-
 /**
  Class for performing queries on entity collections.
  */
@@ -315,7 +310,7 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  Finds all matching entities in the background and returns them to the callback block
  @param block The result callback
  */
-- (void)findAllInBackgroundWithBlock:(DKQueryResultsBlock)block;
+- (void)findAllInBackgroundWithBlock:(void (^)(NSArray *results, NSError *error))block;
 
 /**
  Finds the first matching entity
@@ -334,7 +329,7 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  Finds the first matching entity in the background and returns it to the callback block
  @param block The result callback block
  */
-- (void)findOneInBackgroundWithBlock:(DKQueryResultBlock)block;
+- (void)findOneInBackgroundWithBlock:(void (^)(DKEntity *entity, NSError *error))block;
 
 /** @name Performing a MapReduce */
 
@@ -358,7 +353,7 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  @param mapReduce The map reduce operation
  @param block The result callback block
  */
-- (void)performMapReduce:(DKMapReduce *)mapReduce inBackgroundWithBlock:(DKQueryMapReduceBlock)block;
+- (void)performMapReduce:(DKMapReduce *)mapReduce inBackgroundWithBlock:(void (^)(id result, NSError *error))block;
 
 /** @name Aggregation */
 
@@ -379,7 +374,7 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  Counts the entities matching the query in the background and returns the result to the block
  @param block The result callback block
  */
-- (void)countAllInBackgroundWithBlock:(DKQueryResultCountBlock)block;
+- (void)countAllInBackgroundWithBlock:(void (^)(NSUInteger count, NSError *error))block;
 
 /** @name Resetting Conditions */
 
