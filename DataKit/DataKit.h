@@ -13,3 +13,4 @@
 #import "DKMapReduce.h"
 #import "DKFile.h"
 #import "DKConstants.h"
+#import "DKEntityTableViewController.h"
