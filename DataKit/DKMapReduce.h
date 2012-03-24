@@ -8,9 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^DKMapReduceResultBlock)(id JSONObject, NSError *error);
-typedef id (^DKMapReduceResultProcessorBlock)(id result);
-
 /**
  Creates a map reduce operation to be used on a <DKQuery>
  
@@ -48,7 +45,7 @@ typedef id (^DKMapReduceResultProcessorBlock)(id result);
  
  The default processor passes the result through.
  */
-@property (nonatomic, copy) DKMapReduceResultProcessorBlock resultProcessor;
+@property (nonatomic, copy) id (^resultProcessor)(id result);
 
 /** @name Providing Functions */
 

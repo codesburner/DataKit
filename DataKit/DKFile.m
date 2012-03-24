@@ -16,8 +16,8 @@
 @property (nonatomic, copy, readwrite) NSString *name;
 @property (nonatomic, strong, readwrite) NSData *data;
 @property (nonatomic, strong) NSURLConnection *connection;
-@property (nonatomic, copy) DKFileSaveResultBlock saveResultBlock;
-@property (nonatomic, copy) DKFileLoadResultBlock loadResultBlock;
+@property (nonatomic, copy) void (^saveResultBlock)(BOOL success, NSError *error);
+@property (nonatomic, copy) void (^loadResultBlock)(BOOL success, NSData *data, NSError *error);
 @property (nonatomic, copy) DKFileProgressBlock uploadProgressBlock;
 @property (nonatomic, copy) DKFileProgressBlock downloadProgressBlock;
 @property (nonatomic, strong) NSOutputStream *fileStream;
@@ -80,7 +80,7 @@ DKSynthesize(bytesExpected)
   return YES;
 }
 
-+ (void)fileExists:(NSString *)fileName inBackgroundWithBlock:(DKFileExistsResultBlock)block {
++ (void)fileExists:(NSString *)fileName inBackgroundWithBlock:(void (^)(BOOL exists, NSError *error))block {
   block = [block copy];
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async([DKManager queue], ^{
@@ -124,7 +124,7 @@ DKSynthesize(bytesExpected)
   return [isa deleteFile:self.name error:error];
 }
 
-- (void)deleteInBackgroundWithBlock:(DKFileDeleteResultBlock)block {
+- (void)deleteInBackgroundWithBlock:(void (^)(BOOL success, NSError *error))block {
   block = [block copy];
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async([DKManager queue], ^{
@@ -145,7 +145,7 @@ DKSynthesize(bytesExpected)
 }
 
 - (BOOL)saveSynchronous:(BOOL)saveSync
-            resultBlock:(DKFileSaveResultBlock)resultBlock
+            resultBlock:(void (^)(BOOL success, NSError *error))resultBlock
           progressBlock:(DKFileProgressBlock)progressBlock
                   error:(NSError **)error {
   // Check if data is set
@@ -219,16 +219,16 @@ DKSynthesize(bytesExpected)
   return [self saveSynchronous:YES resultBlock:NULL progressBlock:NULL error:error];
 }
 
-- (void)saveInBackgroundWithBlock:(DKFileSaveResultBlock)block {
+- (void)saveInBackgroundWithBlock:(void (^)(BOOL success, NSError *error))block {
   [self saveSynchronous:NO resultBlock:block progressBlock:NULL error:NULL];
 }
 
-- (void)saveInBackgroundWithBlock:(DKFileSaveResultBlock)block progressBlock:(DKFileProgressBlock)progressBlock {
+- (void)saveInBackgroundWithBlock:(void (^)(BOOL success, NSError *error))block progressBlock:(DKFileProgressBlock)progressBlock {
   [self saveSynchronous:NO resultBlock:block progressBlock:progressBlock error:NULL];
 }
 
 - (NSData *)loadSynchronous:(BOOL)loadSync
-                resultBlock:(DKFileLoadResultBlock)resultBlock
+                resultBlock:(void (^)(BOOL success, NSData *data, NSError *error))resultBlock
               progressBlock:(DKFileProgressBlock)progressBlock
                       error:(NSError **)error {
   // Check for file name
@@ -297,11 +297,11 @@ DKSynthesize(bytesExpected)
   return [self loadSynchronous:YES resultBlock:NULL progressBlock:NULL error:error];
 }
 
-- (void)loadDataInBackgroundWithBlock:(DKFileLoadResultBlock)block {
+- (void)loadDataInBackgroundWithBlock:(void (^)(BOOL success, NSData *data, NSError *error))block {
   [self loadDataInBackgroundWithBlock:block progressBlock:NULL];
 }
 
-- (void)loadDataInBackgroundWithBlock:(DKFileLoadResultBlock)block progressBlock:(DKFileProgressBlock)progressBlock {
+- (void)loadDataInBackgroundWithBlock:(void (^)(BOOL success, NSData *data, NSError *error))block progressBlock:(DKFileProgressBlock)progressBlock {
   [self loadSynchronous:NO resultBlock:block progressBlock:progressBlock error:NULL];
 }
 

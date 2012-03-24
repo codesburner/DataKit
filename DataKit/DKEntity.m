@@ -146,7 +146,7 @@ DKSynthesize(resultMap)
   [self saveAllInBackground:objects withBlock:NULL];
 }
 
-+ (void)saveAllInBackground:(NSArray *)objects withBlock:(DKEntityResultsBlock)block {
++ (void)saveAllInBackground:(NSArray *)objects withBlock:(void (^)(NSArray *entities, NSError *error))block {
   block = [block copy];
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async([DKManager queue], ^{
@@ -280,7 +280,7 @@ DKSynthesize(resultMap)
   [self saveInBackgroundWithBlock:NULL];
 }
 
-- (void)saveInBackgroundWithBlock:(DKEntityResultBlock)block {
+- (void)saveInBackgroundWithBlock:(void (^)(DKEntity *entity, NSError *error))block {
   block = [block copy];
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async([DKManager queue], ^{
@@ -330,7 +330,7 @@ DKSynthesize(resultMap)
   [self refreshInBackgroundWithBlock:NULL];
 }
 
-- (void)refreshInBackgroundWithBlock:(DKEntityResultBlock)block {
+- (void)refreshInBackgroundWithBlock:(void (^)(DKEntity *entity, NSError *error))block {
   block = [block copy];
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async([DKManager queue], ^{
@@ -385,7 +385,7 @@ DKSynthesize(resultMap)
   [self deleteInBackgroundWithBlock:NULL];
 }
 
-- (void)deleteInBackgroundWithBlock:(DKEntityResultBlock)block {
+- (void)deleteInBackgroundWithBlock:(void (^)(DKEntity *entity, NSError *error))block {
   block = [block copy];
   dispatch_queue_t q = dispatch_get_current_queue();
   dispatch_async([DKManager queue], ^{

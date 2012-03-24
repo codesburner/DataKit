@@ -9,11 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-typedef void (^DKFileSaveResultBlock)(BOOL success, NSError *error);
-typedef void (^DKFileLoadResultBlock)(BOOL success, NSData *data, NSError *error);
-typedef void (^DKFileDeleteResultBlock)(BOOL success, NSError *error);
-typedef void (^DKFileExistsResultBlock)(BOOL exists, NSError *error);
-
 /**
  Block to track download and upload progress
  
@@ -82,7 +77,7 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
  @param fileName The file name to check
  @param block The result callback
  */
-+ (void)fileExists:(NSString *)fileName inBackgroundWithBlock:(DKFileExistsResultBlock)block;
++ (void)fileExists:(NSString *)fileName inBackgroundWithBlock:(void (^)(BOOL exists, NSError *error))block;
 
 /** @name Deleting Files */
 
@@ -119,7 +114,7 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
  Deletes the current file in the background
  @param block The result callback
  */
-- (void)deleteInBackgroundWithBlock:(DKFileDeleteResultBlock)block;
+- (void)deleteInBackgroundWithBlock:(void (^)(BOOL success, NSError *error))block;
 
 /** @name Saving Files */
 
@@ -143,7 +138,7 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
  @param block The result block
  @exception NSInternalInconsistencyException Raised if data is not set
  */
-- (void)saveInBackgroundWithBlock:(DKFileSaveResultBlock)block;
+- (void)saveInBackgroundWithBlock:(void (^)(BOOL success, NSError *error))block;
 
 /**
  Saves the current file in the background and tracks upload progress
@@ -151,7 +146,7 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
  @param progressBlock The progress callback for tracking upload progress
  @exception NSInternalInconsistencyException Raised if data is not set
  */
-- (void)saveInBackgroundWithBlock:(DKFileSaveResultBlock)block progressBlock:(DKFileProgressBlock)progressBlock;
+- (void)saveInBackgroundWithBlock:(void (^)(BOOL success, NSError *error))block progressBlock:(DKFileProgressBlock)progressBlock;
 
 /** @name Loading Data */
 
@@ -175,7 +170,7 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
  @param block The result callback block
  @exception NSInternalInconsistencyException Raised if name is not set
  */
-- (void)loadDataInBackgroundWithBlock:(DKFileLoadResultBlock)block;
+- (void)loadDataInBackgroundWithBlock:(void (^)(BOOL success, NSData *data, NSError *error))block;
 
 /**
  Loads data for the specified filename in the background
@@ -183,7 +178,7 @@ typedef void (^DKFileProgressBlock)(NSUInteger bytes, NSUInteger totalBytes);
  @param progressBlock The download progress callback block
  @exception NSInternalInconsistencyException Raised if name is not set
  */
-- (void)loadDataInBackgroundWithBlock:(DKFileLoadResultBlock)block progressBlock:(DKFileProgressBlock)progressBlock;
+- (void)loadDataInBackgroundWithBlock:(void (^)(BOOL success, NSData *data, NSError *error))block progressBlock:(DKFileProgressBlock)progressBlock;
 
 /** @name Aborting */
 

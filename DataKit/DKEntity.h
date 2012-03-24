@@ -11,9 +11,6 @@
 @class DKEntity;
 @class DKRelation;
 
-typedef void (^DKEntityResultBlock)(DKEntity *entity, NSError *error);
-typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
-
 /**
  A DKEntity represents an object stored in the collection with the given name.
  
@@ -81,7 +78,7 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  @param entities The entities to save
  @param block The save callback block
  */
-+ (void)saveAllInBackground:(NSArray *)entities withBlock:(DKEntityResultsBlock)block;
++ (void)saveAllInBackground:(NSArray *)entities withBlock:(void (^)(NSArray *entities, NSError *error))block;
 
 /**
  Saves the entity
@@ -109,7 +106,7 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  @param block The save callback block
  @exception NSInvalidArgumentException Raised if any key contains an `$` or `.` character.
  */
-- (void)saveInBackgroundWithBlock:(DKEntityResultBlock)block;
+- (void)saveInBackgroundWithBlock:(void (^)(DKEntity *entity, NSError *error))block;
 
 /** @name Refreshing Entities */
 
@@ -143,7 +140,7 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  Refreshes the entity with data stored on the server.
  @param block The callback block
  */
-- (void)refreshInBackgroundWithBlock:(DKEntityResultBlock)block;
+- (void)refreshInBackgroundWithBlock:(void (^)(DKEntity *entity, NSError *error))block;
 
 /** @name Deleting Entities */
 
@@ -169,7 +166,7 @@ typedef void (^DKEntityResultsBlock)(NSArray *entities, NSError *error);
  Deletes the entity in the background and invokes the callback block on completion
  @param block The callback block
  */
-- (void)deleteInBackgroundWithBlock:(DKEntityResultBlock)block;
+- (void)deleteInBackgroundWithBlock:(void (^)(DKEntity *entity, NSError *error))block;
 
 /** @name Getting Objects*/
 
