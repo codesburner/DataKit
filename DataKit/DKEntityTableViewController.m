@@ -122,7 +122,7 @@ DKSynthesize(currentOffset)
 
 - (DKQuery *)tableQuery {
   DKQuery *q = [DKQuery queryWithEntityName:self.entityName];
-  [q orderDescendingByKey:@"_id"];
+  [q orderDescendingByCreationDate];
   
   return q;
 }

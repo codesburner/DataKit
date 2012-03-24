@@ -78,6 +78,36 @@ typedef void (^DKQueryResultCountBlock)(NSUInteger count, NSError *error);
  */
 - (void)orderDescendingByKey:(NSString *)key;
 
+/**
+ Sorts the query in ascending order by creation date
+ */
+- (void)orderAscendingByCreationDate;
+
+/**
+ Sorts the query in desscending order by creation date
+ */
+- (void)orderDescendingByCreationDate;
+
+/**
+ Sorts the query in ascending order by update date
+ */
+- (void)orderAscendingByUpdateDate;
+
+/**
+ Sorts the query in desscending order by update date
+ */
+- (void)orderDescendingByUpdateDate;
+
+/**
+ Sorts the query in ascending order by sequence number
+ */
+- (void)orderAscendingBySequenceNumber;
+
+/**
+ Sorts the query in desscending order by sequence number
+ */
+- (void)orderDescendingBySequenceNumber;
+
 /** @name Logical Operators */
 
 /**

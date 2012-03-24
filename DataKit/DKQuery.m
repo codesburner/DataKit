@@ -78,6 +78,30 @@ DKSynthesize(fieldInclExcl)
   [self.sort setObject:[NSNumber numberWithInteger:-1] forKey:key];
 }
 
+- (void)orderAscendingByCreationDate {
+  [self orderAscendingByKey:@"_id"];
+}
+
+- (void)orderDescendingByCreationDate {
+  [self orderDescendingByKey:@"_id"];
+}
+
+- (void)orderAscendingByUpdateDate {
+  [self orderDescendingByKey:@"_updated"];
+}
+
+- (void)orderDescendingByUpdateDate {
+  [self orderDescendingByKey:@"_updated"];
+}
+
+- (void)orderAscendingBySequenceNumber {
+  [self orderAscendingByKey:@"_seq"];
+}
+
+- (void)orderDescendingBySequenceNumber {
+  [self orderDescendingByKey:@"_seq"];
+}
+
 - (void)whereKey:(NSString *)key equalTo:(id)object {
   [self.queryMap setObject:object forKey:key];
 }
