@@ -139,9 +139,7 @@ DKSynthesize(bytesExpected)
 }
 
 - (NSString *)readAssignedFileName:(NSHTTPURLResponse *)response {
-  NSString *name = [[response allHeaderFields] objectForKey:@"x-datakit-assigned-filename"];
-  NSLog(@"assigned name: '%@'", name);
-  return name;
+  return [[response allHeaderFields] objectForKey:kDKRequestHeaderAssignedFileName];
 }
 
 - (BOOL)saveSynchronous:(BOOL)saveSync
