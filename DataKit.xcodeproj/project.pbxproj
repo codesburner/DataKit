@@ -6,30 +6,45 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		DC6C8AD4151DB4E300CD4182 /* Framework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = DC6C8AD5151DB4E300CD4182 /* Build configuration list for PBXAggregateTarget "Framework" */;
+			buildPhases = (
+				DC6C8ADA151DB50D00CD4182 /* ShellScript */,
+			);
+			dependencies = (
+				DC6C8AD9151DB4ED00CD4182 /* PBXTargetDependency */,
+			);
+			name = Framework;
+			productName = Framework;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		DC03846114F68EA1000DADD6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC03846014F68EA1000DADD6 /* Foundation.framework */; };
 		DC03846F14F68EA1000DADD6 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC03846E14F68EA1000DADD6 /* SenTestingKit.framework */; };
 		DC03847214F68EA1000DADD6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC03846014F68EA1000DADD6 /* Foundation.framework */; };
 		DC03847514F68EA1000DADD6 /* libDataKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC03845D14F68EA1000DADD6 /* libDataKit.a */; };
 		DC03847B14F68EA1000DADD6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DC03847914F68EA1000DADD6 /* InfoPlist.strings */; };
-		DC03848914F691BA000DADD6 /* DKEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = DC03848714F691BA000DADD6 /* DKEntity.h */; };
+		DC03848914F691BA000DADD6 /* DKEntity.h in Headers */ = {isa = PBXBuildFile; fileRef = DC03848714F691BA000DADD6 /* DKEntity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC03848A14F691BA000DADD6 /* DKEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = DC03848814F691BA000DADD6 /* DKEntity.m */; };
-		DC03848D14F6955A000DADD6 /* DKRelation.h in Headers */ = {isa = PBXBuildFile; fileRef = DC03848B14F6955A000DADD6 /* DKRelation.h */; };
+		DC03848D14F6955A000DADD6 /* DKRelation.h in Headers */ = {isa = PBXBuildFile; fileRef = DC03848B14F6955A000DADD6 /* DKRelation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC03848E14F6955A000DADD6 /* DKRelation.m in Sources */ = {isa = PBXBuildFile; fileRef = DC03848C14F6955A000DADD6 /* DKRelation.m */; };
-		DC03849114F69C72000DADD6 /* DKQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = DC03848F14F69C72000DADD6 /* DKQuery.h */; };
+		DC03849114F69C72000DADD6 /* DKQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = DC03848F14F69C72000DADD6 /* DKQuery.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC03849214F69C72000DADD6 /* DKQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = DC03849014F69C72000DADD6 /* DKQuery.m */; };
 		DC162311150BBA4900F12198 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC162310150BBA4900F12198 /* CoreGraphics.framework */; };
 		DC162319150BBC7E00F12198 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC830522150513A200D6AB1C /* UIKit.framework */; };
 		DC16231A150BBC8A00F12198 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC162310150BBA4900F12198 /* CoreGraphics.framework */; };
-		DC275A77150FD58200FE7BD4 /* DKFile.h in Headers */ = {isa = PBXBuildFile; fileRef = DC275A75150FD58200FE7BD4 /* DKFile.h */; };
+		DC275A77150FD58200FE7BD4 /* DKFile.h in Headers */ = {isa = PBXBuildFile; fileRef = DC275A75150FD58200FE7BD4 /* DKFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC275A78150FD58200FE7BD4 /* DKFile.m in Sources */ = {isa = PBXBuildFile; fileRef = DC275A76150FD58200FE7BD4 /* DKFile.m */; };
 		DC3045E0150E151B00B55702 /* DKMapReduceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3045DF150E151B00B55702 /* DKMapReduceTests.m */; };
-		DC3AB9FB150CAC7700BFD319 /* DKMapReduce.h in Headers */ = {isa = PBXBuildFile; fileRef = DC3AB9F9150CAC7700BFD319 /* DKMapReduce.h */; };
+		DC3AB9FB150CAC7700BFD319 /* DKMapReduce.h in Headers */ = {isa = PBXBuildFile; fileRef = DC3AB9F9150CAC7700BFD319 /* DKMapReduce.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC3AB9FC150CAC7700BFD319 /* DKMapReduce.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3AB9FA150CAC7700BFD319 /* DKMapReduce.m */; };
 		DC52508714FA4F2C00646185 /* DKEntity-Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DC52508514FA4F2C00646185 /* DKEntity-Private.h */; };
 		DC52509814FAE1DC00646185 /* NSData+DataKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DC52509614FAE1DC00646185 /* NSData+DataKit.h */; };
 		DC52509914FAE1DC00646185 /* NSData+DataKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DC52509714FAE1DC00646185 /* NSData+DataKit.m */; };
-		DC5B610214F76BD800CC5B42 /* DKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DC5B610014F76BD800CC5B42 /* DKManager.h */; };
+		DC5B610214F76BD800CC5B42 /* DKManager.h in Headers */ = {isa = PBXBuildFile; fileRef = DC5B610014F76BD800CC5B42 /* DKManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC5B610314F76BD800CC5B42 /* DKManager.m in Sources */ = {isa = PBXBuildFile; fileRef = DC5B610114F76BD800CC5B42 /* DKManager.m */; };
 		DC5B610C14F7B1FE00CC5B42 /* DKRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = DC5B610A14F7B1FE00CC5B42 /* DKRequest.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		DC5B610D14F7B1FE00CC5B42 /* DKRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DC5B610B14F7B1FE00CC5B42 /* DKRequest.m */; };
@@ -40,18 +55,25 @@
 		DC61AC7D14FCFE3B003A9057 /* NSString+DataKit.m in Sources */ = {isa = PBXBuildFile; fileRef = DC61AC7B14FCFE3B003A9057 /* NSString+DataKit.m */; };
 		DC78ACA51503C3DA00CC6BCD /* DKEntityEncodeDecodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DC78ACA41503C3DA00CC6BCD /* DKEntityEncodeDecodeTests.m */; };
 		DC83051D1504D89300D6AB1C /* DKRelationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DC83051C1504D89300D6AB1C /* DKRelationTests.m */; };
-		DC8305201505127B00D6AB1C /* DKEntityTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = DC83051E1505127B00D6AB1C /* DKEntityTableViewController.h */; };
+		DC8305201505127B00D6AB1C /* DKEntityTableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = DC83051E1505127B00D6AB1C /* DKEntityTableViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC8305211505127B00D6AB1C /* DKEntityTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DC83051F1505127B00D6AB1C /* DKEntityTableViewController.m */; };
 		DC830523150513A200D6AB1C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC830522150513A200D6AB1C /* UIKit.framework */; };
 		DC90FF9014FE4F9300F52435 /* DKQuery-Private.h in Headers */ = {isa = PBXBuildFile; fileRef = DC90FF8E14FE4F9200F52435 /* DKQuery-Private.h */; };
 		DC90FF9414FE872700F52435 /* DKQueryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DC90FF9314FE872700F52435 /* DKQueryTests.m */; };
-		DCCC897714F804C600FA77A1 /* DKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = DC5B610E14F7B21E00CC5B42 /* DKConstants.h */; };
-		DCCC897814F804CA00FA77A1 /* DataKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DC03846514F68EA1000DADD6 /* DataKit.h */; };
+		DCCC897714F804C600FA77A1 /* DKConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = DC5B610E14F7B21E00CC5B42 /* DKConstants.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DCCC897814F804CA00FA77A1 /* DataKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DC03846514F68EA1000DADD6 /* DataKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DCFA7AF31515C43200D631F8 /* DKFileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DCFA7AF21515C43200D631F8 /* DKFileTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		DC03847314F68EA1000DADD6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DC03845414F68EA1000DADD6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DC03845C14F68EA1000DADD6;
+			remoteInfo = DataKit;
+		};
+		DC6C8AD8151DB4ED00CD4182 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DC03845414F68EA1000DADD6 /* Project object */;
 			proxyType = 1;
@@ -107,7 +129,7 @@
 		DC90FF8E14FE4F9200F52435 /* DKQuery-Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DKQuery-Private.h"; sourceTree = "<group>"; };
 		DC90FF9214FE872700F52435 /* DKQueryTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKQueryTests.h; sourceTree = "<group>"; };
 		DC90FF9314FE872700F52435 /* DKQueryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKQueryTests.m; sourceTree = "<group>"; };
-		DCFA7AF11515C43200D631F8 /* DKFileTests.h */ = {isa = PBXFileReference; fileEncoding = 4; path = DKFileTests.h; sourceTree = "<group>"; };
+		DCFA7AF11515C43200D631F8 /* DKFileTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKFileTests.h; sourceTree = "<group>"; };
 		DCFA7AF21515C43200D631F8 /* DKFileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKFileTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -274,6 +296,7 @@
 				DC03845914F68EA1000DADD6 /* Sources */,
 				DC03845A14F68EA1000DADD6 /* Frameworks */,
 				DC03845B14F68EA1000DADD6 /* Headers */,
+				DC6C8AD3151DB40800CD4182 /* Prepare Framework */,
 			);
 			buildRules = (
 			);
@@ -326,6 +349,7 @@
 			targets = (
 				DC03845C14F68EA1000DADD6 /* DataKit */,
 				DC03846C14F68EA1000DADD6 /* DataKitTests */,
+				DC6C8AD4151DB4E300CD4182 /* Framework */,
 			);
 		};
 /* End PBXProject section */
@@ -354,6 +378,33 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		DC6C8AD3151DB40800CD4182 /* Prepare Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Prepare Framework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nmkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A\"\nmkdir -p \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"\n\n# Link the \"Current\" version to \"A\"\nln -sfh A \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/Current\"\nln -sfh Versions/Current/Headers \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Headers\"\nln -sfh \"Versions/Current/${PRODUCT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/${PRODUCT_NAME}\"\n\n# The -a ensures that the headers maintain the source modification date so that we don't constantly\n# cause propagating rebuilds of files that import these headers.\ncp -a \"${TARGET_BUILD_DIR}/${PUBLIC_HEADERS_FOLDER_PATH}/\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.framework/Versions/A/Headers\"";
+		};
+		DC6C8ADA151DB50D00CD4182 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\nset +u\n# Avoid recursively calling this script.\nif [[ $SF_MASTER_SCRIPT_RUNNING ]]\nthen\nexit 0\nfi\nset -u\nexport SF_MASTER_SCRIPT_RUNNING=1\n\nSF_TARGET_NAME=${PROJECT_NAME}\nSF_EXECUTABLE_PATH=\"lib${SF_TARGET_NAME}.a\"\nSF_WRAPPER_NAME=\"${SF_TARGET_NAME}.framework\"\n\n# The following conditionals come from\n# https://github.com/kstenerud/iOS-Universal-Framework\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nSF_SDK_PLATFORM=${BASH_REMATCH[1]}\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\nSF_SDK_VERSION=${BASH_REMATCH[1]}\nelse\necho \"Could not find sdk version from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SF_SDK_PLATFORM\" = \"iphoneos\" ]]\nthen\nSF_OTHER_PLATFORM=iphonesimulator\nSF_ARCHS=i386\nelse\nSF_OTHER_PLATFORM=iphoneos\nSF_ARCHS=\"armv7\"\nfi\n\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$SF_SDK_PLATFORM$ ]]\nthen\nSF_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${SF_OTHER_PLATFORM}\"\nelse\necho \"Could not find platform name from build products directory: $BUILT_PRODUCTS_DIR\"\nexit 1\nfi\n\n# Build the other platform.\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"${TARGET_NAME}\" -configuration \"${CONFIGURATION}\" -sdk ${SF_OTHER_PLATFORM}${SF_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${SF_OTHER_PLATFORM}\" ARCHS=\"${SF_ARCHS}\" $ACTION\n\n# Smash the two static libraries into one fat binary and store it in the .framework\nlipo -create \"${BUILT_PRODUCTS_DIR}/${SF_EXECUTABLE_PATH}\" \"${SF_OTHER_BUILT_PRODUCTS_DIR}/${SF_EXECUTABLE_PATH}\" -output \"${BUILT_PRODUCTS_DIR}/${SF_WRAPPER_NAME}/Versions/A/${SF_TARGET_NAME}\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -396,6 +447,11 @@
 			isa = PBXTargetDependency;
 			target = DC03845C14F68EA1000DADD6 /* DataKit */;
 			targetProxy = DC03847314F68EA1000DADD6 /* PBXContainerItemProxy */;
+		};
+		DC6C8AD9151DB4ED00CD4182 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DC03845C14F68EA1000DADD6 /* DataKit */;
+			targetProxy = DC6C8AD8151DB4ED00CD4182 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -456,26 +512,34 @@
 		DC03848214F68EA1000DADD6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
 				DSTROOT = /tmp/DataKit.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DataKit/DataKit-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = CONFIGURATION_$CONFIGURATION;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = Headers;
 				SKIP_INSTALL = YES;
+				STRIP_STYLE = "non-global";
 			};
 			name = Debug;
 		};
 		DC03848314F68EA1000DADD6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = NO;
 				DSTROOT = /tmp/DataKit.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DataKit/DataKit-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = CONFIGURATION_$CONFIGURATION;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = Headers;
 				SKIP_INSTALL = YES;
+				STRIP_STYLE = "non-global";
 			};
 			name = Release;
 		};
@@ -517,6 +581,20 @@
 			};
 			name = Release;
 		};
+		DC6C8AD6151DB4E300CD4182 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DC6C8AD7151DB4E300CD4182 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -546,6 +624,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		DC6C8AD5151DB4E300CD4182 /* Build configuration list for PBXAggregateTarget "Framework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DC6C8AD6151DB4E300CD4182 /* Debug */,
+				DC6C8AD7151DB4E300CD4182 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
