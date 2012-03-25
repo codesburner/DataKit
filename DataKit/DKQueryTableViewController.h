@@ -1,5 +1,5 @@
 //
-//  DKEntityTableViewController.h
+//  DKQueryTableViewController.h
 //  DataKit
 //
 //  Created by Erik Aigner on 05.03.12.
@@ -14,22 +14,22 @@
 /**
  A table view to display a specified entity paginated
  */
-@interface DKEntityTableViewController : UITableViewController
+@interface DKQueryTableViewController : UITableViewController
 
 /** @name Initializing Entity Tables */
 
 /**
- Initializes a new entity table for the specified entity
+ Initializes a new query table for the specified entity
  @param entityName The entity name displayed in the table
- @return The initialized entity table
+ @return The initialized query table
  */
 - (id)initWithEntityName:(NSString *)entityName;
 
 /**
- Initializes a new entity table for the specified entity
+ Initializes a new query table for the specified entity
  @param style The table view style
  @param entityName The entity name displayed in the table
- @return The initialized entity table
+ @return The initialized query table
  */
 - (id)initWithStyle:(UITableViewStyle)style entityName:(NSString *)entityName;
 
@@ -91,7 +91,7 @@
 /**
  Specify a map reduce operation for the query by overriding this method
  
- Make sure the map reduce returns an array of NSDictionaries so the entity table can interprete the results as entities. You can do so by setting an appropriate result processor block on the map reduce. If <tableQuery> returns `nil` this method won't be called.
+ Make sure the map reduce returns an array of NSDictionaries so the query table can interprete the results as entities. You can do so by setting an appropriate result processor block on the map reduce. If <tableQuery> returns `nil` this method won't be called.
  @return The map reduce to use to display the table objects
  */
 - (DKMapReduce *)tableQueryMapReduce;

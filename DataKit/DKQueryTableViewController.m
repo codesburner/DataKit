@@ -1,16 +1,16 @@
 //
-//  DKEntityTableViewController.m
+//  DKQueryTableViewController.m
 //  DataKit
 //
 //  Created by Erik Aigner on 05.03.12.
 //  Copyright (c) 2012 chocomoko.com. All rights reserved.
 //
 
-#import "DKEntityTableViewController.h"
+#import "DKQueryTableViewController.h"
 
 #import "DKEntity.h"
 
-@interface DKEntityTableViewController ()
+@interface DKQueryTableViewController ()
 @property (nonatomic, assign) BOOL hasMore;
 @property (nonatomic, assign, readwrite) BOOL isLoading;
 @property (nonatomic, assign) NSUInteger currentOffset;
@@ -21,7 +21,7 @@
 @property (nonatomic, strong) UIActivityIndicatorView *activityAccessoryView;
 @end
 
-@implementation DKEntityTableViewController
+@implementation DKQueryTableViewController
 DKSynthesize(entityName)
 DKSynthesize(displayedTitleKey)
 DKSynthesize(displayedImageKey)
