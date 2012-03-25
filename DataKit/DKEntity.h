@@ -17,13 +17,44 @@
  @warning *Important*: `$` and `.` characters cannot be used in object keys
  */
 @interface DKEntity : NSObject
+
+/** @name Getting Entity Info */
+
+/**
+ The name of the entity collection
+ */
 @property (nonatomic, copy, readonly) NSString *entityName;
+
+/**
+ The entity ID
+ */
 @property (nonatomic, readonly) NSString *entityId;
-@property (nonatomic, readonly) DKRelation *entityPointer;
+
+/**
+ The update date
+ */
 @property (nonatomic, readonly) NSDate *updatedAt;
+
+/**
+ The creation date
+ */
 @property (nonatomic, readonly) NSDate *createdAt;
+
+/**
+ The sequence number
+ 
+ The sequence number emulates *autoincrement* in relational databases and provides sequential numbering for the entity collection.
+ */
 @property (nonatomic, readonly) NSInteger sequenceNumber;
+
+/**
+ `YES` if the entity has not been saved, `NO` otherwise
+ */
 @property (nonatomic, readonly) BOOL isNew;
+
+/**
+ `YES` if changes have been made to the entity since last save, `NO` otherwise
+ */
 @property (nonatomic, readonly) BOOL isDirty;
 
 /** @name Creating and Initializing Entities */
@@ -302,6 +333,14 @@
  @param error The error object to be set on error
  */
 - (BOOL)ensureIndexForKey:(NSString *)key unique:(BOOL)unique dropDuplicates:(BOOL)dropDups error:(NSError **)error;
+
+/** @name Make Relations */
+
+/**
+ Returns a new relation for the current entity
+ @return The initialized relation
+ */
+- (DKRelation *)relationForEntity;
 
 /** @name Public URLs */
 

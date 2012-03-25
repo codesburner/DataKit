@@ -202,13 +202,8 @@ DKSynthesize(resultMap)
   return nil;
 }
 
-- (DKRelation *)entityPointer {
-  if (self.entityId.length > 0 &&
-      self.entityName.length > 0) {
-    return [DKRelation relationWithEntityName:self.entityName
-                                     entityId:self.entityId];
-  }
-  return nil;
+- (DKRelation *)relationForEntity {
+  return [DKRelation relationWithEntity:self];
 }
 
 - (NSDate *)updatedAt {

@@ -26,6 +26,9 @@ DKSynthesize(entityId)
 }
 
 - (id)initWithEntityName:(NSString *)entityName entityId:(NSString *)entityId {
+  if (entityName.length == 0 || entityId.length == 0) {
+    return nil;
+  }
   self = [super init];
   if (self) {
     self.entityName = entityName;
