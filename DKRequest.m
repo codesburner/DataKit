@@ -73,8 +73,6 @@ DKSynthesize(cachePolicy)
 }
 
 - (id)sendRequestWithData:(NSData *)bodyData method:(NSString *)apiMethod error:(NSError **)error {
-  // TODO: set cache policy correctly
-  
   // Create url request
   NSURL *URL = [NSURL URLWithString:[self.endpoint stringByAppendingPathComponent:apiMethod]];
   NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:URL];
@@ -84,6 +82,7 @@ DKSynthesize(cachePolicy)
   // https://devforums.apple.com/thread/25282
   req.timeoutInterval = 20.0;
   req.HTTPMethod = @"POST";
+  req.cachePolicy = self.cachePolicy;
   if (bodyData.length > 0) {
     req.HTTPBody = bodyData;
   }
@@ -99,19 +98,18 @@ DKSynthesize(cachePolicy)
   [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:URL.host];
 #endif
   
-  NSData *data = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&requestError];
+  NSData *result = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&requestError];
   
-//  NSLog(@"response: status => %i", response.statusCode);
-//  NSLog(@"response: body => %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
-  
+  // Check for request errors
   if (requestError != nil) {
     [NSError writeToError:error
                      code:DKErrorConnectionFailed
               description:NSLocalizedString(@"Connection failed", nil)
                  original:requestError];
+    return nil;
   }
   
-  return [isa parseResponse:response withData:data error:error];
+  return [isa parseResponse:response withData:result error:error];
 }
 
 + (BOOL)canParseResponse:(NSHTTPURLResponse *)response {

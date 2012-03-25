@@ -11,12 +11,9 @@
 #define kDKErrorDomain @"DKErrorDomain"
 
 enum {
-  DKCachePolicyIgnoreCache = 0,
-  DKCachePolicyCacheOnly,
-  DKCachePolicyNetworkOnly,
-  DKCachePolicyCacheElseNetwork,
-  DKCachePolicyNetworkElseCache,
-  DKCachePolicyCacheThenNetwork
+  DKCachePolicyIgnoreCache = NSURLRequestReloadIgnoringLocalCacheData,
+  DKCachePolicyUseCacheElseLoad = NSURLRequestReturnCacheDataElseLoad,
+  DKCachePolicyUseCacheDontLoad = NSURLRequestReturnCacheDataDontLoad
 };
 typedef NSInteger DKCachePolicy;
 
