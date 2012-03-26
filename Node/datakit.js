@@ -220,9 +220,7 @@ exports.run = function (c) {
     pad = '-'.repeat(80);
     nl = '\n';
     console.log(nl + pad + nl + 'DATAKIT' + nl + pad);
-    _conf.db = _safe(c.db, 'datakit');
-    _conf.dbhost = _safe(c.dbhost, 'localhost');
-    _conf.dbport = _safe(c.dbport, mongo.Connection.DEFAULT_PORT);
+    _conf.mongoURL = _safe(c.mongoURL, 'mongodb://localhost:27017/datakit');
     _conf.path = _safe(c.path, '');
     _conf.port = _safe(c.port, process.env.PORT || 3000);
     _conf.secret = _safe(c.secret, null);
@@ -232,7 +230,6 @@ exports.run = function (c) {
     _conf.cert = _safe(c.cert, null);
     _conf.key = _safe(c.key, null);
     _conf.express = _safe(c.express, function (app) {});
-    _conf.tempDir = _safe(c.tempDir, __dirname + "/tmp");
 
     if (_exists(_conf.cert) && _exists(_conf.key)) {
       app = express.createServer({
@@ -271,10 +268,8 @@ exports.run = function (c) {
     _conf.express(app);
 
     // Connect to DB and run
-    srv = new mongo.Server(_conf.dbhost, _conf.dbport, {});
-    db = new mongo.Db(_conf.db, srv);
     try {
-      _db = db.open.sync(db);
+      _db = mongo.Db.connect.sync(mongo.Db, _conf.mongoURL, {});
       app.listen(_conf.port, function appListen() {
         console.log(_c.green + 'DataKit started on port', _conf.port, _c.reset);
       });
