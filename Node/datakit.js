@@ -99,6 +99,10 @@ var _c = {
   purple: '\u001b[34m',
   reset: '\u001b[0m'
 };
+var _DKDB = {
+  PUBLIC_OBJECTS: 'datakit.pub',
+  SEQENCE: 'datakit.seq'
+};
 var _ERR = {
   ENTITY_NOT_SET: [100, 'Entity not set'],
   ENTITY_KEY_NOT_SET: [101, 'Entity key not set'],
@@ -161,7 +165,7 @@ var _encodeDkObj = function (o) {
 };
 var _generateNextSequenceNumber = function (entity) {
   var col, doc;
-  col = _db.collection.sync(_db, 'DataKit:Sequence');
+  col = _db.collection.sync(_db, _DKDB.SEQENCE);
   col.insert.sync(col, {'_id': entity, 'seq': new mongo.Long(0)});
   doc = col.findAndModify.sync(
     col,
@@ -259,9 +263,8 @@ exports.getPublishedObject = function (req, res) {
     if (!_exists(key)) {
       return res.send(404);
     }
-
     try {
-      col = _db.collection.sync(_db, 'DataKit:Public');
+      col = _db.collection.sync(_db, _DKDB.PUBLIC_OBJECTS);
       result = col.findOne.sync(col, {'_id': key});
 
       oid = new mongo.ObjectID(result.q.oid);
@@ -283,8 +286,8 @@ exports.getPublishedObject = function (req, res) {
   });
 };
 exports.publishObject = function (req, res) {
-  doSync(function publishSync() {
-    var entity, oid, fields, query, signature, shasum, key, col; //, cipher, enc, base64, urlSafeBase64;
+  doSync(function publishObjectSync() {
+    var entity, oid, fields, query, signature, shasum, key, col;
     entity = req.param('entity', null);
     if (!_exists(entity)) {
       return _e(res, _ERR.ENTITY_NOT_SET);
@@ -307,11 +310,11 @@ exports.publishObject = function (req, res) {
     shasum = crypto.createHash('sha512');
     shasum.update(signature);
     key = shasum.digest('base64');
-    key.replace(/\+/g, '-');
-    key.replace(/\//g, '_');
+    key = key.replace(/\+/g, '-');
+    key = key.replace(/\//g, '_');
 
     try {
-      col = _db.collection.sync(_db, 'DataKit:Public');
+      col = _db.collection.sync(_db, _DKDB.PUBLIC_OBJECTS);
       col.update.sync(col, {'_id': key}, {'$set': {'q': query}}, {'safe': true, 'upsert': true});
 
       return res.json(key, 200);
