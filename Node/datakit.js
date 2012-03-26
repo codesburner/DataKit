@@ -335,11 +335,9 @@ exports.publishObject = function (req, res) {
 
     // Compute key
     signature = _conf.secret + _conf.salt + idf;
-    shasum = crypto.createHash('sha512');
+    shasum = crypto.createHash('sha256');
     shasum.update(signature);
-    key = shasum.digest('base64');
-    key = key.replace(/\+/g, '-');
-    key = key.replace(/\//g, '_');
+    key = shasum.digest('hex');
 
     try {
       q = isFile ? fn : query;
