@@ -161,6 +161,42 @@
   STAssertTrue(progress.count > 0, nil);
 }
 
+- (void)testPublicFileURL {
+  NSData *data = [self generateRandomDataWithLength:1024*100];
+  
+  DKFile *file = [DKFile fileWithData:data];
+  
+  STAssertTrue(file.isVolatile, nil);
+  STAssertNil(file.name, nil);
+  STAssertEqualObjects(file.data, data, nil);
+  
+  // Save file
+  NSError *error = nil;
+  BOOL success = [file save:&error];
+  
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.localizedDescription);
+  
+  // Generate public URL
+  error = nil;
+  NSURL *url = [file generatePublicURL:&error];
+  
+  STAssertNil(error, error.localizedDescription);
+  STAssertTrue([url isKindOfClass:[NSURL class]], nil);
+  
+  // Fetch file from public URL and compare data
+  NSData *data2 = [NSData dataWithContentsOfURL:url];
+  
+  STAssertEqualObjects(data, data2, nil);
+  
+  // Delete file
+  error = nil;
+  success = [file delete];
+  
+  STAssertTrue(success, nil);
+  STAssertNil(error, error.localizedDescription);
+}
+
 - (void)testAsyncSaveAndAbort {
   NSString *fileName = @"asyncFileAbort";
   NSData *data = [self generateRandomDataWithLength:1024*100];

@@ -201,4 +201,13 @@
  */
 - (void)abort;
 
+/** @name Public URLs */
+
+/**
+ Generates a public URL to access the file directly
+ @param error The error object set on error
+ @return The public URL for the file data
+ */
+- (NSURL *)generatePublicURL:(NSError **)error;
+
 @end

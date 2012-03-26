@@ -318,6 +318,35 @@ DKSynthesize(bytesExpected)
   }
 }
 
+- (NSURL *)generatePublicURL:(NSError **)error {
+  if (self.name.length == 0) {
+    return nil;
+  }
+  
+  // Create request dict
+  NSMutableDictionary *requestDict = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                      self.name, @"fileName", nil];
+  
+  // Send request synchronously
+  DKRequest *request = [DKRequest request];
+  request.cachePolicy = DKCachePolicyIgnoreCache;
+  
+  NSError *requestError = nil;
+  NSDictionary *dict = [request sendRequestWithObject:requestDict method:@"publish" error:&requestError];
+  if (requestError != nil || ![dict isKindOfClass:[NSDictionary class]]) {
+    if (error != NULL) {
+      *error = requestError;
+    }
+    return nil;
+  }
+  
+  NSString *key = [dict objectForKey:@"key"];
+  NSString *path = [@"public" stringByAppendingPathComponent:key];
+  NSString *ep = [[DKManager APIEndpoint] stringByAppendingPathComponent:path];
+  
+  return [NSURL URLWithString:ep]; 
+}
+
 - (void)openTempFileStream {
   [self closeStreamAndCleanUpTempFiles];
   

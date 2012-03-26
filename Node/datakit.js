@@ -318,8 +318,7 @@ exports.publishObject = function (req, res) {
     if (_exists(fn)) {
       idf = "file:" + fn;
       isFile = true;
-    }
-    if (_exists(entity) && _exists(oid)) {
+    } else if (_exists(entity) && _exists(oid)) {
       fields = req.param('fields', null);
       query = {
         'entity': entity,
