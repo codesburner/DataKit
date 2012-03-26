@@ -56,7 +56,7 @@
   STAssertFalse(exists, nil);
   
   // Save
-  DKFile *file = [[DKFile alloc] initWithData:data name:fileName];
+  DKFile *file = [DKFile fileWithName:fileName data:data];
   
   STAssertTrue(file.isVolatile, nil);
   STAssertEqualObjects(data, file.data, nil);
@@ -133,7 +133,7 @@
   
   [DKFile deleteFile:fileName error:NULL];
   
-  DKFile *file = [[DKFile alloc] initWithData:data name:fileName];
+  DKFile *file = [DKFile fileWithName:fileName data:data];
   
   NSMutableArray *progress = [NSMutableArray new];
   
@@ -169,7 +169,7 @@
   [DKFile deleteFile:fileName error:NULL];
   
   // Save file and abort
-  DKFile *file = [[DKFile alloc] initWithData:data name:fileName];
+  DKFile *file = [DKFile fileWithName:fileName data:data];
   
   NSMutableArray *progress = [NSMutableArray new];
   
@@ -208,7 +208,7 @@
 
 - (void)testFileNameAssign {
   NSData *data = [self generateRandomDataWithLength:1024];
-  DKFile *file = [[DKFile alloc] initWithData:data name:nil];
+  DKFile *file = [DKFile fileWithData:data];
   
   STAssertNil(file.name, nil);
   
