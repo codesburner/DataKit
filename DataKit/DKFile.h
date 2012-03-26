@@ -50,14 +50,22 @@
 + (DKFile *)fileWithName:(NSString *)name;
 
 /**
+ Creates a new file with the given name and data
+ @param name The filename
+ @param data The file data
+ @return The initialized file
+ */
++ (DKFile *)fileWithName:(NSString *)name data:(NSData *)data;
+
+/**
  Initializes a new file with the given data and name.
  
  The file name must be unique, otherwise save will return an error.
- @param data The file data
  @param name The file name, if `nil` the server will assign a random name.
+ @param data The file data
  @return The initialized file
  */
-- (id)initWithData:(NSData *)data name:(NSString *)name;
+- (id)initWithName:(NSString *)name data:(NSData *)data;
 
 /** @name Checking Existence */
 

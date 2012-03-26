@@ -80,6 +80,16 @@
  */
 - (void)reloadInBackgroundWithBlock:(void (^)(NSError *error))block;
 
+/**
+ Called when the table is about to reload it's objects
+ */
+- (void)queryTableWillReload;
+
+/**
+ Called when the table did reload it's objects
+ */
+- (void)queryTableDidReload;
+
 /** @name Methods to Override */
 
 /**

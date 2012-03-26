@@ -80,7 +80,9 @@ DKSynthesize(currentOffset)
     [alert show];
   }
   
+  [self queryTableWillReload];
   [self.tableView reloadData];
+  [self queryTableDidReload];
   
   if (callback != NULL) {
     callback(error);
@@ -118,6 +120,14 @@ DKSynthesize(currentOffset)
   self.currentOffset = 0;
   [self.objects removeAllObjects];
   [self appendNextPageWithFinishCallback:block];
+}
+
+- (void)queryTableWillReload {
+  // stub
+}
+
+- (void)queryTableDidReload {
+  // stub
 }
 
 - (DKQuery *)tableQuery {
