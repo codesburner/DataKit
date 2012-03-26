@@ -220,7 +220,7 @@ exports.run = function (c) {
     pad = '-'.repeat(80);
     nl = '\n';
     console.log(nl + pad + nl + 'DATAKIT' + nl + pad);
-    _conf.mongoURL = _safe(c.mongoURL, 'mongodb://localhost:27017/datakit');
+    _conf.mongoURI = _safe(c.mongoURI, 'mongodb://localhost:27017/datakit');
     _conf.path = _safe(c.path, '');
     _conf.port = _safe(c.port, process.env.PORT || 3000);
     _conf.secret = _safe(c.secret, null);
@@ -269,7 +269,7 @@ exports.run = function (c) {
 
     // Connect to DB and run
     try {
-      _db = mongo.Db.connect.sync(mongo.Db, _conf.mongoURL, {});
+      _db = mongo.Db.connect.sync(mongo.Db, _conf.mongoURI, {});
       app.listen(_conf.port, function appListen() {
         console.log(_c.green + 'DataKit started on port', _conf.port, _c.reset);
       });
