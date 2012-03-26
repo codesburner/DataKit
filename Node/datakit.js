@@ -159,6 +159,42 @@ var _generateNextSequenceNumber = function (entity) {
 
   return doc.seq;
 };
+var _streamFileFromGridFS = function (req, res, fn) {
+  doSync(function streamFileSync() {
+    var gs, stream;
+    if (!fn) {
+      // HTTP: Not Found
+      return res.send('', 404);
+    }
+
+    // Open grid store
+    gs = new mongo.GridStore(_db, fn, 'r');
+    try {
+      gs = gs.open.sync(gs);
+    } catch (e) {
+      console.log(e);
+      // HTTP: Server Error
+      return res.send('', 500);
+    }
+
+    // Write head
+    // HTTP: Partial Content
+    console.log(fn, "=>", "content", gs.contentType, "len", gs.length);
+    res.writeHead(200, {
+      'Connection': 'close',
+      'Content-Type': gs.contentType,
+      'Content-Length': gs.length
+    });
+
+    stream = gs.stream(true);
+    stream.on('data', function (data) {
+      res.write(data);
+    });
+    stream.on('close', function () {
+      res.end();
+    });
+  });
+};
 // prototypes
 String.prototype.repeat = function (num) {
   var a = [];
@@ -249,16 +285,20 @@ exports.getPublishedObject = function (req, res) {
       col = _db.collection.sync(_db, _DKDB.PUBLIC_OBJECTS);
       result = col.findOne.sync(col, {'_id': key});
 
-      oid = new mongo.ObjectID(result.q.oid);
-      fields = result.q.fields;
-
-      col = _db.collection.sync(_db, result.q.entity);
-      result = col.findOne.sync(col, {'_id': oid}, fields);
-
-      if (fields.length === 1) {
-        return res.send(result[fields[0]], 200);
+      if (result.isFile) {
+        return _streamFileFromGridFS(req, res, result.q);
       } else {
-        return res.json(result, 200);
+        oid = new mongo.ObjectID(result.q.oid);
+        fields = result.q.fields;
+
+        col = _db.collection.sync(_db, result.q.entity);
+        result = col.findOne.sync(col, {'_id': oid}, fields);
+
+        if (fields.length === 1) {
+          return res.send(result[fields[0]], 200);
+        } else {
+          return res.json(result, 200);
+        }
       }
     } catch (e) {
       console.error(e);
@@ -269,26 +309,33 @@ exports.getPublishedObject = function (req, res) {
 };
 exports.publishObject = function (req, res) {
   doSync(function publishObjectSync() {
-    var entity, oid, fields, query, signature, shasum, key, col;
+    var entity, fn, isFile, oid, q, fields, query, idf, signature, shasum, key, col;
     entity = req.param('entity', null);
-    if (!_exists(entity)) {
-      return _e(res, _ERR.INVALID_PARAMS);
-    }
     oid = req.param('oid', null);
-    if (!_exists(oid)) {
-      return _e(res, _ERR.INVALID_PARAMS);
+    fn = req.param('fileName', null);
+    idf = null;
+    isFile = false;
+    if (_exists(fn)) {
+      idf = "file:" + fn;
+      isFile = true;
     }
-    fields = req.param('fields', null);
-    query = {
-      'entity': entity,
-      'oid': oid,
-      'fields': []
-    };
-    if (fields !== null && fields.length > 0) {
-      query.fields = fields;
+    if (_exists(entity) && _exists(oid)) {
+      fields = req.param('fields', null);
+      query = {
+        'entity': entity,
+        'oid': oid,
+        'fields': []
+      };
+      if (fields !== null && fields.length > 0) {
+        query.fields = fields;
+      }
+      idf = JSON.stringify(query);
+    } else {
+      return _e(res, _ERR.INVALID_PARAMS);
     }
 
-    signature = _conf.secret + _conf.salt + JSON.stringify(query);
+    // Compute key
+    signature = _conf.secret + _conf.salt + idf;
     shasum = crypto.createHash('sha512');
     shasum.update(signature);
     key = shasum.digest('base64');
@@ -296,10 +343,11 @@ exports.publishObject = function (req, res) {
     key = key.replace(/\//g, '_');
 
     try {
+      q = isFile ? fn : query;
       col = _db.collection.sync(_db, _DKDB.PUBLIC_OBJECTS);
-      col.update.sync(col, {'_id': key}, {'$set': {'q': query}}, {'safe': true, 'upsert': true});
+      col.update.sync(col, {'_id': key}, {'$set': {'q': q, 'isFile': isFile}}, {'safe': true, 'upsert': true});
 
-      return res.json(key, 200);
+      return res.json({'key': key}, 200);
     } catch (e) {
       console.error(e);
       return _e(res, _ERR.OPERATION_FAILED, e);
@@ -794,39 +842,7 @@ exports.unlink = function (req, res) {
 };
 exports.stream = function (req, res) {
   doSync(function streamSync() {
-    var k, gs, stream;
-    k = req.header('x-datakit-filename', null);
-    if (!k) {
-      // HTTP: Not Found
-      return res.send('', 404);
-    }
-
-    // Open grid store
-    gs = new mongo.GridStore(_db, k, 'r');
-    try {
-      gs = gs.open.sync(gs);
-    } catch (e) {
-      console.log(e);
-      // HTTP: Server Error
-      return res.send('', 500);
-    }
-
-    // Write head
-    // HTTP: Partial Content
-    console.log(k, "=>", "content", gs.contentType, "len", gs.length);
-    res.writeHead(200, {
-      'Connection': 'close',
-      'Content-Type': gs.contentType,
-      'Content-Length': gs.length
-    });
-
-    stream = gs.stream(true);
-    stream.on('data', function (data) {
-      res.write(data);
-    });
-    stream.on('close', function () {
-      res.end();
-    });
+    _streamFileFromGridFS(req, res, req.header('x-datakit-filename', null));
   });
 };
 exports.exists = function (req, res) {

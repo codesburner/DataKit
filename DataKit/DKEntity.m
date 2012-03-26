@@ -511,15 +511,16 @@ DKSynthesize(resultMap)
   request.cachePolicy = DKCachePolicyIgnoreCache;
   
   NSError *requestError = nil;
-  NSString *result = [request sendRequestWithObject:requestDict method:@"publish" error:&requestError];
-  if (requestError != nil || ![result isKindOfClass:[NSString class]]) {
+  NSDictionary *dict = [request sendRequestWithObject:requestDict method:@"publish" error:&requestError];
+  if (requestError != nil || ![dict isKindOfClass:[NSDictionary class]]) {
     if (error != NULL) {
       *error = requestError;
     }
     return nil;
   }
   
-  NSString *path = [@"public" stringByAppendingPathComponent:result];
+  NSString *key = [dict objectForKey:@"key"];
+  NSString *path = [@"public" stringByAppendingPathComponent:key];
   NSString *ep = [[DKManager APIEndpoint] stringByAppendingPathComponent:path];
   
   return [NSURL URLWithString:ep]; 
