@@ -526,6 +526,20 @@ DKSynthesize(resultMap)
   return [NSURL URLWithString:ep]; 
 }
 
+- (void)generatePublicURLForFields:(NSArray *)fieldKeys inBackgroundWithBlock:(void (^)(NSURL *publicURL, NSError *error))block {
+  block = [block copy];
+  dispatch_queue_t q = dispatch_get_current_queue();
+  dispatch_async([DKManager queue], ^{
+    NSError *error = nil;
+    NSURL *url = [self generatePublicURLForFields:fieldKeys error:&error];
+    if (block != NULL) {
+      dispatch_async(q, ^{
+        block(url, error); 
+      });
+    }
+  });
+}
+
 - (BOOL)isEqual:(id)object {
   if ([object isKindOfClass:isa]) {
     return [[(DKEntity *)object entityId] isEqualToString:self.entityId];

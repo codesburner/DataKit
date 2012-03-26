@@ -354,6 +354,15 @@
  */
 - (NSURL *)generatePublicURLForFields:(NSArray *)fieldKeys error:(NSError **)error;
 
+/**
+ Generates a public URL to access entity data directly in the background
+ 
+ If the fields list contains one element, a request to the public URL will return the fields raw data. If the list has more than 1 element, a *JSON* representation of the entity will be returned.
+ @param fieldKeys A list of keys to expose, pass `nil` to return all object keys
+ @param block The callback block
+ */
+- (void)generatePublicURLForFields:(NSArray *)fieldKeys inBackgroundWithBlock:(void (^)(NSURL *publicURL, NSError *error))block;
+
 /** @name Resetting State */
 
 /**
