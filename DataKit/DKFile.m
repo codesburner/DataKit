@@ -319,7 +319,7 @@ DKSynthesize(bytesExpected)
 }
 
 - (NSURL *)generatePublicURL:(NSError **)error {
-  if (self.name.length == 0) {
+  if (self.name.length == 0 || self.isVolatile) {
     return nil;
   }
   
