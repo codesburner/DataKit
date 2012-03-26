@@ -347,6 +347,22 @@ DKSynthesize(bytesExpected)
   return [NSURL URLWithString:ep]; 
 }
 
+- (void)generatePublicURLInBackgroundWithBlock:(void (^)(NSURL *publicURL, NSError *error))block {
+  block = [block copy];
+  dispatch_queue_t q = dispatch_get_current_queue();
+  dispatch_async([DKManager queue], ^{
+    NSError *error = nil;
+    NSURL *url = [self generatePublicURL:&error];
+    if (block != NULL) {
+      dispatch_async(q, ^{
+        block(url, error); 
+      });
+    }
+  });
+}
+
+#pragma mark - Private
+
 - (void)openTempFileStream {
   [self closeStreamAndCleanUpTempFiles];
   

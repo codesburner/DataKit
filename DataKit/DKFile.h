@@ -210,4 +210,10 @@
  */
 - (NSURL *)generatePublicURL:(NSError **)error;
 
+/**
+ Generates a public URL to access the file directly in the background
+ @param block The callback block
+ */
+- (void)generatePublicURLInBackgroundWithBlock:(void (^)(NSURL *publicURL, NSError *error))block;
+
 @end
