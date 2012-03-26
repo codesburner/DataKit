@@ -303,7 +303,7 @@ exports.publishObject = function (req, res) {
       query.fields = fields;
     }
 
-    signature = _conf.secret + _conf.salt + query;
+    signature = _conf.secret + _conf.salt + JSON.stringify(query);
     shasum = crypto.createHash('sha512');
     shasum.update(signature);
     key = shasum.digest('base64');
