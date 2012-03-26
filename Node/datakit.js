@@ -1,6 +1,18 @@
 /*jslint node: true, es5: true, nomen: true, regexp: true, indent: 2*/
 "use strict";
 
+/* @license
+ * 
+ * Copyright (c) 2012, Erik Aigner. All rights reserved.
+ * 
+ * Use of this software is only permitted in conjunction with the
+ * DataKit iOS and Mac frameworks and implies conformance to the
+ * DataKit frameworks' license terms.
+ *
+ * Redistribution of this software in any form is forbidden.
+ *
+ */
+
 var express = require('express');
 var assert = require('assert');
 var mongo = require('mongodb');
