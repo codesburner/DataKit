@@ -104,28 +104,10 @@ var _DKDB = {
   SEQENCE: 'datakit.seq'
 };
 var _ERR = {
-  ENTITY_NOT_SET: [100, 'Entity not set'],
-  ENTITY_KEY_NOT_SET: [101, 'Entity key not set'],
-  OBJECT_ID_NOT_SET: [102, 'Object ID not set'],
-  OBJECT_ID_INVALID: [103, 'Object ID invalid'],
-  SAVE_FAILED: [200, 'Save failed'],
-  SAVE_FAILED_DUPLICATE_KEY: [201, 'Save failed because of a duplicate key'],
-  DELETE_FAILED: [300, 'Delete failed'],
-  REFRESH_FAILED: [400, 'Refresh failed'],
-  QUERY_FAILED: [500, 'Query failed'],
-  INDEX_FAILED: [600, 'Index failed'],
-  PUBLISH_FAILED: [700, 'Publish failed'],
-  DESTROY_FAILED: [800, 'Destroy failed'],
-  DESTROY_NOT_ALLOWED: [801, 'Destroy not allowed'],
-  STORE_FAILED: [900, 'File store failed'],
-  STORE_FILE_EXISTS: [901, 'File already exists'],
-  STORE_COULD_NOT_OPEN: [902, 'Could not open the file store'],
-  STORE_COULD_NOT_APPEND: [903, 'Could not append to file'],
-  UNLINK_FAILED: [1000, 'Unlink failed'],
-  FILE_EXISTS: [1100, 'File exists'],
-  FILE_EXISTS_FAILED: [1101, 'File exists failed'],
-  DROP_FAILED: [1200, 'Drop failed'],
-  DROP_NOT_ALLOWED: [1201, 'Drop not allowed']
+  INVALID_PARAMS: [100, 'Invalid parameters'],
+  OPERATION_FAILED: [101, 'Operation failed'],
+  OPERATION_NOT_ALLOWED: [102, 'Operation not allowed'],
+  DUPLICATE_KEY: [103, 'Duplicate key']
 };
 var _copyKeys = function (s, t) {
   var key;
@@ -290,11 +272,11 @@ exports.publishObject = function (req, res) {
     var entity, oid, fields, query, signature, shasum, key, col;
     entity = req.param('entity', null);
     if (!_exists(entity)) {
-      return _e(res, _ERR.ENTITY_NOT_SET);
+      return _e(res, _ERR.INVALID_PARAMS);
     }
     oid = req.param('oid', null);
     if (!_exists(oid)) {
-      return _e(res, _ERR.OBJECT_ID_INVALID);
+      return _e(res, _ERR.INVALID_PARAMS);
     }
     fields = req.param('fields', null);
     query = {
@@ -320,7 +302,7 @@ exports.publishObject = function (req, res) {
       return res.json(key, 200);
     } catch (e) {
       console.error(e);
-      return _e(res, _ERR.PUBLISH_FAILED, e);
+      return _e(res, _ERR.OPERATION_FAILED, e);
     }
   });
 };
@@ -336,7 +318,7 @@ exports.saveObject = function (req, res) {
         ent = entities[i];
         entity = _safe(ent.entity, null);
         if (!_exists(entity)) {
-          return _e(res, _ERR.ENTITY_NOT_SET);
+          return _e(res, _ERR.INVALID_PARAMS);
         }
         oidStr = _safe(ent.oid, null);
         fset = _safe(ent.set, {});
@@ -358,7 +340,7 @@ exports.saveObject = function (req, res) {
         if (_exists(oidStr)) {
           oid = new mongo.ObjectID(oidStr);
           if (!_exists(oid)) {
-            return _e(res, _ERR.OBJECT_ID_INVALID);
+            return _e(res, _ERR.INVALID_PARAMS);
           }
         }
         try {
@@ -430,7 +412,7 @@ exports.saveObject = function (req, res) {
       }
     }
     if (errors.length > 0) {
-      return _e(res, _ERR.SAVE_FAILED, errors.pop());
+      return _e(res, _ERR.OPERATION_FAILED, errors.pop());
     }
     res.json(results, 200);
   });
@@ -441,14 +423,14 @@ exports.deleteObject = function (req, res) {
     entity = req.param('entity', null);
     oidStr = req.param('oid', null);
     if (!_exists(entity)) {
-      return _e(res, _ERR.ENTITY_NOT_SET);
+      return _e(res, _ERR.INVALID_PARAMS);
     }
     if (!_exists(oidStr)) {
-      return _e(res, _ERR.OBJECT_ID_NOT_SET);
+      return _e(res, _ERR.INVALID_PARAMS);
     }
     oid = new mongo.ObjectID(oidStr);
     if (!_exists(oid)) {
-      return _e(res, _ERR.OBJECT_ID_INVALID);
+      return _e(res, _ERR.INVALID_PARAMS);
     }
     try {
       collection = _db.collection.sync(_db, entity);
@@ -456,7 +438,7 @@ exports.deleteObject = function (req, res) {
       res.send('', 200);
     } catch (e) {
       console.error(e);
-      return _e(res, _ERR.DELETE_FAILED, e);
+      return _e(res, _ERR.OPERATION_FAILED, e);
     }
   });
 };
@@ -466,14 +448,14 @@ exports.refreshObject = function (req, res) {
     entity = req.param('entity', null);
     oidStr = req.param('oid', null);
     if (!_exists(entity)) {
-      return _e(res, _ERR.ENTITY_NOT_SET);
+      return _e(res, _ERR.INVALID_PARAMS);
     }
     if (!_exists(oidStr)) {
-      return _e(res, _ERR.OBJECT_ID_NOT_SET);
+      return _e(res, _ERR.INVALID_PARAMS);
     }
     oid = new mongo.ObjectID(oidStr);
     if (!_exists(oid)) {
-      return _e(res, _ERR.OBJECT_ID_INVALID);
+      return _e(res, _ERR.INVALID_PARAMS);
     }
     try {
       collection = _db.collection.sync(_db, entity);
@@ -487,7 +469,7 @@ exports.refreshObject = function (req, res) {
       res.json(result, 200);
     } catch (e) {
       console.error(e);
-      return _e(res, _ERR.REFRESH_FAILED, e);
+      return _e(res, _ERR.OPERATION_FAILED, e);
     }
   });
 };
@@ -496,7 +478,7 @@ exports.query = function (req, res) {
     var entity, doFindOne, doCount, query, opts, or, and, refIncl, fieldInclExcl, sort, skip, limit, mr, mrOpts, sortValues, order, results, cursor, collection, result, key, resultCount, i, j, field, dbRef, resolved;
     entity = req.param('entity', null);
     if (!_exists(entity)) {
-      return _e(res, _ERR.ENTITY_NOT_SET);
+      return _e(res, _ERR.INVALID_PARAMS);
     }
     doFindOne = req.param('findOne', false);
     doCount = req.param('count', false);
@@ -626,7 +608,7 @@ exports.query = function (req, res) {
       return res.json(results, 200);
     } catch (e) {
       console.error(e);
-      return _e(res, _ERR.QUERY_FAILED, e);
+      return _e(res, _ERR.OPERATION_FAILED, e);
     }
   });
 };
@@ -638,10 +620,10 @@ exports.index = function (req, res) {
     unique = req.param('unique', false);
     drop = req.param('drop', false);
     if (!_exists(entity)) {
-      return _e(res, _ERR.ENTITY_NOT_SET);
+      return _e(res, _ERR.INVALID_PARAMS);
     }
     if (!_exists(key)) {
-      return _e(res, _ERR.ENTITY_KEY_NOT_SET);
+      return _e(res, _ERR.INVALID_PARAMS);
     }
     try {
       opts = {
@@ -654,19 +636,19 @@ exports.index = function (req, res) {
 
       return res.send('', 200);
     } catch (e) {
-      return _e(res, _ERR.INDEX_FAILED, e);
+      return _e(res, _ERR.OPERATION_FAILED, e);
     }
   });
 };
 exports.destroy = function (req, res) {
   doSync(function destroySync() {
     if (!_conf.allowDestroy) {
-      return _e(res, _ERR.DESTROY_NOT_ALLOWED);
+      return _e(res, _ERR.OPERATION_NOT_ALLOWED);
     }
     var entity, collection;
     entity = req.param('entity', null);
     if (!_exists(entity)) {
-      return _e(res, _ERR.ENTITY_NOT_SET);
+      return _e(res, _ERR.INVALID_PARAMS);
     }
     try {
       collection = _db.collection.sync(_db, entity);
@@ -674,7 +656,7 @@ exports.destroy = function (req, res) {
 
       return res.send('', 200);
     } catch (e) {
-      return _e(res, _ERR.DESTROY_FAILED, e);
+      return _e(res, _ERR.OPERATION_FAILED, e);
     }
   });
 };
@@ -687,10 +669,10 @@ exports.drop = function (req, res) {
         res.send('', 200);
       } catch (e) {
         console.error(e);
-        _e(res, _ERR.DROP_FAILED, e);
+        _e(res, _ERR.OPERATION_FAILED, e);
       }
     } else {
-      _e(res, _ERR.DROP_NOT_ALLOWED);
+      _e(res, _ERR.OPERATION_NOT_ALLOWED);
     }
   });
 };
@@ -765,11 +747,11 @@ exports.store = function (req, res) {
     try {
       exists = mongo.GridStore.exist.sync(mongo.GridStore, _db, fileName);
       if (exists) {
-        return _e(res, _ERR.STORE_FILE_EXISTS);
+        return _e(res, _ERR.DUPLICATE_KEY);
       }
     } catch (e) {
       console.error(e);
-      return _e(res, _ERR.STORE_FAILED, e);
+      return _e(res, _ERR.OPERATION_FAILED, e);
     }
 
     // Pipe to GridFS
@@ -784,7 +766,7 @@ exports.store = function (req, res) {
         console.log(err);
         bufs = [];
         onCancel = true;
-        return _e(res, _ERR.STORE_COULD_NOT_OPEN, err);
+        return _e(res, _ERR.OPERATION_FAILED, err);
       }
       store = s;
       tick();
@@ -805,7 +787,7 @@ exports.unlink = function (req, res) {
       }
     }
     if (lastErr !== null) {
-      return _e(res, _ERR.UNLINK_FAILED, lastErr);
+      return _e(res, _ERR.OPERATION_FAILED, lastErr);
     }
     return res.send('', 200);
   });
@@ -860,10 +842,10 @@ exports.exists = function (req, res) {
         }
       } catch (e) {
         console.error(e);
-        return _e(res, _ERR.FILE_EXISTS_FAILED, e);
+        return _e(res, _ERR.OPERATION_FAILED, e);
       }
     }
-    return _e(res, _ERR.FILE_EXISTS);
+    return _e(res, _ERR.DUPLICATE_KEY);
   });
 };
 

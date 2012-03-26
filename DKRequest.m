@@ -63,7 +63,7 @@ DKSynthesize(cachePolicy)
   NSData *JSONData = [NSJSONSerialization dataWithJSONObject:JSONObject options:0 error:&JSONError];
   if (JSONError != nil) {
     [NSError writeToError:error
-                     code:DKErrorInvalidJSON
+                     code:DKErrorInvalidParams
               description:NSLocalizedString(@"Could not JSON encode request object", nil)
                  original:JSONError];
     return nil;
@@ -120,7 +120,7 @@ DKSynthesize(cachePolicy)
 + (id)parseResponse:(NSHTTPURLResponse *)response withData:(NSData *)data error:(NSError **)error {
   if (![self canParseResponse:response]) {
     [NSError writeToError:error
-                     code:DKErrorOperationReturnedUnknownStatus
+                     code:DKErrorUnknownStatus
               description:[NSString stringWithFormat:NSLocalizedString(@"Unknown response (%i)", nil), response.statusCode]
                  original:nil];
   }
@@ -136,7 +136,7 @@ DKSynthesize(cachePolicy)
     }
     if (JSONError != nil) {
       [NSError writeToError:error
-                       code:DKErrorInvalidJSON
+                       code:DKErrorInvalidResponse
                 description:NSLocalizedString(@"Could not deserialize JSON response", nil)
                    original:JSONError];
     }
@@ -149,7 +149,7 @@ DKSynthesize(cachePolicy)
     id resultObj = [NSJSONSerialization JSONObjectWithData:data options:0 error:&JSONError];
     if (JSONError != nil) {
       [NSError writeToError:error
-                       code:DKErrorInvalidJSON
+                       code:DKErrorInvalidResponse
                 description:NSLocalizedString(@"Could not deserialize JSON error response", nil)
                    original:JSONError];
     }

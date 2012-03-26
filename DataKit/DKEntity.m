@@ -543,7 +543,7 @@ DKSynthesize(resultMap)
 - (BOOL)hasEntityId:(NSError **)error {
   if (self.entityId.length == 0) {
     [NSError writeToError:error
-                     code:DKErrorInvalidEntityID
+                     code:DKErrorInvalidParams
               description:NSLocalizedString(@"Entity ID invalid", nil)
                  original:nil];
     return NO;
@@ -554,7 +554,7 @@ DKSynthesize(resultMap)
 - (BOOL)hasEntityName:(NSError **)error {
   if (self.entityName.length == 0) {
     [NSError writeToError:error
-                     code:DKErrorInvalidEntityName
+                     code:DKErrorInvalidParams
               description:NSLocalizedString(@"Entity name invalid", nil)
                  original:nil];
     return NO;
@@ -565,7 +565,7 @@ DKSynthesize(resultMap)
 - (BOOL)commitObjectResultMap:(NSDictionary *)resultMap error:(NSError **)error {
   if (![resultMap isKindOfClass:[NSDictionary class]]) {
     [NSError writeToError:error
-                     code:DKErrorInvalidJSON
+                     code:DKErrorInvalidParams
               description:NSLocalizedString(@"Cannot commit action because result JSON is malformed (not an object)", nil)
                  original:nil];
 #ifdef CONFIGURATION_Debug
