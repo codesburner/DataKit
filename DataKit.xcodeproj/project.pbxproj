@@ -258,7 +258,7 @@
 				DC61AC7A14FCFE3B003A9057 /* NSString+DataKit.h */,
 				DC61AC7B14FCFE3B003A9057 /* NSString+DataKit.m */,
 			);
-			name = "DataKit-Private";
+			path = "DataKit-Private";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
