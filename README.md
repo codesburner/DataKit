@@ -1,7 +1,7 @@
 Don't reinvent the wheel every time you need a web backend for your apps, add one with **DataKit** in minutes!
 
 Just spin up a server with [node](http://nodejs.org) and [MongoDB](http://www.mongodb.org) installed,
-integrate the SDK into your app and you are ready to go!
+integrate the SDK into your app and you are ready to go! **DataKit** requires iOS 5 and ARC.
 
 **Author**: Erik Aigner [@eaignr](https://twitter.com/#!/eaignr)
 
@@ -56,7 +56,14 @@ Link to DataKit and import `<DataKit/DataKit.h>`. Now we only need to configure 
 
 Here are some examples on how to use DataKit. This is in no way the complete feature set, please look at the documentation for that (you can generate it with `sh gen_appledoc.sh`). You can throw almost anything at DataKit.
 
-Main classes: `DKEntity`, `DKQuery`, `DKMapReduce`, `DKFile`, `DKRelation`, `DKQueryTableViewController`
+Classes:
+
+- [DKEntity](https://github.com/eaigner/DataKit/blob/master/DataKit/DKEntity.h)
+- [DKQuery](https://github.com/eaigner/DataKit/blob/master/DataKit/DKQuery.h)
+- [DKMapReduce](https://github.com/eaigner/DataKit/blob/master/DataKit/DKMapReduce.h)
+- [DKFile](https://github.com/eaigner/DataKit/blob/master/DataKit/DKFile.h)
+- [DKRelation](https://github.com/eaigner/DataKit/blob/master/DataKit/DKRelation.h)
+- [DKQueryTableViewController](https://github.com/eaigner/DataKit/blob/master/DataKit/DKQueryTableViewController.h)
 
 #### Saving entites
 
