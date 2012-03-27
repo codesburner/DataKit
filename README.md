@@ -89,3 +89,7 @@ NSArray *results = [query findAll];
 DKFile *file = [DKFile fileWithName:@"BigFile" data:data];
 [file save];
 ```
+
+### TODO
+
+- Add `DKChannel` class for push notifications and async messaging
