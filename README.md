@@ -10,8 +10,10 @@ Make sure you have [node](http://nodejs.org) with [npm](http://npmjs.org/) and [
     
 Then create a file `run.js` (or any other name you prefer) containing the following:
 
-    require('datakit').run({});
-    
+```javascript
+require('datakit').run({});
+```
+
 Now start your node app and DataKit will present the following warning
 
     WARN:  No secret found in config, generated new one.
@@ -23,18 +25,20 @@ Now start your node app and DataKit will present the following warning
            
 Copy the newly generated secret and put it in your DataKit config. Now you can also specify additional config parameters. Although only the `secret` parameter is required, you should also specify a custom `salt`.
 
-    require('datakit').run({
-      'secret': '66e5977931c7e48aa89c9da0ae5d3ffdff7f1a58e6819cbea062dda1fa050296',
-      'salt': 'mySecretSauce',
-      'mongoURI': 'mongodb://<user>:<pass>@<host>:<port>/<dbName>',
-      'port': 5000, // The port DataKit runs on
-      'path': 'v1', // The root API path to append to the host, defauts to empty string
-      'allowDestroy': false, // Flag if the server allows destroying entity collections
-      'allowDrop': false, // Flag if the server allows collection drop
-      'cert': 'path/to/cert', // SSL certificate
-      'key': 'path/to/key', // SSL key
-      'express': function (app) { /* Add your custom configuration to the express app */}
-    });
+```javascript
+require('datakit').run({
+  'secret': '66e5977931c7e48aa89c9da0ae5d3ffdff7f1a58e6819cbea062dda1fa050296',
+  'salt': 'mySecretSauce',
+  'mongoURI': 'mongodb://<user>:<pass>@<host>:<port>/<dbName>',
+  'port': 5000, // The port DataKit runs on
+  'path': 'v1', // The root API path to append to the host, defauts to empty string
+  'allowDestroy': false, // Flag if the server allows destroying entity collections
+  'allowDrop': false, // Flag if the server allows collection drop
+  'cert': 'path/to/cert', // SSL certificate
+  'key': 'path/to/key', // SSL key
+  'express': function (app) { /* Add your custom configuration to the express app */}
+});
+```
     
 ### Start coding
 
@@ -44,20 +48,25 @@ Main classes: `DKEntity`, `DKQuery`, `DKMapReduce`, `DKFile`, `DKRelation`, `DKQ
 
 #### Saving entites
 
-    DKEntity *entity = [DKEntity entityWithName:entityName];
-    [entity setObject:@"Erik" forKey:@"name"];
-    [entity setObject:@"Aigner" forKey:@"surname"];
-    [entity save];
+```objc
+DKEntity *entity = [DKEntity entityWithName:entityName];
+[entity setObject:@"Erik" forKey:@"name"];
+[entity setObject:@"Aigner" forKey:@"surname"];
+[entity save];
+```
     
 #### Queries
 
-    DKQuery *query = [DKQuery queryWithEntityName:@"SearchableEntity"];
-    [query whereKey:@"text" matchesRegex:@"\\s+words"];
-    
-    NSArray *results = [query findAll];
+```objc
+DKQuery *query = [DKQuery queryWithEntityName:@"SearchableEntity"];
+[query whereKey:@"text" matchesRegex:@"\\s+words"];
+
+NSArray *results = [query findAll];
+```
     
 #### Files
 
-    DKFile *file = [DKFile fileWithName:@"BigFile" data:data];
-    [file save];
-    
+```objc
+DKFile *file = [DKFile fileWithName:@"BigFile" data:data];
+[file save];
+```
