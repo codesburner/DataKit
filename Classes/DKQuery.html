@@ -1,0 +1,3402 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
+		<title>DKQuery Class Reference</title>
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<meta name="viewport" content="width=550" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.0.5 (build 775)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">DataKit </a></h1>
+				<a id="developerHome" href="../index.html">chocomoko.com</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">DKQuery Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/cachePolicy">&nbsp;&nbsp;&nbsp;&nbsp;cachePolicy</option>
+	
+	<option value="//api/name/entityName">&nbsp;&nbsp;&nbsp;&nbsp;entityName</option>
+	
+	<option value="//api/name/limit">&nbsp;&nbsp;&nbsp;&nbsp;limit</option>
+	
+	<option value="//api/name/skip">&nbsp;&nbsp;&nbsp;&nbsp;skip</option>
+	
+	
+	
+	
+	<option value="class_methods">Class Methods</option>
+	
+	<option value="//api/name/queryWithEntityName:">&nbsp;&nbsp;&nbsp;&nbsp;+ queryWithEntityName:</option>
+	
+	
+	
+	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/and">&nbsp;&nbsp;&nbsp;&nbsp;- and</option>
+	
+	<option value="//api/name/countAll">&nbsp;&nbsp;&nbsp;&nbsp;- countAll</option>
+	
+	<option value="//api/name/countAll:">&nbsp;&nbsp;&nbsp;&nbsp;- countAll:</option>
+	
+	<option value="//api/name/countAllInBackgroundWithBlock:">&nbsp;&nbsp;&nbsp;&nbsp;- countAllInBackgroundWithBlock:</option>
+	
+	<option value="//api/name/excludeKeys:">&nbsp;&nbsp;&nbsp;&nbsp;- excludeKeys:</option>
+	
+	<option value="//api/name/findAll">&nbsp;&nbsp;&nbsp;&nbsp;- findAll</option>
+	
+	<option value="//api/name/findAll:">&nbsp;&nbsp;&nbsp;&nbsp;- findAll:</option>
+	
+	<option value="//api/name/findAllInBackgroundWithBlock:">&nbsp;&nbsp;&nbsp;&nbsp;- findAllInBackgroundWithBlock:</option>
+	
+	<option value="//api/name/findOne">&nbsp;&nbsp;&nbsp;&nbsp;- findOne</option>
+	
+	<option value="//api/name/findOne:">&nbsp;&nbsp;&nbsp;&nbsp;- findOne:</option>
+	
+	<option value="//api/name/findOneInBackgroundWithBlock:">&nbsp;&nbsp;&nbsp;&nbsp;- findOneInBackgroundWithBlock:</option>
+	
+	<option value="//api/name/includeKeys:">&nbsp;&nbsp;&nbsp;&nbsp;- includeKeys:</option>
+	
+	<option value="//api/name/includeReferenceAtKey:">&nbsp;&nbsp;&nbsp;&nbsp;- includeReferenceAtKey:</option>
+	
+	<option value="//api/name/initWithEntityName:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithEntityName:</option>
+	
+	<option value="//api/name/or">&nbsp;&nbsp;&nbsp;&nbsp;- or</option>
+	
+	<option value="//api/name/orderAscendingByCreationDate">&nbsp;&nbsp;&nbsp;&nbsp;- orderAscendingByCreationDate</option>
+	
+	<option value="//api/name/orderAscendingByKey:">&nbsp;&nbsp;&nbsp;&nbsp;- orderAscendingByKey:</option>
+	
+	<option value="//api/name/orderAscendingBySequenceNumber">&nbsp;&nbsp;&nbsp;&nbsp;- orderAscendingBySequenceNumber</option>
+	
+	<option value="//api/name/orderAscendingByUpdateDate">&nbsp;&nbsp;&nbsp;&nbsp;- orderAscendingByUpdateDate</option>
+	
+	<option value="//api/name/orderDescendingByCreationDate">&nbsp;&nbsp;&nbsp;&nbsp;- orderDescendingByCreationDate</option>
+	
+	<option value="//api/name/orderDescendingByKey:">&nbsp;&nbsp;&nbsp;&nbsp;- orderDescendingByKey:</option>
+	
+	<option value="//api/name/orderDescendingBySequenceNumber">&nbsp;&nbsp;&nbsp;&nbsp;- orderDescendingBySequenceNumber</option>
+	
+	<option value="//api/name/orderDescendingByUpdateDate">&nbsp;&nbsp;&nbsp;&nbsp;- orderDescendingByUpdateDate</option>
+	
+	<option value="//api/name/performMapReduce:">&nbsp;&nbsp;&nbsp;&nbsp;- performMapReduce:</option>
+	
+	<option value="//api/name/performMapReduce:error:">&nbsp;&nbsp;&nbsp;&nbsp;- performMapReduce:error:</option>
+	
+	<option value="//api/name/performMapReduce:inBackgroundWithBlock:">&nbsp;&nbsp;&nbsp;&nbsp;- performMapReduce:inBackgroundWithBlock:</option>
+	
+	<option value="//api/name/reset">&nbsp;&nbsp;&nbsp;&nbsp;- reset</option>
+	
+	<option value="//api/name/whereEntityIdMatches:">&nbsp;&nbsp;&nbsp;&nbsp;- whereEntityIdMatches:</option>
+	
+	<option value="//api/name/whereKey:containedIn:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKey:containedIn:</option>
+	
+	<option value="//api/name/whereKey:containsAllIn:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKey:containsAllIn:</option>
+	
+	<option value="//api/name/whereKey:containsString:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKey:containsString:</option>
+	
+	<option value="//api/name/whereKey:equalTo:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKey:equalTo:</option>
+	
+	<option value="//api/name/whereKey:greaterThan:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKey:greaterThan:</option>
+	
+	<option value="//api/name/whereKey:greaterThanOrEqualTo:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKey:greaterThanOrEqualTo:</option>
+	
+	<option value="//api/name/whereKey:hasPrefix:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKey:hasPrefix:</option>
+	
+	<option value="//api/name/whereKey:hasSuffix:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKey:hasSuffix:</option>
+	
+	<option value="//api/name/whereKey:lessThan:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKey:lessThan:</option>
+	
+	<option value="//api/name/whereKey:lessThanOrEqualTo:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKey:lessThanOrEqualTo:</option>
+	
+	<option value="//api/name/whereKey:matchesRegex:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKey:matchesRegex:</option>
+	
+	<option value="//api/name/whereKey:matchesRegex:options:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKey:matchesRegex:options:</option>
+	
+	<option value="//api/name/whereKey:notContainedIn:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKey:notContainedIn:</option>
+	
+	<option value="//api/name/whereKey:notEqualTo:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKey:notEqualTo:</option>
+	
+	<option value="//api/name/whereKeyDoesNotExist:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKeyDoesNotExist:</option>
+	
+	<option value="//api/name/whereKeyExists:">&nbsp;&nbsp;&nbsp;&nbsp;- whereKeyExists:</option>
+	
+	<option value="//api/name/whereSequenceNumberMatches:">&nbsp;&nbsp;&nbsp;&nbsp;- whereSequenceNumberMatches:</option>
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Options">Options</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Creating and Initializing Queries">Creating and Initializing Queries</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Ordering">Ordering</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Logical Operators">Logical Operators</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Conditions">Conditions</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Entity Referencing">Entity Referencing</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Entity Key Subsets">Entity Key Subsets</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Executing Queries">Executing Queries</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Performing a MapReduce">Performing a MapReduce</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Aggregation">Aggregation</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Resetting Conditions">Resetting Conditions</a></span></li>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/cachePolicy">cachePolicy</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/entityName">entityName</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/limit">limit</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/skip">skip</a></span></li>
+	
+</ul></li>
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/queryWithEntityName:">queryWithEntityName:</a></span></li>
+	
+</ul></li>
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/and">and</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/countAll">countAll</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/countAll:">countAll:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/countAllInBackgroundWithBlock:">countAllInBackgroundWithBlock:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/excludeKeys:">excludeKeys:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/findAll">findAll</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/findAll:">findAll:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/findAllInBackgroundWithBlock:">findAllInBackgroundWithBlock:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/findOne">findOne</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/findOne:">findOne:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/findOneInBackgroundWithBlock:">findOneInBackgroundWithBlock:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/includeKeys:">includeKeys:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/includeReferenceAtKey:">includeReferenceAtKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithEntityName:">initWithEntityName:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/or">or</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/orderAscendingByCreationDate">orderAscendingByCreationDate</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/orderAscendingByKey:">orderAscendingByKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/orderAscendingBySequenceNumber">orderAscendingBySequenceNumber</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/orderAscendingByUpdateDate">orderAscendingByUpdateDate</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/orderDescendingByCreationDate">orderDescendingByCreationDate</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/orderDescendingByKey:">orderDescendingByKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/orderDescendingBySequenceNumber">orderDescendingBySequenceNumber</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/orderDescendingByUpdateDate">orderDescendingByUpdateDate</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/performMapReduce:">performMapReduce:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/performMapReduce:error:">performMapReduce:error:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/performMapReduce:inBackgroundWithBlock:">performMapReduce:inBackgroundWithBlock:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/reset">reset</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereEntityIdMatches:">whereEntityIdMatches:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKey:containedIn:">whereKey:containedIn:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKey:containsAllIn:">whereKey:containsAllIn:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKey:containsString:">whereKey:containsString:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKey:equalTo:">whereKey:equalTo:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKey:greaterThan:">whereKey:greaterThan:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKey:greaterThanOrEqualTo:">whereKey:greaterThanOrEqualTo:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKey:hasPrefix:">whereKey:hasPrefix:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKey:hasSuffix:">whereKey:hasSuffix:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKey:lessThan:">whereKey:lessThan:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKey:lessThanOrEqualTo:">whereKey:lessThanOrEqualTo:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKey:matchesRegex:">whereKey:matchesRegex:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKey:matchesRegex:options:">whereKey:matchesRegex:options:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKey:notContainedIn:">whereKey:notContainedIn:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKey:notEqualTo:">whereKey:notEqualTo:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKeyDoesNotExist:">whereKeyDoesNotExist:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereKeyExists:">whereKeyExists:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/whereSequenceNumberMatches:">whereSequenceNumberMatches:</a></span></li>
+	
+</ul></li>
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="DKQuery Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">DKQuery Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value">NSObject</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">DKQuery.h<br />DKQuery.m</td>
+</tr>
+						</tbody></table></div>
+					
+					
+					
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Class for performing queries on entity collections.</p>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						<a title="Options" name="task_Options"></a>
+						<h3 class="subsubtitle task-title">Options</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/entityName">&nbsp;&nbsp;entityName</a></code>
+		<span class="tooltip"><p>The entity name to perform the query on</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/limit">&nbsp;&nbsp;limit</a></code>
+		<span class="tooltip"><p>Limit number of returned results</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/skip">&nbsp;&nbsp;skip</a></code>
+		<span class="tooltip"><p>Number of results to skip. Will be ignored if map reduce is set.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/cachePolicy">&nbsp;&nbsp;cachePolicy</a></code>
+		<span class="tooltip"><p>The cache policy to use for the query.</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li>
+						</ul>
+						
+						
+						<a title="Creating and Initializing Queries" name="task_Creating and Initializing Queries"></a>
+						<h3 class="subsubtitle task-title">Creating and Initializing Queries</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/queryWithEntityName:">+&nbsp;queryWithEntityName:</a></code>
+		<span class="tooltip"><p>Creates a new query for the given entity name</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/initWithEntityName:">&ndash;&nbsp;initWithEntityName:</a></code>
+		<span class="tooltip"><p>Initializes a new query for the given entity name</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Ordering" name="task_Ordering"></a>
+						<h3 class="subsubtitle task-title">Ordering</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/orderAscendingByKey:">&ndash;&nbsp;orderAscendingByKey:</a></code>
+		<span class="tooltip"><p>Sorts the query in ascending order by key</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/orderDescendingByKey:">&ndash;&nbsp;orderDescendingByKey:</a></code>
+		<span class="tooltip"><p>Sorts the query in descending order by key</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/orderAscendingByCreationDate">&ndash;&nbsp;orderAscendingByCreationDate</a></code>
+		<span class="tooltip"><p>Sorts the query in ascending order by creation date</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/orderDescendingByCreationDate">&ndash;&nbsp;orderDescendingByCreationDate</a></code>
+		<span class="tooltip"><p>Sorts the query in desscending order by creation date</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/orderAscendingByUpdateDate">&ndash;&nbsp;orderAscendingByUpdateDate</a></code>
+		<span class="tooltip"><p>Sorts the query in ascending order by update date</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/orderDescendingByUpdateDate">&ndash;&nbsp;orderDescendingByUpdateDate</a></code>
+		<span class="tooltip"><p>Sorts the query in desscending order by update date</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/orderAscendingBySequenceNumber">&ndash;&nbsp;orderAscendingBySequenceNumber</a></code>
+		<span class="tooltip"><p>Sorts the query in ascending order by sequence number</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/orderDescendingBySequenceNumber">&ndash;&nbsp;orderDescendingBySequenceNumber</a></code>
+		<span class="tooltip"><p>Sorts the query in desscending order by sequence number</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Logical Operators" name="task_Logical Operators"></a>
+						<h3 class="subsubtitle task-title">Logical Operators</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/or">&ndash;&nbsp;or</a></code>
+		<span class="tooltip"><p>Add an <strong>OR</strong> condition to the query using the proxy object</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/and">&ndash;&nbsp;and</a></code>
+		<span class="tooltip"><p>Add an <strong>AND</strong> condition using the proxy object</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Conditions" name="task_Conditions"></a>
+						<h3 class="subsubtitle task-title">Conditions</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKey:equalTo:">&ndash;&nbsp;whereKey:equalTo:</a></code>
+		<span class="tooltip"><p>Adds an equal condition to the query</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKey:lessThan:">&ndash;&nbsp;whereKey:lessThan:</a></code>
+		<span class="tooltip"><p>Adds a less-than condition to the query</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKey:lessThanOrEqualTo:">&ndash;&nbsp;whereKey:lessThanOrEqualTo:</a></code>
+		<span class="tooltip"><p>Adds a less-than-or-equal condition to the query</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKey:greaterThan:">&ndash;&nbsp;whereKey:greaterThan:</a></code>
+		<span class="tooltip"><p>Adds a greater-than condition to the query</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKey:greaterThanOrEqualTo:">&ndash;&nbsp;whereKey:greaterThanOrEqualTo:</a></code>
+		<span class="tooltip"><p>Adds a greater-than-or-equal condition to the query</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKey:notEqualTo:">&ndash;&nbsp;whereKey:notEqualTo:</a></code>
+		<span class="tooltip"><p>Adds an not-equal condition to the query</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKey:containedIn:">&ndash;&nbsp;whereKey:containedIn:</a></code>
+		<span class="tooltip"><p>Adds an contained-in condition to the query</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKey:notContainedIn:">&ndash;&nbsp;whereKey:notContainedIn:</a></code>
+		<span class="tooltip"><p>Adds an not-contained-in condition to the query</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKey:containsAllIn:">&ndash;&nbsp;whereKey:containsAllIn:</a></code>
+		<span class="tooltip"><p>Adds an contains-all condition to the query</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKey:matchesRegex:">&ndash;&nbsp;whereKey:matchesRegex:</a></code>
+		<span class="tooltip"><p>Matches the regex with no options set</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKey:matchesRegex:options:">&ndash;&nbsp;whereKey:matchesRegex:options:</a></code>
+		<span class="tooltip"><p>Matches the regex using the provided option mask</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKey:containsString:">&ndash;&nbsp;whereKey:containsString:</a></code>
+		<span class="tooltip"><p>Checks if the object for key contains the string</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKey:hasPrefix:">&ndash;&nbsp;whereKey:hasPrefix:</a></code>
+		<span class="tooltip"><p>Checks if the object for key has the given prefix</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKey:hasSuffix:">&ndash;&nbsp;whereKey:hasSuffix:</a></code>
+		<span class="tooltip"><p>Checks if the object for key has the given suffix</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKeyExists:">&ndash;&nbsp;whereKeyExists:</a></code>
+		<span class="tooltip"><p>Checks if the entity key exists</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereKeyDoesNotExist:">&ndash;&nbsp;whereKeyDoesNotExist:</a></code>
+		<span class="tooltip"><p>Checks if the entity key does not exist</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereEntityIdMatches:">&ndash;&nbsp;whereEntityIdMatches:</a></code>
+		<span class="tooltip"><p>Checks if the entity ID key matches</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/whereSequenceNumberMatches:">&ndash;&nbsp;whereSequenceNumberMatches:</a></code>
+		<span class="tooltip"><p>Checks if the entity sequence number matches</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Entity Referencing" name="task_Entity Referencing"></a>
+						<h3 class="subsubtitle task-title">Entity Referencing</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/includeReferenceAtKey:">&ndash;&nbsp;includeReferenceAtKey:</a></code>
+		<span class="tooltip"><p>Include the <a href="../Classes/DKEntity.html">DKEntity</a> that has a stored <a href="../Classes/DKRelation.html">DKRelation</a> at <code>key</code>.</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Entity Key Subsets" name="task_Entity Key Subsets"></a>
+						<h3 class="subsubtitle task-title">Entity Key Subsets</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/excludeKeys:">&ndash;&nbsp;excludeKeys:</a></code>
+		<span class="tooltip"><p>Excludes the specified keys from the result entities</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/includeKeys:">&ndash;&nbsp;includeKeys:</a></code>
+		<span class="tooltip"><p>Includes only the specified keys in the result entities</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Executing Queries" name="task_Executing Queries"></a>
+						<h3 class="subsubtitle task-title">Executing Queries</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/findAll">&ndash;&nbsp;findAll</a></code>
+		<span class="tooltip"><p>Finds all matching entities</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/findAll:">&ndash;&nbsp;findAll:</a></code>
+		<span class="tooltip"><p>Finds all matching entities</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/findAllInBackgroundWithBlock:">&ndash;&nbsp;findAllInBackgroundWithBlock:</a></code>
+		<span class="tooltip"><p>Finds all matching entities in the background and returns them to the callback block</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/findOne">&ndash;&nbsp;findOne</a></code>
+		<span class="tooltip"><p>Finds the first matching entity</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/findOne:">&ndash;&nbsp;findOne:</a></code>
+		<span class="tooltip"><p>Finds the first matching entity</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/findOneInBackgroundWithBlock:">&ndash;&nbsp;findOneInBackgroundWithBlock:</a></code>
+		<span class="tooltip"><p>Finds the first matching entity in the background and returns it to the callback block</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Performing a MapReduce" name="task_Performing a MapReduce"></a>
+						<h3 class="subsubtitle task-title">Performing a MapReduce</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performMapReduce:">&ndash;&nbsp;performMapReduce:</a></code>
+		<span class="tooltip"><p>Performs the map reduce</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performMapReduce:error:">&ndash;&nbsp;performMapReduce:error:</a></code>
+		<span class="tooltip"><p>Performs the map reduce</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/performMapReduce:inBackgroundWithBlock:">&ndash;&nbsp;performMapReduce:inBackgroundWithBlock:</a></code>
+		<span class="tooltip"><p>Performs the map reduce in the background and invokes the callback on finish</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Aggregation" name="task_Aggregation"></a>
+						<h3 class="subsubtitle task-title">Aggregation</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/countAll">&ndash;&nbsp;countAll</a></code>
+		<span class="tooltip"><p>Counts the entities matching the query</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/countAll:">&ndash;&nbsp;countAll:</a></code>
+		<span class="tooltip"><p>Counts the entities matching the query</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/countAllInBackgroundWithBlock:">&ndash;&nbsp;countAllInBackgroundWithBlock:</a></code>
+		<span class="tooltip"><p>Counts the entities matching the query in the background and returns the result to the block</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Resetting Conditions" name="task_Resetting Conditions"></a>
+						<h3 class="subsubtitle task-title">Resetting Conditions</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/reset">&ndash;&nbsp;reset</a></code>
+		<span class="tooltip"><p>Resets all query conditions</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/cachePolicy" title="cachePolicy"></a>
+	<h3 class="subsubtitle method-title">cachePolicy</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The cache policy to use for the query.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) DKCachePolicy cachePolicy</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The cache policy to use for the query.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/entityName" title="entityName"></a>
+	<h3 class="subsubtitle method-title">entityName</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The entity name to perform the query on</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, readonly) NSString *entityName</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The entity name to perform the query on</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/limit" title="limit"></a>
+	<h3 class="subsubtitle method-title">limit</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Limit number of returned results</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSUInteger limit</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Limit number of returned results</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/skip" title="skip"></a>
+	<h3 class="subsubtitle method-title">skip</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Number of results to skip. Will be ignored if map reduce is set.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, assign) NSUInteger skip</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Number of results to skip. Will be ignored if map reduce is set.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Class Methods" name="class_methods"></a>
+						<h2 class="subtitle subtitle-methods">Class Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/queryWithEntityName:" title="queryWithEntityName:"></a>
+	<h3 class="subsubtitle method-title">queryWithEntityName:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Creates a new query for the given entity name</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>+ (DKQuery *)queryWithEntityName:(NSString *)<em>entityName</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entityName</em></dt>
+			<dd><p>The name of the entity to query</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The initialized query</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Creates a new query for the given entity name</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/and" title="and"></a>
+	<h3 class="subsubtitle method-title">and</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Add an <strong>AND</strong> condition using the proxy object</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (DKQuery *)and</code></div>
+	
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>and The AND proxy object.</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Add an <strong>AND</strong> condition using the proxy object</p>
+
+<pre><code>[[query and] whereKey:@"key" equalTo:@"value"];
+[[query and] whereKey:@"key2" equalTo:@"value2"];
+</code></pre>
+
+<p>Conditions performed on the <strong>AND</strong> proxy will be concatenated with <strong>AND</strong>.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/countAll" title="countAll"></a>
+	<h3 class="subsubtitle method-title">countAll</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Counts the entities matching the query</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (NSInteger)countAll</code></div>
+	
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The matched entity count</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Counts the entities matching the query</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/countAll:" title="countAll:"></a>
+	<h3 class="subsubtitle method-title">countAll:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Counts the entities matching the query</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (NSInteger)countAll:(NSError **)<em>error</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>The error object that is written on error</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The matched entity count</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Counts the entities matching the query</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/countAllInBackgroundWithBlock:" title="countAllInBackgroundWithBlock:"></a>
+	<h3 class="subsubtitle method-title">countAllInBackgroundWithBlock:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Counts the entities matching the query in the background and returns the result to the block</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)countAllInBackgroundWithBlock:(void ( ^ ) ( NSUInteger count , NSError *error ))<em>block</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>block</em></dt>
+			<dd><p>The result callback block</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Counts the entities matching the query in the background and returns the result to the block</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/excludeKeys:" title="excludeKeys:"></a>
+	<h3 class="subsubtitle method-title">excludeKeys:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Excludes the specified keys from the result entities</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)excludeKeys:(NSArray *)<em>keys</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>keys</em></dt>
+			<dd><p>The keys to exclude</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Excludes the specified keys from the result entities</p>
+
+<p>This method is mutually exclusive to <a href="#//api/name/includeKeys:">includeKeys:</a></p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/findAll" title="findAll"></a>
+	<h3 class="subsubtitle method-title">findAll</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Finds all matching entities</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (NSArray *)findAll</code></div>
+	
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The matching entities</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Finds all matching entities</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/findAll:" title="findAll:"></a>
+	<h3 class="subsubtitle method-title">findAll:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Finds all matching entities</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (NSArray *)findAll:(NSError **)<em>error</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>The error object to set on error</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The matching entities</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Finds all matching entities</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/findAllInBackgroundWithBlock:" title="findAllInBackgroundWithBlock:"></a>
+	<h3 class="subsubtitle method-title">findAllInBackgroundWithBlock:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Finds all matching entities in the background and returns them to the callback block</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)findAllInBackgroundWithBlock:(void ( ^ ) ( NSArray *results , NSError *error ))<em>block</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>block</em></dt>
+			<dd><p>The result callback</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Finds all matching entities in the background and returns them to the callback block</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/findOne" title="findOne"></a>
+	<h3 class="subsubtitle method-title">findOne</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Finds the first matching entity</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (DKEntity *)findOne</code></div>
+	
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The matched entity</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Finds the first matching entity</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/findOne:" title="findOne:"></a>
+	<h3 class="subsubtitle method-title">findOne:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Finds the first matching entity</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (DKEntity *)findOne:(NSError **)<em>error</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>The error object written on error</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The matched entity</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Finds the first matching entity</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/findOneInBackgroundWithBlock:" title="findOneInBackgroundWithBlock:"></a>
+	<h3 class="subsubtitle method-title">findOneInBackgroundWithBlock:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Finds the first matching entity in the background and returns it to the callback block</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)findOneInBackgroundWithBlock:(void ( ^ ) ( DKEntity *entity , NSError *error ))<em>block</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>block</em></dt>
+			<dd><p>The result callback block</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Finds the first matching entity in the background and returns it to the callback block</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/includeKeys:" title="includeKeys:"></a>
+	<h3 class="subsubtitle method-title">includeKeys:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Includes only the specified keys in the result entities</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)includeKeys:(NSArray *)<em>keys</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>keys</em></dt>
+			<dd><p>The keys to include</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Includes only the specified keys in the result entities</p>
+
+<p>This method is mutually exclusive to <a href="#//api/name/excludeKeys:">excludeKeys:</a></p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/includeReferenceAtKey:" title="includeReferenceAtKey:"></a>
+	<h3 class="subsubtitle method-title">includeReferenceAtKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Include the <a href="../Classes/DKEntity.html">DKEntity</a> that has a stored <a href="../Classes/DKRelation.html">DKRelation</a> at <code>key</code>.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)includeReferenceAtKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The key to include. The object stored at <code>key</code> must be a <a href="../Classes/DKRelation.html">DKRelation</a> object.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Include the <a href="../Classes/DKEntity.html">DKEntity</a> that has a stored <a href="../Classes/DKRelation.html">DKRelation</a> at <code>key</code>.</p>
+
+<p>This is similar to a <strong>JOIN</strong> in a RDBMS.</p><div class="warning"><p><strong><em>Important</em></strong>: This operation might impact the query performance quite significantly if the query result set is large!</p></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/initWithEntityName:" title="initWithEntityName:"></a>
+	<h3 class="subsubtitle method-title">initWithEntityName:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Initializes a new query for the given entity name</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (id)initWithEntityName:(NSString *)<em>entityName</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entityName</em></dt>
+			<dd><p>The name of the entity to fetch.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The initialized query</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Initializes a new query for the given entity name</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/or" title="or"></a>
+	<h3 class="subsubtitle method-title">or</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Add an <strong>OR</strong> condition to the query using the proxy object</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (DKQuery *)or</code></div>
+	
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>or The OR proxy object.</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Add an <strong>OR</strong> condition to the query using the proxy object</p>
+
+<pre><code>[[query or] whereKey:@"key" equalTo:@"value"];
+[[query or] whereKey:@"key2" equalTo:@"value2"];
+</code></pre>
+
+<p>Conditions performed on the <strong>OR</strong> proxy will be concatenated with <strong>OR</strong>.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/orderAscendingByCreationDate" title="orderAscendingByCreationDate"></a>
+	<h3 class="subsubtitle method-title">orderAscendingByCreationDate</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sorts the query in ascending order by creation date</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)orderAscendingByCreationDate</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Sorts the query in ascending order by creation date</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/orderAscendingByKey:" title="orderAscendingByKey:"></a>
+	<h3 class="subsubtitle method-title">orderAscendingByKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sorts the query in ascending order by key</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)orderAscendingByKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The sort key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Sorts the query in ascending order by key</p>
+
+<p>This key will be ignored when a map reduce is performed.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/orderAscendingBySequenceNumber" title="orderAscendingBySequenceNumber"></a>
+	<h3 class="subsubtitle method-title">orderAscendingBySequenceNumber</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sorts the query in ascending order by sequence number</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)orderAscendingBySequenceNumber</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Sorts the query in ascending order by sequence number</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/orderAscendingByUpdateDate" title="orderAscendingByUpdateDate"></a>
+	<h3 class="subsubtitle method-title">orderAscendingByUpdateDate</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sorts the query in ascending order by update date</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)orderAscendingByUpdateDate</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Sorts the query in ascending order by update date</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/orderDescendingByCreationDate" title="orderDescendingByCreationDate"></a>
+	<h3 class="subsubtitle method-title">orderDescendingByCreationDate</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sorts the query in desscending order by creation date</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)orderDescendingByCreationDate</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Sorts the query in desscending order by creation date</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/orderDescendingByKey:" title="orderDescendingByKey:"></a>
+	<h3 class="subsubtitle method-title">orderDescendingByKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sorts the query in descending order by key</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)orderDescendingByKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The sort key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Sorts the query in descending order by key</p>
+
+<p>This key will be ignored when a map reduce is performed.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/orderDescendingBySequenceNumber" title="orderDescendingBySequenceNumber"></a>
+	<h3 class="subsubtitle method-title">orderDescendingBySequenceNumber</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sorts the query in desscending order by sequence number</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)orderDescendingBySequenceNumber</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Sorts the query in desscending order by sequence number</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/orderDescendingByUpdateDate" title="orderDescendingByUpdateDate"></a>
+	<h3 class="subsubtitle method-title">orderDescendingByUpdateDate</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sorts the query in desscending order by update date</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)orderDescendingByUpdateDate</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Sorts the query in desscending order by update date</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/performMapReduce:" title="performMapReduce:"></a>
+	<h3 class="subsubtitle method-title">performMapReduce:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Performs the map reduce</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (id)performMapReduce:(DKMapReduce *)<em>mapReduce</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>mapReduce</em></dt>
+			<dd><p>The map reduce operation</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The map reduce result object</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Performs the map reduce</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/performMapReduce:error:" title="performMapReduce:error:"></a>
+	<h3 class="subsubtitle method-title">performMapReduce:error:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Performs the map reduce</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (id)performMapReduce:(DKMapReduce *)<em>mapReduce</em> error:(NSError **)<em>error</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>mapReduce</em></dt>
+			<dd><p>The map reduce operation</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>The error object to set on error</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The map reduce result object</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Performs the map reduce</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/performMapReduce:inBackgroundWithBlock:" title="performMapReduce:inBackgroundWithBlock:"></a>
+	<h3 class="subsubtitle method-title">performMapReduce:inBackgroundWithBlock:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Performs the map reduce in the background and invokes the callback on finish</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)performMapReduce:(DKMapReduce *)<em>mapReduce</em> inBackgroundWithBlock:(void ( ^ ) ( id result , NSError *error ))<em>block</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>mapReduce</em></dt>
+			<dd><p>The map reduce operation</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>block</em></dt>
+			<dd><p>The result callback block</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Performs the map reduce in the background and invokes the callback on finish</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/reset" title="reset"></a>
+	<h3 class="subsubtitle method-title">reset</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Resets all query conditions</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)reset</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Resets all query conditions</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereEntityIdMatches:" title="whereEntityIdMatches:"></a>
+	<h3 class="subsubtitle method-title">whereEntityIdMatches:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Checks if the entity ID key matches</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereEntityIdMatches:(NSString *)<em>entityId</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entityId</em></dt>
+			<dd><p>The entity ID to match</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Checks if the entity ID key matches</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKey:containedIn:" title="whereKey:containedIn:"></a>
+	<h3 class="subsubtitle method-title">whereKey:containedIn:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Adds an contained-in condition to the query</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKey:(NSString *)<em>key</em> containedIn:(NSArray *)<em>array</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>array</em></dt>
+			<dd><p>The objects to check</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Adds an contained-in condition to the query</p>
+
+<p>The key value must be contained in the given array. The value for <code>key</code> can also be an array.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKey:containsAllIn:" title="whereKey:containsAllIn:"></a>
+	<h3 class="subsubtitle method-title">whereKey:containsAllIn:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Adds an contains-all condition to the query</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKey:(NSString *)<em>key</em> containsAllIn:(NSArray *)<em>array</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>array</em></dt>
+			<dd><p>The objects to check</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Adds an contains-all condition to the query</p>
+
+<p>The key value must contain all values in the given array. The value for <code>key</code> can also be an array.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKey:containsString:" title="whereKey:containsString:"></a>
+	<h3 class="subsubtitle method-title">whereKey:containsString:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Checks if the object for key contains the string</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKey:(NSString *)<em>key</em> containsString:(NSString *)<em>string</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>string</em></dt>
+			<dd><p>The string to match</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Checks if the object for key contains the string</p>
+
+<p>Does not work on array fields</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKey:equalTo:" title="whereKey:equalTo:"></a>
+	<h3 class="subsubtitle method-title">whereKey:equalTo:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Adds an equal condition to the query</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKey:(NSString *)<em>key</em> equalTo:(id)<em>object</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>object</em></dt>
+			<dd><p>The condition object</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Adds an equal condition to the query</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKey:greaterThan:" title="whereKey:greaterThan:"></a>
+	<h3 class="subsubtitle method-title">whereKey:greaterThan:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Adds a greater-than condition to the query</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKey:(NSString *)<em>key</em> greaterThan:(id)<em>object</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>object</em></dt>
+			<dd><p>The condition object</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Adds a greater-than condition to the query</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKey:greaterThanOrEqualTo:" title="whereKey:greaterThanOrEqualTo:"></a>
+	<h3 class="subsubtitle method-title">whereKey:greaterThanOrEqualTo:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Adds a greater-than-or-equal condition to the query</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKey:(NSString *)<em>key</em> greaterThanOrEqualTo:(id)<em>object</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>object</em></dt>
+			<dd><p>The condition object</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Adds a greater-than-or-equal condition to the query</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKey:hasPrefix:" title="whereKey:hasPrefix:"></a>
+	<h3 class="subsubtitle method-title">whereKey:hasPrefix:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Checks if the object for key has the given prefix</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKey:(NSString *)<em>key</em> hasPrefix:(NSString *)<em>prefix</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>prefix</em></dt>
+			<dd><p>The prefix string to match</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Checks if the object for key has the given prefix</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKey:hasSuffix:" title="whereKey:hasSuffix:"></a>
+	<h3 class="subsubtitle method-title">whereKey:hasSuffix:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Checks if the object for key has the given suffix</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKey:(NSString *)<em>key</em> hasSuffix:(NSString *)<em>suffix</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>suffix</em></dt>
+			<dd><p>The suffix string to match</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Checks if the object for key has the given suffix</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKey:lessThan:" title="whereKey:lessThan:"></a>
+	<h3 class="subsubtitle method-title">whereKey:lessThan:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Adds a less-than condition to the query</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKey:(NSString *)<em>key</em> lessThan:(id)<em>object</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>object</em></dt>
+			<dd><p>The condition object</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Adds a less-than condition to the query</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKey:lessThanOrEqualTo:" title="whereKey:lessThanOrEqualTo:"></a>
+	<h3 class="subsubtitle method-title">whereKey:lessThanOrEqualTo:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Adds a less-than-or-equal condition to the query</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKey:(NSString *)<em>key</em> lessThanOrEqualTo:(id)<em>object</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>object</em></dt>
+			<dd><p>The condition object</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Adds a less-than-or-equal condition to the query</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKey:matchesRegex:" title="whereKey:matchesRegex:"></a>
+	<h3 class="subsubtitle method-title">whereKey:matchesRegex:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Matches the regex with no options set</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKey:(NSString *)<em>key</em> matchesRegex:(NSString *)<em>regex</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>regex</em></dt>
+			<dd><p>The regex to match</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Matches the regex with no options set</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection see-also-section">
+		<h4 class="method-subtitle">See Also</h4>
+		<ul>
+			
+			<li><code><p>&lt;<a href="#//api/name/whereKey:matchesRegex:options:">&ndash; whereKey:matchesRegex:options:</a>></p></code></li>
+			
+		</ul>
+	</div>
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKey:matchesRegex:options:" title="whereKey:matchesRegex:options:"></a>
+	<h3 class="subsubtitle method-title">whereKey:matchesRegex:options:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Matches the regex using the provided option mask</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKey:(NSString *)<em>key</em> matchesRegex:(NSString *)<em>regex</em> options:(DKRegexOption)<em>options</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>regex</em></dt>
+			<dd><p>The regex to match</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>options</em></dt>
+			<dd><p>The regex options</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Matches the regex using the provided option mask</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKey:notContainedIn:" title="whereKey:notContainedIn:"></a>
+	<h3 class="subsubtitle method-title">whereKey:notContainedIn:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Adds an not-contained-in condition to the query</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKey:(NSString *)<em>key</em> notContainedIn:(NSArray *)<em>array</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>array</em></dt>
+			<dd><p>The objects to check</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Adds an not-contained-in condition to the query</p>
+
+<p>The key value must not be contained in the given array. The value for <code>key</code> can also be an array.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKey:notEqualTo:" title="whereKey:notEqualTo:"></a>
+	<h3 class="subsubtitle method-title">whereKey:notEqualTo:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Adds an not-equal condition to the query</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKey:(NSString *)<em>key</em> notEqualTo:(id)<em>object</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>object</em></dt>
+			<dd><p>The condition object</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Adds an not-equal condition to the query</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKeyDoesNotExist:" title="whereKeyDoesNotExist:"></a>
+	<h3 class="subsubtitle method-title">whereKeyDoesNotExist:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Checks if the entity key does not exist</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKeyDoesNotExist:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Checks if the entity key does not exist</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereKeyExists:" title="whereKeyExists:"></a>
+	<h3 class="subsubtitle method-title">whereKeyExists:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Checks if the entity key exists</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereKeyExists:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The entity key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Checks if the entity key exists</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/whereSequenceNumberMatches:" title="whereSequenceNumberMatches:"></a>
+	<h3 class="subsubtitle method-title">whereSequenceNumberMatches:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Checks if the entity sequence number matches</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)whereSequenceNumberMatches:(NSUInteger)<em>sequenceNum</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>sequenceNum</em></dt>
+			<dd><p>The sequence number to match</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Checks if the entity sequence number matches</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKQuery.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2012 chocomoko.com. All rights reserved. (Last updated: 2012-03-27)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 775)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+		</script>
+	</body>
+</html>

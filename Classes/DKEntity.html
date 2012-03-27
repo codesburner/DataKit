@@ -1,0 +1,3175 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="html/html; charset=utf-8" />
+		<title>DKEntity Class Reference</title>
+		<meta id="xcode-display" name="xcode-display" content="render"/>
+		<meta name="viewport" content="width=550" />
+		<link rel="stylesheet" type="text/css" href="../css/styles.css" media="all" />
+		<link rel="stylesheet" type="text/css" media="print" href="../css/stylesPrint.css" />
+		<meta name="generator" content="appledoc 2.0.5 (build 775)" />
+	</head>
+	<body>
+		<header id="top_header">
+			<div id="library" class="hideInXcode">
+				<h1><a id="libraryTitle" href="../index.html">DataKit </a></h1>
+				<a id="developerHome" href="../index.html">chocomoko.com</a>
+			</div>
+			
+			<div id="title" role="banner">
+				<h1 class="hideInXcode">DKEntity Class Reference</h1>
+			</div>
+			<ul id="headerButtons" role="toolbar">
+				<li id="toc_button">
+					<button aria-label="Show Table of Contents" role="checkbox" class="open" id="table_of_contents"><span class="disclosure"></span>Table of Contents</button>
+				</li>
+				<li id="jumpto_button" role="navigation">
+					<select id="jumpTo">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+	
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+	
+	
+	
+	<option value="properties">Properties</option>
+	
+	<option value="//api/name/createdAt">&nbsp;&nbsp;&nbsp;&nbsp;createdAt</option>
+	
+	<option value="//api/name/entityId">&nbsp;&nbsp;&nbsp;&nbsp;entityId</option>
+	
+	<option value="//api/name/entityName">&nbsp;&nbsp;&nbsp;&nbsp;entityName</option>
+	
+	<option value="//api/name/isDirty">&nbsp;&nbsp;&nbsp;&nbsp;isDirty</option>
+	
+	<option value="//api/name/isNew">&nbsp;&nbsp;&nbsp;&nbsp;isNew</option>
+	
+	<option value="//api/name/sequenceNumber">&nbsp;&nbsp;&nbsp;&nbsp;sequenceNumber</option>
+	
+	<option value="//api/name/updatedAt">&nbsp;&nbsp;&nbsp;&nbsp;updatedAt</option>
+	
+	
+	
+	
+	<option value="class_methods">Class Methods</option>
+	
+	<option value="//api/name/destroyAllEntitiesForName:error:">&nbsp;&nbsp;&nbsp;&nbsp;+ destroyAllEntitiesForName:error:</option>
+	
+	<option value="//api/name/entityWithName:">&nbsp;&nbsp;&nbsp;&nbsp;+ entityWithName:</option>
+	
+	<option value="//api/name/saveAll:">&nbsp;&nbsp;&nbsp;&nbsp;+ saveAll:</option>
+	
+	<option value="//api/name/saveAll:error:">&nbsp;&nbsp;&nbsp;&nbsp;+ saveAll:error:</option>
+	
+	<option value="//api/name/saveAllInBackground:">&nbsp;&nbsp;&nbsp;&nbsp;+ saveAllInBackground:</option>
+	
+	<option value="//api/name/saveAllInBackground:withBlock:">&nbsp;&nbsp;&nbsp;&nbsp;+ saveAllInBackground:withBlock:</option>
+	
+	
+	
+	
+	<option value="instance_methods">Instance Methods</option>
+	
+	<option value="//api/name/addAllObjectsToSet:forKey:">&nbsp;&nbsp;&nbsp;&nbsp;- addAllObjectsToSet:forKey:</option>
+	
+	<option value="//api/name/addObjectToSet:forKey:">&nbsp;&nbsp;&nbsp;&nbsp;- addObjectToSet:forKey:</option>
+	
+	<option value="//api/name/delete">&nbsp;&nbsp;&nbsp;&nbsp;- delete</option>
+	
+	<option value="//api/name/delete:">&nbsp;&nbsp;&nbsp;&nbsp;- delete:</option>
+	
+	<option value="//api/name/deleteInBackground">&nbsp;&nbsp;&nbsp;&nbsp;- deleteInBackground</option>
+	
+	<option value="//api/name/deleteInBackgroundWithBlock:">&nbsp;&nbsp;&nbsp;&nbsp;- deleteInBackgroundWithBlock:</option>
+	
+	<option value="//api/name/ensureIndexForKey:">&nbsp;&nbsp;&nbsp;&nbsp;- ensureIndexForKey:</option>
+	
+	<option value="//api/name/ensureIndexForKey:unique:dropDuplicates:error:">&nbsp;&nbsp;&nbsp;&nbsp;- ensureIndexForKey:unique:dropDuplicates:error:</option>
+	
+	<option value="//api/name/generatePublicURLForFields:error:">&nbsp;&nbsp;&nbsp;&nbsp;- generatePublicURLForFields:error:</option>
+	
+	<option value="//api/name/generatePublicURLForFields:inBackgroundWithBlock:">&nbsp;&nbsp;&nbsp;&nbsp;- generatePublicURLForFields:inBackgroundWithBlock:</option>
+	
+	<option value="//api/name/incrementKey:">&nbsp;&nbsp;&nbsp;&nbsp;- incrementKey:</option>
+	
+	<option value="//api/name/incrementKey:byAmount:">&nbsp;&nbsp;&nbsp;&nbsp;- incrementKey:byAmount:</option>
+	
+	<option value="//api/name/initWithName:">&nbsp;&nbsp;&nbsp;&nbsp;- initWithName:</option>
+	
+	<option value="//api/name/objectForKey:">&nbsp;&nbsp;&nbsp;&nbsp;- objectForKey:</option>
+	
+	<option value="//api/name/popFirstObjectForKey:">&nbsp;&nbsp;&nbsp;&nbsp;- popFirstObjectForKey:</option>
+	
+	<option value="//api/name/popLastObjectForKey:">&nbsp;&nbsp;&nbsp;&nbsp;- popLastObjectForKey:</option>
+	
+	<option value="//api/name/pullAllObjects:forKey:">&nbsp;&nbsp;&nbsp;&nbsp;- pullAllObjects:forKey:</option>
+	
+	<option value="//api/name/pullObject:forKey:">&nbsp;&nbsp;&nbsp;&nbsp;- pullObject:forKey:</option>
+	
+	<option value="//api/name/pushAllObjects:forKey:">&nbsp;&nbsp;&nbsp;&nbsp;- pushAllObjects:forKey:</option>
+	
+	<option value="//api/name/pushObject:forKey:">&nbsp;&nbsp;&nbsp;&nbsp;- pushObject:forKey:</option>
+	
+	<option value="//api/name/refresh">&nbsp;&nbsp;&nbsp;&nbsp;- refresh</option>
+	
+	<option value="//api/name/refresh:">&nbsp;&nbsp;&nbsp;&nbsp;- refresh:</option>
+	
+	<option value="//api/name/refreshInBackground">&nbsp;&nbsp;&nbsp;&nbsp;- refreshInBackground</option>
+	
+	<option value="//api/name/refreshInBackgroundWithBlock:">&nbsp;&nbsp;&nbsp;&nbsp;- refreshInBackgroundWithBlock:</option>
+	
+	<option value="//api/name/relationForEntity">&nbsp;&nbsp;&nbsp;&nbsp;- relationForEntity</option>
+	
+	<option value="//api/name/removeObjectForKey:">&nbsp;&nbsp;&nbsp;&nbsp;- removeObjectForKey:</option>
+	
+	<option value="//api/name/reset">&nbsp;&nbsp;&nbsp;&nbsp;- reset</option>
+	
+	<option value="//api/name/save">&nbsp;&nbsp;&nbsp;&nbsp;- save</option>
+	
+	<option value="//api/name/save:">&nbsp;&nbsp;&nbsp;&nbsp;- save:</option>
+	
+	<option value="//api/name/saveInBackground">&nbsp;&nbsp;&nbsp;&nbsp;- saveInBackground</option>
+	
+	<option value="//api/name/saveInBackgroundWithBlock:">&nbsp;&nbsp;&nbsp;&nbsp;- saveInBackgroundWithBlock:</option>
+	
+	<option value="//api/name/setObject:forKey:">&nbsp;&nbsp;&nbsp;&nbsp;- setObject:forKey:</option>
+	
+	
+	
+</select>
+				</li>
+			</ul>
+		</header>
+		<nav id="tocContainer" class="isShowingTOC">
+			<ul id="toc" role="tree">
+				
+<li role="treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#overview">Overview</a></span></li>
+
+
+
+
+<li role="treeitem" id="task_treeitem"><span class="nodisclosure"></span><span class="sectionName"><a href="#tasks">Tasks</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Getting Entity Info">Getting Entity Info</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Creating and Initializing Entities">Creating and Initializing Entities</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Saving Entities">Saving Entities</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Refreshing Entities">Refreshing Entities</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Deleting Entities">Deleting Entities</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Getting Objects">Getting Objects</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Modifying Objects">Modifying Objects</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Indexing">Indexing</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Make Relations">Make Relations</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Public URLs">Public URLs</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Resetting State">Resetting State</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#task_Destroying">Destroying</a></span></li>
+	
+</ul></li>
+
+
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#properties">Properties</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/createdAt">createdAt</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/entityId">entityId</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/entityName">entityName</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/isDirty">isDirty</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/isNew">isNew</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/sequenceNumber">sequenceNumber</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/updatedAt">updatedAt</a></span></li>
+	
+</ul></li>
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#class_methods">Class Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/destroyAllEntitiesForName:error:">destroyAllEntitiesForName:error:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/entityWithName:">entityWithName:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/saveAll:">saveAll:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/saveAll:error:">saveAll:error:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/saveAllInBackground:">saveAllInBackground:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/saveAllInBackground:withBlock:">saveAllInBackground:withBlock:</a></span></li>
+	
+</ul></li>
+
+
+
+<li role="treeitem" class="children"><span class="disclosure"></span><span class="sectionName"><a href="#instance_methods">Instance Methods</a></span><ul>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/addAllObjectsToSet:forKey:">addAllObjectsToSet:forKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/addObjectToSet:forKey:">addObjectToSet:forKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/delete">delete</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/delete:">delete:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/deleteInBackground">deleteInBackground</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/deleteInBackgroundWithBlock:">deleteInBackgroundWithBlock:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/ensureIndexForKey:">ensureIndexForKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/ensureIndexForKey:unique:dropDuplicates:error:">ensureIndexForKey:unique:dropDuplicates:error:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/generatePublicURLForFields:error:">generatePublicURLForFields:error:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/generatePublicURLForFields:inBackgroundWithBlock:">generatePublicURLForFields:inBackgroundWithBlock:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/incrementKey:">incrementKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/incrementKey:byAmount:">incrementKey:byAmount:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/initWithName:">initWithName:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/objectForKey:">objectForKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/popFirstObjectForKey:">popFirstObjectForKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/popLastObjectForKey:">popLastObjectForKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pullAllObjects:forKey:">pullAllObjects:forKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pullObject:forKey:">pullObject:forKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pushAllObjects:forKey:">pushAllObjects:forKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/pushObject:forKey:">pushObject:forKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/refresh">refresh</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/refresh:">refresh:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/refreshInBackground">refreshInBackground</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/refreshInBackgroundWithBlock:">refreshInBackgroundWithBlock:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/relationForEntity">relationForEntity</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/removeObjectForKey:">removeObjectForKey:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/reset">reset</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/save">save</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/save:">save:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/saveInBackground">saveInBackground</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/saveInBackgroundWithBlock:">saveInBackgroundWithBlock:</a></span></li>
+	
+	<li><span class="nodisclosure"></span><span class="sectionName"><a href="#//api/name/setObject:forKey:">setObject:forKey:</a></span></li>
+	
+</ul></li>
+
+
+			</ul>
+		</nav>
+		<article>
+			<div id="contents" class="isShowingTOC" role="main">
+				<a title="DKEntity Class Reference" name="top"></a>
+				<div class="main-navigation navigation-top">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="header">
+					<div class="section-header">
+						<h1 class="title title-header">DKEntity Class Reference</h1>
+					</div>		
+				</div>
+				<div id="container">	
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<td class="specification-title">Inherits from</td>
+	<td class="specification-value">NSObject</td>
+</tr><tr>
+	<td class="specification-title">Declared in</td>
+	<td class="specification-value">DKEntity.h<br />DKEntity.m</td>
+</tr>
+						</tbody></table></div>
+					
+					
+					
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>A DKEntity represents an object stored in the collection with the given name.</p><div class="warning"><p><em>Important</em>: <code>$</code> and <code>.</code> characters cannot be used in object keys</p></div>
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						<h2 class="subtitle subtitle-tasks">Tasks</h2>
+						
+						
+						<a title="Getting Entity Info" name="task_Getting Entity Info"></a>
+						<h3 class="subsubtitle task-title">Getting Entity Info</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/entityName">&nbsp;&nbsp;entityName</a></code>
+		<span class="tooltip"><p>The name of the entity collection</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/entityId">&nbsp;&nbsp;entityId</a></code>
+		<span class="tooltip"><p>The entity ID</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/updatedAt">&nbsp;&nbsp;updatedAt</a></code>
+		<span class="tooltip"><p>The update date</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/createdAt">&nbsp;&nbsp;createdAt</a></code>
+		<span class="tooltip"><p>The creation date</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/sequenceNumber">&nbsp;&nbsp;sequenceNumber</a></code>
+		<span class="tooltip"><p>The sequence number</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/isNew">&nbsp;&nbsp;isNew</a></code>
+		<span class="tooltip"><p><code>YES</code> if the entity has not been saved, <code>NO</code> otherwise</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/isDirty">&nbsp;&nbsp;isDirty</a></code>
+		<span class="tooltip"><p><code>YES</code> if changes have been made to the entity since last save, <code>NO</code> otherwise</p></span>
+	</span>
+	<span class="task-item-suffix">property</span>
+	
+</li>
+						</ul>
+						
+						
+						<a title="Creating and Initializing Entities" name="task_Creating and Initializing Entities"></a>
+						<h3 class="subsubtitle task-title">Creating and Initializing Entities</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/entityWithName:">+&nbsp;entityWithName:</a></code>
+		<span class="tooltip"><p>Create entity with given name</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/initWithName:">&ndash;&nbsp;initWithName:</a></code>
+		<span class="tooltip"><p>Initialize a new entity</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Saving Entities" name="task_Saving Entities"></a>
+						<h3 class="subsubtitle task-title">Saving Entities</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/saveAll:">+&nbsp;saveAll:</a></code>
+		<span class="tooltip"><p>Batch save all entities.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/saveAll:error:">+&nbsp;saveAll:error:</a></code>
+		<span class="tooltip"><p>Batch save all entities.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/saveAllInBackground:">+&nbsp;saveAllInBackground:</a></code>
+		<span class="tooltip"><p>Batch save all entities in the background.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/saveAllInBackground:withBlock:">+&nbsp;saveAllInBackground:withBlock:</a></code>
+		<span class="tooltip"><p>Batch save all entities in the background.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/save">&ndash;&nbsp;save</a></code>
+		<span class="tooltip"><p>Saves the entity</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/save:">&ndash;&nbsp;save:</a></code>
+		<span class="tooltip"><p>Saves the entity</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/saveInBackground">&ndash;&nbsp;saveInBackground</a></code>
+		<span class="tooltip"><p>Saves the entity in the background</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/saveInBackgroundWithBlock:">&ndash;&nbsp;saveInBackgroundWithBlock:</a></code>
+		<span class="tooltip"><p>Saves the entity in the background and invokes callback on completion</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Refreshing Entities" name="task_Refreshing Entities"></a>
+						<h3 class="subsubtitle task-title">Refreshing Entities</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/refresh">&ndash;&nbsp;refresh</a></code>
+		<span class="tooltip"><p>Refreshes the entity</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/refresh:">&ndash;&nbsp;refresh:</a></code>
+		<span class="tooltip"><p>Refreshes the entity</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/refreshInBackground">&ndash;&nbsp;refreshInBackground</a></code>
+		<span class="tooltip"><p>Refreshes the entity in the background</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/refreshInBackgroundWithBlock:">&ndash;&nbsp;refreshInBackgroundWithBlock:</a></code>
+		<span class="tooltip"><p>Refreshes the entity in the background and invokes the callback on completion</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Deleting Entities" name="task_Deleting Entities"></a>
+						<h3 class="subsubtitle task-title">Deleting Entities</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/delete">&ndash;&nbsp;delete</a></code>
+		<span class="tooltip"><p>Deletes the entity</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/delete:">&ndash;&nbsp;delete:</a></code>
+		<span class="tooltip"><p>Deletes the entity</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/deleteInBackground">&ndash;&nbsp;deleteInBackground</a></code>
+		<span class="tooltip"><p>Deletes the entity in the background</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/deleteInBackgroundWithBlock:">&ndash;&nbsp;deleteInBackgroundWithBlock:</a></code>
+		<span class="tooltip"><p>Deletes the entity in the background and invokes the callback block on completion</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Getting Objects" name="task_Getting Objects"></a>
+						<h3 class="subsubtitle task-title">Getting Objects</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/objectForKey:">&ndash;&nbsp;objectForKey:</a></code>
+		<span class="tooltip"><p>Gets the object stored at <code>key</code>.</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Modifying Objects" name="task_Modifying Objects"></a>
+						<h3 class="subsubtitle task-title">Modifying Objects</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/setObject:forKey:">&ndash;&nbsp;setObject:forKey:</a></code>
+		<span class="tooltip"><p>Sets the object on a given <code>key</code></p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pushObject:forKey:">&ndash;&nbsp;pushObject:forKey:</a></code>
+		<span class="tooltip"><p>Pushes (appends) the object to the list at <code>key</code>.</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pushAllObjects:forKey:">&ndash;&nbsp;pushAllObjects:forKey:</a></code>
+		<span class="tooltip"><p>Pushes (appends) all objects to the list at <code>key</code></p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/addObjectToSet:forKey:">&ndash;&nbsp;addObjectToSet:forKey:</a></code>
+		<span class="tooltip"><p>Adds the object to the list at <code>key</code>, if it is not already in the list</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/addAllObjectsToSet:forKey:">&ndash;&nbsp;addAllObjectsToSet:forKey:</a></code>
+		<span class="tooltip"><p>Adds all objects to the list at <code>key</code>, if object is not already in the list</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/popLastObjectForKey:">&ndash;&nbsp;popLastObjectForKey:</a></code>
+		<span class="tooltip"><p>Removes the last object from the list at <code>key</code></p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/popFirstObjectForKey:">&ndash;&nbsp;popFirstObjectForKey:</a></code>
+		<span class="tooltip"><p>Removes the first object from the list at <code>key</code></p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pullObject:forKey:">&ndash;&nbsp;pullObject:forKey:</a></code>
+		<span class="tooltip"><p>Removes all occurrences of object from the list at <code>key</code></p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/pullAllObjects:forKey:">&ndash;&nbsp;pullAllObjects:forKey:</a></code>
+		<span class="tooltip"><p>Removes all occurrences of objects from the list at <code>key</code></p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/removeObjectForKey:">&ndash;&nbsp;removeObjectForKey:</a></code>
+		<span class="tooltip"><p>Removes the object at <code>key</code></p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/incrementKey:">&ndash;&nbsp;incrementKey:</a></code>
+		<span class="tooltip"><p>Increments the number at <code>key</code> by <code>1</code></p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/incrementKey:byAmount:">&ndash;&nbsp;incrementKey:byAmount:</a></code>
+		<span class="tooltip"><p>Increments the number at <code>key</code> by <code>amount</code></p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Indexing" name="task_Indexing"></a>
+						<h3 class="subsubtitle task-title">Indexing</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/ensureIndexForKey:">&ndash;&nbsp;ensureIndexForKey:</a></code>
+		<span class="tooltip"><p>Ensures that the given <code>key</code> is indexed</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/ensureIndexForKey:unique:dropDuplicates:error:">&ndash;&nbsp;ensureIndexForKey:unique:dropDuplicates:error:</a></code>
+		<span class="tooltip"><p>Ensures that the given <code>key</code> is indexed with options</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Make Relations" name="task_Make Relations"></a>
+						<h3 class="subsubtitle task-title">Make Relations</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/relationForEntity">&ndash;&nbsp;relationForEntity</a></code>
+		<span class="tooltip"><p>Returns a new relation for the current entity</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Public URLs" name="task_Public URLs"></a>
+						<h3 class="subsubtitle task-title">Public URLs</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/generatePublicURLForFields:error:">&ndash;&nbsp;generatePublicURLForFields:error:</a></code>
+		<span class="tooltip"><p>Generates a public URL to access entity data directly</p></span>
+	</span>
+	
+	
+</li><li>
+	<span class="tooltip">
+		<code><a href="#//api/name/generatePublicURLForFields:inBackgroundWithBlock:">&ndash;&nbsp;generatePublicURLForFields:inBackgroundWithBlock:</a></code>
+		<span class="tooltip"><p>Generates a public URL to access entity data directly in the background</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Resetting State" name="task_Resetting State"></a>
+						<h3 class="subsubtitle task-title">Resetting State</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/reset">&ndash;&nbsp;reset</a></code>
+		<span class="tooltip"><p>Resets the entity to it&rsquo;s last saved state</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+						
+						<a title="Destroying" name="task_Destroying"></a>
+						<h3 class="subsubtitle task-title">Destroying</h3>
+
+						<ul class="task-list">
+							<li>
+	<span class="tooltip">
+		<code><a href="#//api/name/destroyAllEntitiesForName:error:">+&nbsp;destroyAllEntitiesForName:error:</a></code>
+		<span class="tooltip"><p>Destroys the entity collection with the given name</p></span>
+	</span>
+	
+	
+</li>
+						</ul>
+						
+					</div>
+					
+					
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Properties" name="properties"></a>
+						<h2 class="subtitle subtitle-methods">Properties</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/createdAt" title="createdAt"></a>
+	<h3 class="subsubtitle method-title">createdAt</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The creation date</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSDate *createdAt</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The creation date</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/entityId" title="entityId"></a>
+	<h3 class="subsubtitle method-title">entityId</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The entity ID</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSString *entityId</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The entity ID</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/entityName" title="entityName"></a>
+	<h3 class="subsubtitle method-title">entityName</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The name of the entity collection</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, copy, readonly) NSString *entityName</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The name of the entity collection</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/isDirty" title="isDirty"></a>
+	<h3 class="subsubtitle method-title">isDirty</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p><code>YES</code> if changes have been made to the entity since last save, <code>NO</code> otherwise</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) BOOL isDirty</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p><code>YES</code> if changes have been made to the entity since last save, <code>NO</code> otherwise</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/isNew" title="isNew"></a>
+	<h3 class="subsubtitle method-title">isNew</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p><code>YES</code> if the entity has not been saved, <code>NO</code> otherwise</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) BOOL isNew</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p><code>YES</code> if the entity has not been saved, <code>NO</code> otherwise</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/sequenceNumber" title="sequenceNumber"></a>
+	<h3 class="subsubtitle method-title">sequenceNumber</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The sequence number</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSInteger sequenceNumber</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The sequence number</p>
+
+<p>The sequence number emulates <em>autoincrement</em> in relational databases and provides sequential numbering for the entity collection.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/updatedAt" title="updatedAt"></a>
+	<h3 class="subsubtitle method-title">updatedAt</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>The update date</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>@property (nonatomic, readonly) NSDate *updatedAt</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>The update date</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Class Methods" name="class_methods"></a>
+						<h2 class="subtitle subtitle-methods">Class Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/destroyAllEntitiesForName:error:" title="destroyAllEntitiesForName:error:"></a>
+	<h3 class="subsubtitle method-title">destroyAllEntitiesForName:error:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Destroys the entity collection with the given name</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>+ (BOOL)destroyAllEntitiesForName:(NSString *)<em>entityName</em> error:(NSError **)<em>error</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entityName</em></dt>
+			<dd><p>The entity collection to destroy</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>The error object set on error</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p><code>YES</code> on success, <code>NO</code> on error.</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Destroys the entity collection with the given name</p>
+
+<p>This feature must be explicitly enabled in the server configuration to make accidental or malicious deletion attempts harder.</p>
+
+<pre><code>'allowDestroy': true
+</code></pre><div class="warning"><p><strong><em>Warning</em></strong>: Use with extreme caution. This will permanently delete all entity records.</p></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/entityWithName:" title="entityWithName:"></a>
+	<h3 class="subsubtitle method-title">entityWithName:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Create entity with given name</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>+ (DKEntity *)entityWithName:(NSString *)<em>entityName</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entityName</em></dt>
+			<dd><p>The entity name</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The initialized entity</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Create entity with given name</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/saveAll:" title="saveAll:"></a>
+	<h3 class="subsubtitle method-title">saveAll:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Batch save all entities.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>+ (BOOL)saveAll:(NSArray *)<em>entities</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entities</em></dt>
+			<dd><p>The entities to save</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p><code>YES</code> on success, <code>NO</code> on error.</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Batch save all entities.</p>
+
+<p>Useful if you want to make sure everything is transmitted to the server before saving.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/saveAll:error:" title="saveAll:error:"></a>
+	<h3 class="subsubtitle method-title">saveAll:error:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Batch save all entities.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>+ (BOOL)saveAll:(NSArray *)<em>entities</em> error:(NSError **)<em>error</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entities</em></dt>
+			<dd><p>The entities to save</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>The error object to be set on error</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p><code>YES</code> on success, <code>NO</code> on error.</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Batch save all entities.</p>
+
+<p>Useful if you want to make sure everything is transmitted to the server before saving.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/saveAllInBackground:" title="saveAllInBackground:"></a>
+	<h3 class="subsubtitle method-title">saveAllInBackground:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Batch save all entities in the background.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>+ (void)saveAllInBackground:(NSArray *)<em>entities</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entities</em></dt>
+			<dd><p>The entities to save</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Batch save all entities in the background.</p>
+
+<p>Useful if you want to make sure everything is transmitted to the server before saving.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/saveAllInBackground:withBlock:" title="saveAllInBackground:withBlock:"></a>
+	<h3 class="subsubtitle method-title">saveAllInBackground:withBlock:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Batch save all entities in the background.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>+ (void)saveAllInBackground:(NSArray *)<em>entities</em> withBlock:(void ( ^ ) ( NSArray *entities , NSError *error ))<em>block</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entities</em></dt>
+			<dd><p>The entities to save</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>block</em></dt>
+			<dd><p>The save callback block</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Batch save all entities in the background.</p>
+
+<p>Useful if you want to make sure everything is transmitted to the server before saving.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+					
+					<div class="section section-methods">
+						<a title="Instance Methods" name="instance_methods"></a>
+						<h2 class="subtitle subtitle-methods">Instance Methods</h2>
+						
+						<div class="section-method">
+	<a name="//api/name/addAllObjectsToSet:forKey:" title="addAllObjectsToSet:forKey:"></a>
+	<h3 class="subsubtitle method-title">addAllObjectsToSet:forKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Adds all objects to the list at <code>key</code>, if object is not already in the list</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)addAllObjectsToSet:(NSArray *)<em>objects</em> forKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>objects</em></dt>
+			<dd><p>The object list</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The list key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Adds all objects to the list at <code>key</code>, if object is not already in the list</p>
+
+<p>Adds the objects to the list only if the objects do not already exist in the list and if <code>key</code> is a list, otherwise sets <code>key</code> to a list containting <code>objects</code>. If the <code>key</code> is present, but not a list, entity save will fail. All objects in the list must be <em>JSON</em> types.</p><div class="warning"><p>The key must not include an <code>$</code> or <code>.</code> character</p></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/addObjectToSet:forKey:" title="addObjectToSet:forKey:"></a>
+	<h3 class="subsubtitle method-title">addObjectToSet:forKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Adds the object to the list at <code>key</code>, if it is not already in the list</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)addObjectToSet:(id)<em>object</em> forKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>object</em></dt>
+			<dd><p>The object to add</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The list key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Adds the object to the list at <code>key</code>, if it is not already in the list</p>
+
+<p>Appends the objects if a list exists at <code>key</code> and <code>object</code> is not already in that list, otherwise sets <code>key</code> to a single object array containing <code>object</code>. If the <code>key</code> exists, but is not a list, the entity save will fail. List may only contain <em>JSON</em> types.</p><div class="warning"><p>The key must not include an <code>$</code> or <code>.</code> character</p></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/delete" title="delete"></a>
+	<h3 class="subsubtitle method-title">delete</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Deletes the entity</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (BOOL)delete</code></div>
+	
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p><code>YES</code> on success, <code>NO</code> on error</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Deletes the entity</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/delete:" title="delete:"></a>
+	<h3 class="subsubtitle method-title">delete:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Deletes the entity</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (BOOL)delete:(NSError **)<em>error</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>The error object to be set on error</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p><code>YES</code> on success, <code>NO</code> on error</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Deletes the entity</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/deleteInBackground" title="deleteInBackground"></a>
+	<h3 class="subsubtitle method-title">deleteInBackground</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Deletes the entity in the background</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)deleteInBackground</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Deletes the entity in the background</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/deleteInBackgroundWithBlock:" title="deleteInBackgroundWithBlock:"></a>
+	<h3 class="subsubtitle method-title">deleteInBackgroundWithBlock:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Deletes the entity in the background and invokes the callback block on completion</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)deleteInBackgroundWithBlock:(void ( ^ ) ( DKEntity *entity , NSError *error ))<em>block</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>block</em></dt>
+			<dd><p>The callback block</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Deletes the entity in the background and invokes the callback block on completion</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/ensureIndexForKey:" title="ensureIndexForKey:"></a>
+	<h3 class="subsubtitle method-title">ensureIndexForKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Ensures that the given <code>key</code> is indexed</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (BOOL)ensureIndexForKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The key to index</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Ensures that the given <code>key</code> is indexed</p>
+
+<p>Indexes often improve query perfomance dramatically.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/ensureIndexForKey:unique:dropDuplicates:error:" title="ensureIndexForKey:unique:dropDuplicates:error:"></a>
+	<h3 class="subsubtitle method-title">ensureIndexForKey:unique:dropDuplicates:error:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Ensures that the given <code>key</code> is indexed with options</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (BOOL)ensureIndexForKey:(NSString *)<em>key</em> unique:(BOOL)<em>unique</em> dropDuplicates:(BOOL)<em>dropDups</em> error:(NSError **)<em>error</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The key to index</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>unique</em></dt>
+			<dd><p>Make the <code>key</code> unique</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>dropDups</em></dt>
+			<dd><p>Automatically drop any duplicates</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>The error object to be set on error</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Ensures that the given <code>key</code> is indexed with options</p>
+
+<p>Indexes often improve query perfomance dramatically.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/generatePublicURLForFields:error:" title="generatePublicURLForFields:error:"></a>
+	<h3 class="subsubtitle method-title">generatePublicURLForFields:error:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Generates a public URL to access entity data directly</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (NSURL *)generatePublicURLForFields:(NSArray *)<em>fieldKeys</em> error:(NSError **)<em>error</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>fieldKeys</em></dt>
+			<dd><p>A list of keys to expose, pass <code>nil</code> to return all object keys</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>The error object to be set on error</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The public URL for the entity data</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Generates a public URL to access entity data directly</p>
+
+<p>If the fields list contains one element, a request to the public URL will return the fields raw data. If the list has more than 1 element, a <em>JSON</em> representation of the entity will be returned.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/generatePublicURLForFields:inBackgroundWithBlock:" title="generatePublicURLForFields:inBackgroundWithBlock:"></a>
+	<h3 class="subsubtitle method-title">generatePublicURLForFields:inBackgroundWithBlock:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Generates a public URL to access entity data directly in the background</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)generatePublicURLForFields:(NSArray *)<em>fieldKeys</em> inBackgroundWithBlock:(void ( ^ ) ( NSURL *publicURL , NSError *error ))<em>block</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>fieldKeys</em></dt>
+			<dd><p>A list of keys to expose, pass <code>nil</code> to return all object keys</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>block</em></dt>
+			<dd><p>The callback block</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Generates a public URL to access entity data directly in the background</p>
+
+<p>If the fields list contains one element, a request to the public URL will return the fields raw data. If the list has more than 1 element, a <em>JSON</em> representation of the entity will be returned.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/incrementKey:" title="incrementKey:"></a>
+	<h3 class="subsubtitle method-title">incrementKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Increments the number at <code>key</code> by <code>1</code></p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)incrementKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The key to increment</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Increments the number at <code>key</code> by <code>1</code></p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/incrementKey:byAmount:" title="incrementKey:byAmount:"></a>
+	<h3 class="subsubtitle method-title">incrementKey:byAmount:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Increments the number at <code>key</code> by <code>amount</code></p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)incrementKey:(NSString *)<em>key</em> byAmount:(NSNumber *)<em>amount</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The key to increment</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>amount</em></dt>
+			<dd><p>The increment amount. Can also be negative</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Increments the number at <code>key</code> by <code>amount</code></p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/initWithName:" title="initWithName:"></a>
+	<h3 class="subsubtitle method-title">initWithName:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Initialize a new entity</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (id)initWithName:(NSString *)<em>entityName</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>entityName</em></dt>
+			<dd><p>The entity name</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The initialized entity</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Initialize a new entity</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/objectForKey:" title="objectForKey:"></a>
+	<h3 class="subsubtitle method-title">objectForKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Gets the object stored at <code>key</code>.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (id)objectForKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The object key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The object or <code>nil</code> if no object is set for <code>key</code></p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Gets the object stored at <code>key</code>.</p>
+
+<p>If the key does not exist in the saved object, tries to return a value from the unsaved changes.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/popFirstObjectForKey:" title="popFirstObjectForKey:"></a>
+	<h3 class="subsubtitle method-title">popFirstObjectForKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Removes the first object from the list at <code>key</code></p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)popFirstObjectForKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The list key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Removes the first object from the list at <code>key</code></p><div class="warning"><p>Pop-first will override any pop-last action</p></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/popLastObjectForKey:" title="popLastObjectForKey:"></a>
+	<h3 class="subsubtitle method-title">popLastObjectForKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Removes the last object from the list at <code>key</code></p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)popLastObjectForKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The list key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Removes the last object from the list at <code>key</code></p><div class="warning"><p>Pop-last will override any pop-first action</p></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pullAllObjects:forKey:" title="pullAllObjects:forKey:"></a>
+	<h3 class="subsubtitle method-title">pullAllObjects:forKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Removes all occurrences of objects from the list at <code>key</code></p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pullAllObjects:(NSArray *)<em>objects</em> forKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>objects</em></dt>
+			<dd><p>The objects to remove</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The list key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Removes all occurrences of objects from the list at <code>key</code></p>
+
+<p>If the <code>key</code> exists, but is not a list, entity save will fail.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pullObject:forKey:" title="pullObject:forKey:"></a>
+	<h3 class="subsubtitle method-title">pullObject:forKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Removes all occurrences of object from the list at <code>key</code></p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pullObject:(id)<em>object</em> forKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>object</em></dt>
+			<dd><p>The object to remove</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The list key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Removes all occurrences of object from the list at <code>key</code></p>
+
+<p>If the <code>key</code> exists, but is not a list, entity save will fail.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pushAllObjects:forKey:" title="pushAllObjects:forKey:"></a>
+	<h3 class="subsubtitle method-title">pushAllObjects:forKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Pushes (appends) all objects to the list at <code>key</code></p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pushAllObjects:(NSArray *)<em>objects</em> forKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>objects</em></dt>
+			<dd><p>The object list</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The list key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Pushes (appends) all objects to the list at <code>key</code></p>
+
+<p>Appends the objects if a list exists at <code>key</code>, otherwise sets <code>key</code> to the <code>objects</code> list. If the <code>key</code> exists, but is not a list, the entity save will fail. List may only contain <em>JSON</em> types.</p><div class="warning"><p>The key must not include an <code>$</code> or <code>.</code> character</p></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/pushObject:forKey:" title="pushObject:forKey:"></a>
+	<h3 class="subsubtitle method-title">pushObject:forKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Pushes (appends) the object to the list at <code>key</code>.</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)pushObject:(id)<em>object</em> forKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>object</em></dt>
+			<dd><p>The object to push</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The list key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Pushes (appends) the object to the list at <code>key</code>.</p>
+
+<p>Appends the object if a list exists at <code>key</code>, otherwise sets a single elemenet list containing <code>object</code> on <code>key</code>. If the <code>key</code> exists, but is not a list, the entity save will fail. Object must be a <em>JSON</em> type.</p><div class="warning"><p>The key must not include an <code>$</code> or <code>.</code> character</p></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/refresh" title="refresh"></a>
+	<h3 class="subsubtitle method-title">refresh</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Refreshes the entity</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (BOOL)refresh</code></div>
+	
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p><code>YES</code> on success, <code>NO</code> on error</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Refreshes the entity</p>
+
+<p>Refreshes the entity with data stored on the server.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/refresh:" title="refresh:"></a>
+	<h3 class="subsubtitle method-title">refresh:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Refreshes the entity</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (BOOL)refresh:(NSError **)<em>error</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>The error object to be set on error</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p><code>YES</code> on success, <code>NO</code> on error</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Refreshes the entity</p>
+
+<p>Refreshes the entity with data stored on the server.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/refreshInBackground" title="refreshInBackground"></a>
+	<h3 class="subsubtitle method-title">refreshInBackground</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Refreshes the entity in the background</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)refreshInBackground</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Refreshes the entity in the background</p>
+
+<p>Refreshes the entity with data stored on the server.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/refreshInBackgroundWithBlock:" title="refreshInBackgroundWithBlock:"></a>
+	<h3 class="subsubtitle method-title">refreshInBackgroundWithBlock:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Refreshes the entity in the background and invokes the callback on completion</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)refreshInBackgroundWithBlock:(void ( ^ ) ( DKEntity *entity , NSError *error ))<em>block</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>block</em></dt>
+			<dd><p>The callback block</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Refreshes the entity in the background and invokes the callback on completion</p>
+
+<p>Refreshes the entity with data stored on the server.</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/relationForEntity" title="relationForEntity"></a>
+	<h3 class="subsubtitle method-title">relationForEntity</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Returns a new relation for the current entity</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (DKRelation *)relationForEntity</code></div>
+	
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p>The initialized relation</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Returns a new relation for the current entity</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/removeObjectForKey:" title="removeObjectForKey:"></a>
+	<h3 class="subsubtitle method-title">removeObjectForKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Removes the object at <code>key</code></p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)removeObjectForKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The object key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Removes the object at <code>key</code></p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/reset" title="reset"></a>
+	<h3 class="subsubtitle method-title">reset</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Resets the entity to it&rsquo;s last saved state</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)reset</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Resets the entity to it&rsquo;s last saved state</p>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/save" title="save"></a>
+	<h3 class="subsubtitle method-title">save</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Saves the entity</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (BOOL)save</code></div>
+	
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p><code>YES</code> on success, <code>NO</code> on error</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Saves the entity</p>
+	</div>
+	
+	
+	
+	<div class="method-subsection arguments-section exceptions">
+		<h4 class="method-subtitle exception-title">Exceptions</h4>
+		
+		<dl class="argument-def exception-def">
+			<dt><em>NSInvalidArgumentException</em></dt>
+			<dd><p>Raised if any key contains an <code>$</code> or <code>.</code> character.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/save:" title="save:"></a>
+	<h3 class="subsubtitle method-title">save:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Saves the entity</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (BOOL)save:(NSError **)<em>error</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>error</em></dt>
+			<dd><p>The error object to be set on error</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	<div class="method-subsection return">
+		<h4 class="method-subtitle parameter-title">Return Value</h4>
+		<p><code>YES</code> on success, <code>NO</code> on error</p>
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Saves the entity</p>
+	</div>
+	
+	
+	
+	<div class="method-subsection arguments-section exceptions">
+		<h4 class="method-subtitle exception-title">Exceptions</h4>
+		
+		<dl class="argument-def exception-def">
+			<dt><em>NSInvalidArgumentException</em></dt>
+			<dd><p>Raised if any key contains an <code>$</code> or <code>.</code> character.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/saveInBackground" title="saveInBackground"></a>
+	<h3 class="subsubtitle method-title">saveInBackground</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Saves the entity in the background</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)saveInBackground</code></div>
+	
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Saves the entity in the background</p>
+	</div>
+	
+	
+	
+	<div class="method-subsection arguments-section exceptions">
+		<h4 class="method-subtitle exception-title">Exceptions</h4>
+		
+		<dl class="argument-def exception-def">
+			<dt><em>NSInvalidArgumentException</em></dt>
+			<dd><p>Raised if any key contains an <code>$</code> or <code>.</code> character.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/saveInBackgroundWithBlock:" title="saveInBackgroundWithBlock:"></a>
+	<h3 class="subsubtitle method-title">saveInBackgroundWithBlock:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Saves the entity in the background and invokes callback on completion</p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)saveInBackgroundWithBlock:(void ( ^ ) ( DKEntity *entity , NSError *error ))<em>block</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>block</em></dt>
+			<dd><p>The save callback block</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Saves the entity in the background and invokes callback on completion</p>
+	</div>
+	
+	
+	
+	<div class="method-subsection arguments-section exceptions">
+		<h4 class="method-subtitle exception-title">Exceptions</h4>
+		
+		<dl class="argument-def exception-def">
+			<dt><em>NSInvalidArgumentException</em></dt>
+			<dd><p>Raised if any key contains an <code>$</code> or <code>.</code> character.</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+						<div class="section-method">
+	<a name="//api/name/setObject:forKey:" title="setObject:forKey:"></a>
+	<h3 class="subsubtitle method-title">setObject:forKey:</h3>
+	
+	
+	
+	<div class="method-subsection brief-description">
+		<p>Sets the object on a given <code>key</code></p>
+	</div>		
+	
+	
+	<div class="method-subsection method-declaration"><code>- (void)setObject:(id)<em>object</em> forKey:(NSString *)<em>key</em></code></div>
+	
+	
+	<div class="method-subsection arguments-section parameters">
+		<h4 class="method-subtitle parameter-title">Parameters</h4>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>object</em></dt>
+			<dd><p>The object to store</p></dd>
+		</dl>
+		
+		<dl class="argument-def parameter-def">
+			<dt><em>key</em></dt>
+			<dd><p>The object key</p></dd>
+		</dl>
+		
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection discussion-section">
+		<h4 class="method-subtitle">Discussion</h4>
+		<p>Sets the object on a given <code>key</code></p>
+
+<p>The object must be of type NSString, NSNumber, NSArray, NSDictionary, NSNull, NSData or <a href="../Classes/DKRelation.html">DKRelation</a></p><div class="warning"><p>The key must not include an <code>$</code> or <code>.</code> character</p></div>
+	</div>
+	
+	
+	
+	
+	
+	
+	
+	<div class="method-subsection declared-in-section">
+		<h4 class="method-subtitle">Declared In</h4>
+		<code class="declared-in-ref">DKEntity.h</code><br />
+	</div>				
+	
+	
+</div>
+						
+					</div>
+					
+					
+				</div>
+				<div class="main-navigation navigation-bottom">
+					<ul>
+	<li><a href="../index.html">Index</a></li>
+	<li><a href="../hierarchy.html">Hierarchy</a></li>
+</ul>
+				</div>
+				<div id="footer">
+					<hr />
+					<div class="footer-copyright">
+						<p><span class="copyright">&copy; 2012 chocomoko.com. All rights reserved. (Last updated: 2012-03-27)</span><br />
+						
+						<span class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.0.5 (build 775)</a>.</span></p>
+						
+					</div>
+				</div>
+			</div>
+		</article>
+		<script type="text/javascript">
+			function jumpToChange()
+			{
+				window.location.hash = this.options[this.selectedIndex].value;
+			}
+			
+			function toggleTOC()
+			{
+				var contents = document.getElementById('contents');
+				var tocContainer = document.getElementById('tocContainer');
+				
+				if (this.getAttribute('class') == 'open')
+				{
+					this.setAttribute('class', '');
+					contents.setAttribute('class', '');
+					tocContainer.setAttribute('class', '');
+					
+					window.name = "hideTOC";
+				}
+				else
+				{
+					this.setAttribute('class', 'open');
+					contents.setAttribute('class', 'isShowingTOC');
+					tocContainer.setAttribute('class', 'isShowingTOC');
+					
+					window.name = "";
+				}
+				return false;
+			}
+			
+			function toggleTOCEntryChildren(e)
+			{
+				e.stopPropagation();
+				var currentClass = this.getAttribute('class');
+				if (currentClass == 'children') {
+					this.setAttribute('class', 'children open');
+				}
+				else if (currentClass == 'children open') {
+					this.setAttribute('class', 'children');
+				}
+				return false;
+			}
+			
+			function tocEntryClick(e)
+			{
+				e.stopPropagation();
+				return true;
+			}
+			
+			function init()
+			{
+				var selectElement = document.getElementById('jumpTo');
+				selectElement.addEventListener('change', jumpToChange, false);
+				
+				var tocButton = document.getElementById('table_of_contents');
+				tocButton.addEventListener('click', toggleTOC, false);
+				
+				var taskTreeItem = document.getElementById('task_treeitem');
+				if (taskTreeItem.getElementsByTagName('li').length > 0)
+				{
+					taskTreeItem.setAttribute('class', 'children');
+					taskTreeItem.firstChild.setAttribute('class', 'disclosure');
+				}
+				
+				var tocList = document.getElementById('toc');
+				
+				var tocEntries = tocList.getElementsByTagName('li');
+				for (var i = 0; i < tocEntries.length; i++) {
+					tocEntries[i].addEventListener('click', toggleTOCEntryChildren, false);
+				}
+				
+				var tocLinks = tocList.getElementsByTagName('a');
+				for (var i = 0; i < tocLinks.length; i++) {
+					tocLinks[i].addEventListener('click', tocEntryClick, false);
+				}
+				
+				if (window.name == "hideTOC") {
+					toggleTOC.call(tocButton);
+				}
+			}
+			
+			window.onload = init;
+		</script>
+	</body>
+</html>
