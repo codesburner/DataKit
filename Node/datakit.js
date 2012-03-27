@@ -9,8 +9,6 @@
  * DataKit iOS and Mac frameworks and implies conformance to the
  * DataKit frameworks' license terms.
  *
- * Redistribution of this software in any form is forbidden.
- *
  */
 
 var express = require('express');
