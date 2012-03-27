@@ -1,4 +1,7 @@
-**DataKit** makes it easy to add a web backend to your iOS apps. Just spin up a server with node and mongodb installed, integrate the SDK and you are ready to go!
+Don't reinvent the wheel every time you need a web backend for your apps, add one with **DataKit** in minutes!
+
+Just spin up a server with [node](http://nodejs.org) and [MongoDB](http://www.mongodb.org) installed,
+integrate the SDK into your app and you are ready to go!
 
 **Author**: Erik Aigner [@eaignr](https://twitter.com/#!/eaignr)
 
@@ -39,8 +42,17 @@ require('datakit').run({
   'express': function (app) { /* Add your custom configuration to the express app */}
 });
 ```
-    
-### Start coding
+
+### Integrate the SDK
+
+Link to DataKit and im port `<DataKit/DataKit.h>`. Now we only need to configure the DataKit manager and we are almost there (this needs to be done before any other DataKit objects are invoked, so the app delegate would be a good place to put it).
+
+```objc
+[DKManager setAPIEndpoint:@"http://localhost:3000];
+[DKManager setAPISecret:@"66e5977931c7e48aa89c9da0ae5d3ffdff7f1a58e6819cbea062dda1fa050296"];
+```
+
+### Start Coding
 
 Here are some examples on how to use DataKit. This is in no way the complete feature set, please look at the documentation for that (you can generate it with `sh gen_appledoc.sh`). You can throw almost anything at DataKit.
 
