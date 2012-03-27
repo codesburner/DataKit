@@ -71,6 +71,8 @@ Classes:
 DKEntity *entity = [DKEntity entityWithName:entityName];
 [entity setObject:@"Erik" forKey:@"name"];
 [entity setObject:@"Aigner" forKey:@"surname"];
+[entity setObject:imageData forKey:@"avatar"];
+[entity setObject:[NSNumber numberWithInteger:10] forKey:@"credits"];
 [entity save];
 ```
     
