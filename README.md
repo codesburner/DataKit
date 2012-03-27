@@ -38,8 +38,24 @@ Copy the newly generated secret and put it in your DataKit config. Now you can a
     
 ### Start coding
 
+#### Saving entites
+
     DKEntity *entity = [DKEntity entityWithName:entityName];
     [entity setObject:@"Erik" forKey:@"name"];
     [entity setObject:@"Aigner" forKey:@"surname"];
     [entity save];
+    
+#### Queries
+
+    DKQuery *query = [DKQuery queryWithEntityName:@"SearchableEntity"];
+    [query whereKey:@"text" matchesRegex:@"\\s+words"];
+    
+    NSArray *results = [query findAll];
+    
+#### Files
+
+    DKFile *file = [DKFile fileWithName:@"BigFile" data:data];
+    [file save];
+    
+For all features just generate the AppleDoc using `sh gen_appledoc.sh`.
     
