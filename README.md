@@ -45,10 +45,10 @@ require('datakit').run({
 
 ### Integrate the SDK
 
-Link to DataKit and im port `<DataKit/DataKit.h>`. Now we only need to configure the DataKit manager and we are almost there (this needs to be done before any other DataKit objects are invoked, so the app delegate would be a good place to put it).
+Link to DataKit and import `<DataKit/DataKit.h>`. Now we only need to configure the DataKit manager and we are almost there (this needs to be done before any other DataKit objects are invoked, so the app delegate would be a good place to put it).
 
 ```objc
-[DKManager setAPIEndpoint:@"http://localhost:3000];
+[DKManager setAPIEndpoint:@"http://localhost:3000"];
 [DKManager setAPISecret:@"66e5977931c7e48aa89c9da0ae5d3ffdff7f1a58e6819cbea062dda1fa050296"];
 ```
 
