@@ -38,6 +38,10 @@ Copy the newly generated secret and put it in your DataKit config. Now you can a
     
 ### Start coding
 
+Here are some examples on how to use DataKit. This is in no way the complete feature set, please look at the documentation for that (you can generate it with `sh gen_appledoc.sh`). You can throw almost anything at DataKit.
+
+Main classes: `DKEntity`, `DKQuery`, `DKMapReduce`, `DKFile`, `DKRelation`, `DKQueryTableViewController`
+
 #### Saving entites
 
     DKEntity *entity = [DKEntity entityWithName:entityName];
@@ -56,6 +60,4 @@ Copy the newly generated secret and put it in your DataKit config. Now you can a
 
     DKFile *file = [DKFile fileWithName:@"BigFile" data:data];
     [file save];
-    
-For all features just generate the AppleDoc using `sh gen_appledoc.sh`.
     
