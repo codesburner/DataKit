@@ -65,9 +65,10 @@ Classes:
 - [DKRelation](https://github.com/eaigner/DataKit/blob/master/DataKit/DKRelation.h)
 - [DKQueryTableViewController](https://github.com/eaigner/DataKit/blob/master/DataKit/DKQueryTableViewController.h)
 
-#### Saving entites
+#### Entites
 
 ```objc
+// Saving
 DKEntity *entity = [DKEntity entityWithName:entityName];
 [entity setObject:@"Erik" forKey:@"name"];
 [entity setObject:@"Aigner" forKey:@"surname"];
@@ -88,8 +89,17 @@ NSArray *results = [query findAll];
 #### Files
 
 ```objc
+// Saving
 DKFile *file = [DKFile fileWithName:@"BigFile" data:data];
 [file save];
+
+// Loading
+DKFile *loadMe = [DKFile fileWithName:@"SomeFile"];
+[loadMe loadDataInBackgroundWithBlock:^(BOOL success, NSData *data, NSError *error) {
+  // Invoked on finish
+} progressBlock:^(NSUInteger bytes, NSUInteger totalBytes) {
+  // Track progress
+}];
 ```
 
 ### TODO
