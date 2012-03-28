@@ -98,6 +98,9 @@ DKSynthesize(cachePolicy)
   [NSURLRequest setAllowsAnyHTTPSCertificate:YES forHost:URL.host];
 #endif
   
+  // Log request
+  [isa logData:bodyData isOut:YES];
+  
   NSData *result = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:&requestError];
   
   // Check for request errors
@@ -124,42 +127,47 @@ DKSynthesize(cachePolicy)
               description:[NSString stringWithFormat:NSLocalizedString(@"Unknown response (%i)", nil), response.statusCode]
                  original:nil];
   }
-  else if (response.statusCode == DKResponseStatusSuccess) {
-    id resultObj = nil;
-    NSError *JSONError = nil;
+  else {
+    // Log response
+    [self logData:data isOut:NO];
     
-    // A successful operation must not always return a JSON body
-    if (data.length > 0) {      
-      resultObj = [NSJSONSerialization JSONObjectWithData:data
-                                                  options:NSJSONReadingAllowFragments
-                                                    error:&JSONError];
+    if (response.statusCode == DKResponseStatusSuccess) {
+      id resultObj = nil;
+      NSError *JSONError = nil;
+      
+      // A successful operation must not always return a JSON body
+      if (data.length > 0) {      
+        resultObj = [NSJSONSerialization JSONObjectWithData:data
+                                                    options:NSJSONReadingAllowFragments
+                                                      error:&JSONError];
+      }
+      if (JSONError != nil) {
+        [NSError writeToError:error
+                         code:DKErrorInvalidResponse
+                  description:NSLocalizedString(@"Could not deserialize JSON response", nil)
+                     original:JSONError];
+      }
+      else {
+        return [self unwrapSpecialObjectsInJSON:resultObj];
+      }
     }
-    if (JSONError != nil) {
-      [NSError writeToError:error
-                       code:DKErrorInvalidResponse
-                description:NSLocalizedString(@"Could not deserialize JSON response", nil)
-                   original:JSONError];
-    }
-    else {
-      return [self unwrapSpecialObjectsInJSON:resultObj];
-    }
-  }
-  else if (response.statusCode == DKResponseStatusError) {
-    NSError *JSONError = nil;
-    id resultObj = [NSJSONSerialization JSONObjectWithData:data options:0 error:&JSONError];
-    if (JSONError != nil) {
-      [NSError writeToError:error
-                       code:DKErrorInvalidResponse
-                description:NSLocalizedString(@"Could not deserialize JSON error response", nil)
-                   original:JSONError];
-    }
-    else if (error != nil && [resultObj isKindOfClass:[NSDictionary class]]) {
-      NSNumber *status = [resultObj objectForKey:@"status"];
-      NSString *message = [resultObj objectForKey:@"message"];
-      [NSError writeToError:error
-                       code:status.integerValue
-                description:message
-                   original:nil];
+    else if (response.statusCode == DKResponseStatusError) {
+      NSError *JSONError = nil;
+      id resultObj = [NSJSONSerialization JSONObjectWithData:data options:0 error:&JSONError];
+      if (JSONError != nil) {
+        [NSError writeToError:error
+                         code:DKErrorInvalidResponse
+                  description:NSLocalizedString(@"Could not deserialize JSON error response", nil)
+                     original:JSONError];
+      }
+      else if (error != nil && [resultObj isKindOfClass:[NSDictionary class]]) {
+        NSNumber *status = [resultObj objectForKey:@"status"];
+        NSString *message = [resultObj objectForKey:@"message"];
+        [NSError writeToError:error
+                         code:status.integerValue
+                  description:message
+                     original:nil];
+      }
     }
   }
   return nil;
@@ -242,6 +250,24 @@ DKSynthesize(cachePolicy)
     }
     return objectToModify;
   }];
+}
+
+@end
+
+@implementation DKRequest (Logging)
+
++ (void)logData:(NSData *)data isOut:(BOOL)isOut {
+  if ([DKManager requestLogEnabled]) {
+    if (data.length > 0) {
+      NSData *logData = data;
+      if (data.length > 1000) {
+        logData = [data subdataWithRange:NSMakeRange(0, 1000)];
+      }
+      NSLog(@"[%@] %@",
+            (isOut ? @"OUT" : @"IN"),
+            [[NSString alloc] initWithData:logData encoding:NSUTF8StringEncoding]);
+    }
+  }
 }
 
 @end

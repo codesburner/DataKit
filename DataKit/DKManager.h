@@ -74,4 +74,20 @@
  */
 + (BOOL)dropDatabase:(NSString *)dbName error:(NSError **)error;
 
+/** @name Debug */
+
+/**
+ Enables the request log.
+ 
+ This is useful for tracking down performance issues during development
+ @param flag `YES` to enable logging, `NO` to disable
+ */
++ (void)setRequestLogEnabled:(BOOL)flag;
+
+/**
+ Returns the request log status
+ @return `YES` if the request log is enabled, `NO` otherwise
+ */
++ (BOOL)requestLogEnabled;
+
 @end

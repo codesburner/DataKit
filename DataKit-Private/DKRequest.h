@@ -40,3 +40,9 @@ typedef NSInteger DKResponseStatus;
 + (id)unwrapSpecialObjectsInJSON:(id)obj;
 
 @end
+
+@interface DKRequest (Logging)
+
++ (void)logData:(NSData *)data isOut:(BOOL)isOut;
+
+@end

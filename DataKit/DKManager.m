@@ -14,6 +14,7 @@
 
 static NSString *kDKManagerAPIEndpoint;
 static NSString *kDKManagerAPISecret;
+static BOOL kDKManagerRequestLogEnabled;
 
 + (void)setAPIEndpoint:(NSString *)absoluteString {
   NSURL *ep = [NSURL URLWithString:absoluteString];
@@ -73,6 +74,14 @@ static NSString *kDKManagerAPISecret;
     return NO;
   }
   return YES;
+}
+
++ (void)setRequestLogEnabled:(BOOL)flag {
+  kDKManagerRequestLogEnabled = flag;
+}
+
++ (BOOL)requestLogEnabled {
+  return kDKManagerRequestLogEnabled;
 }
 
 @end
