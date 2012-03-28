@@ -104,6 +104,10 @@ DKFile *loadMe = [DKFile fileWithName:@"SomeFile"];
 }];
 ```
 
+### Donate if you like it!
+
+<a href='http://www.pledgie.com/campaigns/17039'><img alt='Click here to lend your support to: DataKit and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/17039.png?skin_name=chrome' border='0' /></a>
+
 ### TODO
 
 - Add `DKChannel` class for push notifications and async messaging
